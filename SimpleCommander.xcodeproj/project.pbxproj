@@ -7,10 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D48A0031B209A400043933D /* CommanderPanel.swift */; };
+		7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D48A0041B209A400043933D /* CommanderPanel.xib */; };
+		7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552D4A1B1DE5A400031203 /* TabBarModel.swift */; };
+		7D552D4F1B1DFE4100031203 /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; };
+		7D552D501B1DFE5E00031203 /* MMTabBarView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552D511B1E09FC00031203 /* TabItemController.swift */; };
+		7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D552D521B1E09FC00031203 /* TabItemController.xib */; };
 		7D9422441B024441008429D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9422431B024441008429D5 /* AppDelegate.swift */; };
 		7D9422461B024441008429D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D9422451B024441008429D5 /* Images.xcassets */; };
 		7D9422491B024442008429D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D9422471B024442008429D5 /* MainMenu.xib */; };
 		7D9422551B024442008429D5 /* SimpleCommanderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9422541B024442008429D5 /* SimpleCommanderTests.swift */; };
+		7D9422601B024480008429D5 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94225E1B024480008429D5 /* MainWindowController.swift */; };
+		7D9422611B024480008429D5 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D94225F1B024480008429D5 /* MainWindowController.xib */; };
+		7DA874291B22E5C10004185C /* FlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA874281B22E5C10004185C /* FlippedView.swift */; };
+		7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9FA771B0644A90092C971 /* FileSystemItem.swift */; };
+		7DD323711B2D4E9E006EF722 /* SCTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323701B2D4E9E006EF722 /* SCTabView.swift */; };
+		7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323721B2D5247006EF722 /* SCTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +36,28 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7D80D28C1B1CAAEE00600F29 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7D552D501B1DFE5E00031203 /* MMTabBarView.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		7D43B06D1B1CB53900E60257 /* SimpleCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleCommander-Bridging-Header.h"; sourceTree = "<group>"; };
+		7D48A0031B209A400043933D /* CommanderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommanderPanel.swift; sourceTree = "<group>"; };
+		7D48A0041B209A400043933D /* CommanderPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommanderPanel.xib; sourceTree = "<group>"; };
+		7D50C4CE1B07A3B4001A7E1C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		7D552D4A1B1DE5A400031203 /* TabBarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
+		7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MMTabBarView.framework; sourceTree = "<group>"; };
+		7D552D511B1E09FC00031203 /* TabItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabItemController.swift; sourceTree = "<group>"; };
+		7D552D521B1E09FC00031203 /* TabItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabItemController.xib; sourceTree = "<group>"; };
 		7D94223E1B024441008429D5 /* SimpleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9422421B024441008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422431B024441008429D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +66,12 @@
 		7D94224E1B024442008429D5 /* SimpleCommanderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleCommanderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9422531B024442008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422541B024442008429D5 /* SimpleCommanderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCommanderTests.swift; sourceTree = "<group>"; };
+		7D94225E1B024480008429D5 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		7D94225F1B024480008429D5 /* MainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
+		7DA874281B22E5C10004185C /* FlippedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlippedView.swift; sourceTree = "<group>"; };
+		7DA9FA771B0644A90092C971 /* FileSystemItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemItem.swift; sourceTree = "<group>"; };
+		7DD323701B2D4E9E006EF722 /* SCTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTabView.swift; sourceTree = "<group>"; };
+		7DD323721B2D5247006EF722 /* SCTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D552D4F1B1DFE4100031203 /* MMTabBarView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,10 +114,23 @@
 		7D9422401B024441008429D5 /* SimpleCommander */ = {
 			isa = PBXGroup;
 			children = (
+				7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */,
 				7D9422431B024441008429D5 /* AppDelegate.swift */,
 				7D9422451B024441008429D5 /* Images.xcassets */,
 				7D9422471B024442008429D5 /* MainMenu.xib */,
 				7D9422411B024441008429D5 /* Supporting Files */,
+				7D94225E1B024480008429D5 /* MainWindowController.swift */,
+				7D94225F1B024480008429D5 /* MainWindowController.xib */,
+				7DA9FA771B0644A90092C971 /* FileSystemItem.swift */,
+				7D43B06D1B1CB53900E60257 /* SimpleCommander-Bridging-Header.h */,
+				7D552D4A1B1DE5A400031203 /* TabBarModel.swift */,
+				7D552D511B1E09FC00031203 /* TabItemController.swift */,
+				7D552D521B1E09FC00031203 /* TabItemController.xib */,
+				7D48A0031B209A400043933D /* CommanderPanel.swift */,
+				7D48A0041B209A400043933D /* CommanderPanel.xib */,
+				7DA874281B22E5C10004185C /* FlippedView.swift */,
+				7DD323701B2D4E9E006EF722 /* SCTabView.swift */,
+				7DD323721B2D5247006EF722 /* SCTableView.swift */,
 			);
 			path = SimpleCommander;
 			sourceTree = "<group>";
@@ -116,6 +170,7 @@
 				7D94223A1B024441008429D5 /* Sources */,
 				7D94223B1B024441008429D5 /* Frameworks */,
 				7D94223C1B024441008429D5 /* Resources */,
+				7D80D28C1B1CAAEE00600F29 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -186,7 +241,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */,
 				7D9422461B024441008429D5 /* Images.xcassets in Resources */,
+				7D9422611B024480008429D5 /* MainWindowController.xib in Resources */,
+				7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */,
 				7D9422491B024442008429D5 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,7 +263,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */,
+				7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */,
+				7D9422601B024480008429D5 /* MainWindowController.swift in Sources */,
+				7DD323711B2D4E9E006EF722 /* SCTabView.swift in Sources */,
+				7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */,
+				7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */,
+				7DA874291B22E5C10004185C /* FlippedView.swift in Sources */,
 				7D9422441B024441008429D5 /* AppDelegate.swift in Sources */,
+				7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +298,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D9422481B024442008429D5 /* Base */,
+				7D50C4CE1B07A3B4001A7E1C /* zh-Hans */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -275,10 +342,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -313,9 +385,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -323,10 +400,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SimpleCommander",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = SimpleCommander/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleCommander/SimpleCommander-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -334,10 +422,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SimpleCommander",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = SimpleCommander/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleCommander/SimpleCommander-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -396,6 +494,7 @@
 				7D94225A1B024442008429D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7D94225B1B024442008429D5 /* Build configuration list for PBXNativeTarget "SimpleCommanderTests" */ = {
 			isa = XCConfigurationList;
@@ -404,6 +503,7 @@
 				7D94225D1B024442008429D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

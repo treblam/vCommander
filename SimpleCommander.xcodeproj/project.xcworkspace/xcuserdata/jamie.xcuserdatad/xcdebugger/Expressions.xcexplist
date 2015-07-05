@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "files">
+            </PersistentString>
+            <PersistentString
+               value = "arrangedObjects">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.MainWindowController.tableView (SimpleCommander.MainWindowController)(ObjectiveC.NSTableView, viewForTableColumn : Swift.Optional&lt;ObjectiveC.NSTableColumn&gt;, row : Swift.Int) -&gt; Swift.Optional&lt;ObjectiveC.NSView&gt;:MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.localizedType">
+            </PersistentString>
+            <PersistentString
+               value = "item.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

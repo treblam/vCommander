@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="SimpleCommander" customModuleProvider="target">
+            <connections>
+                <outlet property="abc" destination="BJd-zv-cLD" id="XaI-L3-Piv"/>
+                <outlet property="left" destination="BJd-zv-cLD" id="VCg-D2-NUm"/>
+                <outlet property="leftView" destination="GnM-HQ-MfU" id="WH1-cq-5DD"/>
+                <outlet property="right" destination="9Zd-jo-Pg7" id="IAF-Ih-5Au"/>
+                <outlet property="rightView" destination="GnM-HQ-MfU" id="u7C-Mb-7Wi"/>
+                <outlet property="splitView" destination="GnM-HQ-MfU" id="K4z-xd-CGn"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="SimpleCommander" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="1131" height="544"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="-10" y="0.0" width="1131" height="544"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnM-HQ-MfU">
+                        <rect key="frame" x="0.0" y="0.0" width="1131" height="544"/>
+                        <subviews>
+                            <customView fixedFrame="YES" id="BJd-zv-cLD">
+                                <rect key="frame" x="0.0" y="0.0" width="564" height="544"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                            <customView fixedFrame="YES" id="9Zd-jo-Pg7">
+                                <rect key="frame" x="574" y="0.0" width="557" height="544"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                        </subviews>
+                        <holdingPriorities>
+                            <real value="250"/>
+                            <real value="250"/>
+                        </holdingPriorities>
+                    </splitView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="GnM-HQ-MfU" secondAttribute="trailing" id="1vh-2D-85N"/>
+                    <constraint firstItem="GnM-HQ-MfU" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="D5B-2q-ePW"/>
+                    <constraint firstItem="GnM-HQ-MfU" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="jQO-iI-zUf"/>
+                    <constraint firstAttribute="bottom" secondItem="GnM-HQ-MfU" secondAttribute="bottom" id="sNp-dK-6Of"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="464.5" y="287"/>
+        </window>
+    </objects>
+</document>
