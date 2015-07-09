@@ -24,5 +24,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.numberOfRowsInTableView (SimpleCommander.TabItemController)(ObjectiveC.NSTableView) -&gt; Swift.Int:TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "curFsItem.children.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

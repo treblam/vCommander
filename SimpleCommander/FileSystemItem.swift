@@ -15,6 +15,10 @@ class FileSystemItem: NSObject {
     
     let workspace = NSWorkspace()
     
+    var path: String! {
+        return fileURL.path
+    }
+    
     var name: String! {
         let resourceValues = fileURL.resourceValuesForKeys([NSURLNameKey], error: nil)
         return resourceValues![NSURLNameKey] as? String

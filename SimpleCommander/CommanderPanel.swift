@@ -35,7 +35,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         var newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url)
         
-        // Set the title of the tab
         newModel.title = newItemController?.title ?? "Untitled"
         
         newItem.viewController = newItemController!

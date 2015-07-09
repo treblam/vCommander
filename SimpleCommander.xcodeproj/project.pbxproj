@@ -22,7 +22,8 @@
 		7D9422611B024480008429D5 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D94225F1B024480008429D5 /* MainWindowController.xib */; };
 		7DA874291B22E5C10004185C /* FlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA874281B22E5C10004185C /* FlippedView.swift */; };
 		7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9FA771B0644A90092C971 /* FileSystemItem.swift */; };
-		7DD323711B2D4E9E006EF722 /* SCTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323701B2D4E9E006EF722 /* SCTabView.swift */; };
+		7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */; };
+		7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */; };
 		7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323721B2D5247006EF722 /* SCTableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,7 +71,8 @@
 		7D94225F1B024480008429D5 /* MainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
 		7DA874281B22E5C10004185C /* FlippedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlippedView.swift; sourceTree = "<group>"; };
 		7DA9FA771B0644A90092C971 /* FileSystemItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemItem.swift; sourceTree = "<group>"; };
-		7DD323701B2D4E9E006EF722 /* SCTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTabView.swift; sourceTree = "<group>"; };
+		7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryMonitor.swift; sourceTree = "<group>"; };
+		7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableRowView.swift; sourceTree = "<group>"; };
 		7DD323721B2D5247006EF722 /* SCTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,8 +131,9 @@
 				7D48A0031B209A400043933D /* CommanderPanel.swift */,
 				7D48A0041B209A400043933D /* CommanderPanel.xib */,
 				7DA874281B22E5C10004185C /* FlippedView.swift */,
-				7DD323701B2D4E9E006EF722 /* SCTabView.swift */,
 				7DD323721B2D5247006EF722 /* SCTableView.swift */,
+				7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */,
+				7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */,
 			);
 			path = SimpleCommander;
 			sourceTree = "<group>";
@@ -263,14 +266,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */,
 				7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */,
 				7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */,
 				7D9422601B024480008429D5 /* MainWindowController.swift in Sources */,
-				7DD323711B2D4E9E006EF722 /* SCTabView.swift in Sources */,
 				7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */,
 				7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */,
 				7DA874291B22E5C10004185C /* FlippedView.swift in Sources */,
 				7D9422441B024441008429D5 /* AppDelegate.swift in Sources */,
+				7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */,
 				7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

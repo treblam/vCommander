@@ -76,4 +76,19 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         }
     }
     
+    func getTargetTabItem() -> TabItemController {
+        let leftViewController = (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
+        let rightViewController = (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
+        
+        var result: TabItemController!
+        
+        if self.window?.firstResponder === leftViewController.tableview {
+            result = rightViewController
+        } else if self.window?.firstResponder === rightViewController.tableview {
+            result = leftViewController
+        }
+        
+        return result
+    }
+    
 }
