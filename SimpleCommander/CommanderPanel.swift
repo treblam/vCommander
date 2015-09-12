@@ -15,7 +15,8 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         // Do view setup here.
         
         tabBar.setShowAddTabButton(true)
-        tabBar.setStyleNamed("Card")
+        tabBar.setStyleNamed("Aqua")
+        tabBar.setOnlyShowCloseOnHover(true)
         
         addNewTabToTabView(tabView)
     }

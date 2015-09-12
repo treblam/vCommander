@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
@@ -20,21 +20,21 @@
         <window title="SimpleCommander" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="1131" height="544"/>
+            <rect key="contentRect" x="196" y="240" width="1131" height="616"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="-10" y="0.0" width="1131" height="544"/>
+                <rect key="frame" x="0.0" y="-4" width="1131" height="616"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <splitView dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnM-HQ-MfU">
-                        <rect key="frame" x="0.0" y="0.0" width="1131" height="544"/>
+                    <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnM-HQ-MfU">
+                        <rect key="frame" x="0.0" y="33" width="1131" height="583"/>
                         <subviews>
                             <customView fixedFrame="YES" id="BJd-zv-cLD">
-                                <rect key="frame" x="0.0" y="0.0" width="564" height="544"/>
+                                <rect key="frame" x="0.0" y="0.0" width="564.5" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </customView>
                             <customView fixedFrame="YES" id="9Zd-jo-Pg7">
-                                <rect key="frame" x="574" y="0.0" width="557" height="544"/>
+                                <rect key="frame" x="573.5" y="0.0" width="557.5" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </customView>
                         </subviews>
@@ -43,18 +43,78 @@
                             <real value="250"/>
                         </holdingPriorities>
                     </splitView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-Ja-adT">
+                        <rect key="frame" x="6" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="预览(F3)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ieu-hS-cXg">
+                        <rect key="frame" x="379" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="复制(F5)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
+                        <rect key="frame" x="565" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="移动(F6)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pEP-bh-Z6V">
+                        <rect key="frame" x="752" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="新建文件夹(F7)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
+                        <rect key="frame" x="938" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="删除(F8)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
+                    <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
+                        <rect key="frame" x="192" y="-1" width="186.5" height="32"/>
+                        <buttonCell key="cell" type="push" title="编辑(F4)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="5Gh-2X-EES" firstAttribute="leading" secondItem="ieu-hS-cXg" secondAttribute="trailing" constant="12" id="1EV-kx-hBp"/>
+                    <constraint firstItem="ieu-hS-cXg" firstAttribute="leading" secondItem="JJw-8C-Xa4" secondAttribute="trailing" constant="12" id="1ZV-9Q-hNy"/>
                     <constraint firstAttribute="trailing" secondItem="GnM-HQ-MfU" secondAttribute="trailing" id="1vh-2D-85N"/>
+                    <constraint firstItem="1Vh-jl-co6" firstAttribute="leading" secondItem="pEP-bh-Z6V" secondAttribute="trailing" constant="12" id="3ih-QQ-ow8"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="ieu-hS-cXg" secondAttribute="width" id="7rH-vS-Iu8"/>
                     <constraint firstItem="GnM-HQ-MfU" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="D5B-2q-ePW"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="bottom" secondItem="ieu-hS-cXg" secondAttribute="bottom" id="FQ3-jV-NyO"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="bottom" secondItem="1Vh-jl-co6" secondAttribute="bottom" id="H2O-UR-TrH"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="pEP-bh-Z6V" secondAttribute="width" id="M9s-lB-8eo"/>
+                    <constraint firstItem="ybg-Ja-adT" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="12" id="MDS-Gq-w8j"/>
+                    <constraint firstAttribute="bottom" secondItem="ybg-Ja-adT" secondAttribute="bottom" constant="6" id="MEM-nI-KOO"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="bottom" secondItem="pEP-bh-Z6V" secondAttribute="bottom" id="Myg-JK-1qf"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="1Vh-jl-co6" secondAttribute="width" id="V6P-h9-RnR"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="YwD-b2-4Dr"/>
+                    <constraint firstItem="ybg-Ja-adT" firstAttribute="top" secondItem="GnM-HQ-MfU" secondAttribute="bottom" constant="6" id="awD-3H-ev6"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="bottom" secondItem="5Gh-2X-EES" secondAttribute="bottom" id="fHs-Dd-pbF"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="leading" secondItem="ybg-Ja-adT" secondAttribute="trailing" constant="12" id="feq-TH-PEq"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="5Gh-2X-EES" secondAttribute="width" id="gfx-an-btS"/>
+                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="bottom" secondItem="ybg-Ja-adT" secondAttribute="bottom" id="hrG-ID-9Sp"/>
+                    <constraint firstItem="pEP-bh-Z6V" firstAttribute="leading" secondItem="5Gh-2X-EES" secondAttribute="trailing" constant="12" id="jPu-ws-Zvg"/>
                     <constraint firstItem="GnM-HQ-MfU" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="jQO-iI-zUf"/>
-                    <constraint firstAttribute="bottom" secondItem="GnM-HQ-MfU" secondAttribute="bottom" id="sNp-dK-6Of"/>
+                    <constraint firstAttribute="trailing" secondItem="1Vh-jl-co6" secondAttribute="trailing" constant="12" id="ofI-LN-voB"/>
                 </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="464.5" y="287"/>
+            <point key="canvasLocation" x="464.5" y="323"/>
         </window>
     </objects>
 </document>

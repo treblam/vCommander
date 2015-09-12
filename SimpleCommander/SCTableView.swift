@@ -23,24 +23,30 @@ class SCTableView: NSTableView {
         
         var keyChar: Character
         
+//        var rowView: SCTableRowView!
+        
         keyString = theEvent.charactersIgnoringModifiers!
         keyChar = keyString[keyString.startIndex]
         
         var row = self.selectedRow
         
-        var rowView = self.rowViewAtRow(row, makeIfNecessary: false) as! SCTableRowView
+        
+        
+//        if row != -1 {
+//            rowView = self.rowViewAtRow(row, makeIfNecessary: false) as! SCTableRowView
+//        }
         
         switch theEvent.keyCode {
-        case 49:
+        case 49:    // space key
             if row != -1 {
                 println("row != -1")
                 if markedRows.containsIndex(row) {
                     self.markedRows.removeIndex(row)
-                    rowView.marked = false
+//                    rowView.marked = false
                     println("row: " + row.description + " was removed from markedRows")
                 } else {
                     self.markedRows.addIndex(row)
-                    rowView.marked = true
+//                    rowView.marked = true
                     println("row: " + row.description + " was added to markedRows")
                 }
                 
@@ -51,7 +57,7 @@ class SCTableView: NSTableView {
                     delegate.tableViewMarkedViewsDidChange()
                 }
                 
-                self.selectRowIndexes(NSIndexSet(index: ++row), byExtendingSelection: false)
+//                self.selectRowIndexes(NSIndexSet(index: ++row), byExtendingSelection: false)
                 self.setNeedsDisplay()
             }
             
@@ -62,6 +68,10 @@ class SCTableView: NSTableView {
             super.keyDown(theEvent)
             
         }
+    }
+    
+    func isRowMarked(row: Int) -> Bool {
+        return markedRows.containsIndex(row)
     }
     
     override func rightMouseDown(theEvent: NSEvent) {

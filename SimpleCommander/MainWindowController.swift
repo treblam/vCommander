@@ -45,6 +45,8 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         
         rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightPanel(>=400)]-3-|", options: nil, metrics: nil, views: views))
         
+        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
+        
     }
     
 //    override func keyDown(theEvent: NSEvent) {

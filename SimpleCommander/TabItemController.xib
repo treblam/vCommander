@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
@@ -44,12 +44,16 @@
                                         <rect key="frame" x="1" y="1" width="143" height="17"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sch-bJ-D8X">
-                                                <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Sch-bJ-D8X">
+                                                <rect key="frame" x="5" y="0.0" width="17" height="17"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="17" id="APC-kU-dGG"/>
+                                                    <constraint firstAttribute="height" constant="17" id="wfQ-Ie-nsG"/>
+                                                </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="dsf-cf-MGd"/>
                                             </imageView>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSc-p1-Afi">
-                                                <rect key="frame" x="25" y="0.0" width="150" height="17"/>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSc-p1-Afi">
+                                                <rect key="frame" x="25" y="0.0" width="91" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="n5h-vU-weL">
                                                     <font key="font" metaFont="cellTitle"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -57,6 +61,12 @@
                                                 </textFieldCell>
                                             </textField>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Sch-bJ-D8X" firstAttribute="leading" secondItem="aVA-tF-haZ" secondAttribute="leading" constant="5" id="OSA-v3-kCL"/>
+                                            <constraint firstItem="XSc-p1-Afi" firstAttribute="leading" secondItem="Sch-bJ-D8X" secondAttribute="trailing" constant="5" id="bzs-Z8-1Ow"/>
+                                            <constraint firstAttribute="centerY" secondItem="Sch-bJ-D8X" secondAttribute="centerY" id="obu-09-uKl"/>
+                                            <constraint firstAttribute="centerY" secondItem="XSc-p1-Afi" secondAttribute="centerY" id="xIe-lw-lzb"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="Sch-bJ-D8X" id="Cby-4b-Xjs"/>
                                             <outlet property="textField" destination="XSc-p1-Afi" id="KGn-Xl-ZyU"/>
@@ -82,9 +92,9 @@
                                         <rect key="frame" x="147.5" y="1" width="196" height="16"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XbL-X3-1e3">
-                                                <rect key="frame" x="0.0" y="0.0" width="196" height="16"/>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="rc7-BS-vcl">
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XbL-X3-1e3">
+                                                <rect key="frame" x="0.0" y="0.0" width="195.5" height="0.0"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="rc7-BS-vcl" customClass="VerticallyCenteredTextField" customModule="SimpleCommander" customModuleProvider="target">
                                                     <font key="font" metaFont="cellTitle"/>
                                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -121,9 +131,9 @@
                                         <rect key="frame" x="347" y="1" width="102" height="16"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="08i-9l-KTI">
-                                                <rect key="frame" x="0.0" y="0.0" width="102" height="16"/>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Table View Cell" id="zF7-Xi-Ar7">
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="08i-9l-KTI">
+                                                <rect key="frame" x="0.0" y="0.0" width="102" height="0.0"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Table View Cell" id="zF7-Xi-Ar7" customClass="VerticallyCenteredTextField" customModule="SimpleCommander" customModuleProvider="target">
                                                     <font key="font" metaFont="cellTitle"/>
                                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -153,15 +163,16 @@
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="localizedType"/>
                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                 <prototypeCellViews>
                                     <tableCellView identifier="localizedType" id="a8i-lj-3C9">
                                         <rect key="frame" x="452" y="1" width="229" height="16"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="pGa-ZT-3Xi">
-                                                <rect key="frame" x="0.0" y="0.0" width="229" height="16"/>
-                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="cUY-E3-T33">
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pGa-ZT-3Xi">
+                                                <rect key="frame" x="0.0" y="0.0" width="229" height="0.0"/>
+                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="cUY-E3-T33" customClass="VerticallyCenteredTextField" customModule="SimpleCommander" customModuleProvider="target">
                                                     <font key="font" metaFont="cellTitle"/>
                                                     <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

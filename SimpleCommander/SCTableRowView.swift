@@ -10,16 +10,20 @@ import Cocoa
 
 class SCTableRowView: NSTableRowView {
     
-    var marked = false
+//    var marked = false
+    
     
     override func drawSelectionInRect(dirtyRect: NSRect) {
 //        if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.None) {
 //            var selectionRect = NSInsetRect(self.bounds, 2.5, 2.5)
 
-            NSColor(calibratedWhite: 0.0, alpha: 1.0).setStroke()
-            NSColor(calibratedWhite: 0.82, alpha: 1.0).setFill()
+//            NSColor(calibratedWhite: 0.0, alpha: 1.0).setStroke()
+            NSColor(calibratedRed: 26.0/255.0, green: 154.0/255.0, blue: 252.0/255.0, alpha: 1.0).setStroke()
+//            NSColor(calibratedWhite: 0.82, alpha: 1.0).setFill()
 
             var selectionPath = NSBezierPath(rect: dirtyRect)
+        
+            selectionPath.lineWidth = 4.0
         
 //        var lineDash: [CGFloat] = [2.0, 2.0]
 //        
@@ -30,19 +34,21 @@ class SCTableRowView: NSTableRowView {
 //        }
     }
     
-    override func drawBackgroundInRect(dirtyRect: NSRect) {
-        
-        let context = NSGraphicsContext.currentContext()!.CGContext
-        
-        if !self.marked {
+//    override func drawBackgroundInRect(dirtyRect: NSRect) {
+//        
+//        let context = NSGraphicsContext.currentContext()!.CGContext
+//        
+//        super.drawBackgroundInRect(dirtyRect)
+    
+//        if !self.marked {
 //            CGContextSetFillColorWithColor(context, NSColor.redColor().CGColor);
-            super.drawBackgroundInRect(dirtyRect)
-            return
-        } else {
-            CGContextSetFillColorWithColor(context, NSColor.alternateSelectedControlColor().CGColor)
+//            super.drawBackgroundInRect(dirtyRect)
+//            return
+//        } else {
+//            CGContextSetFillColorWithColor(context, NSColor.alternateSelectedControlColor().CGColor)
 //            CGContextSetStrokeColorWithColor(context, NSColor.whiteColor().CGColor)
-            CGContextFillRect(context, dirtyRect);
-        }
-    }
+//            CGContextFillRect(context, dirtyRect);
+//        }
+//    }
     
 }

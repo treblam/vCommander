@@ -3,13 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         contextName = "SimpleCommander.TabItemController.numberOfRowsInTableView (SimpleCommander.TabItemController)(ObjectiveC.NSTableView) -&gt; Swift.Int:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "files">
-            </PersistentString>
-            <PersistentString
-               value = "arrangedObjects">
+               value = "curFsItem.children.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -25,10 +22,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SimpleCommander.TabItemController.numberOfRowsInTableView (SimpleCommander.TabItemController)(ObjectiveC.NSTableView) -&gt; Swift.Int:TabItemController.swift">
+         contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "curFsItem.children.count">
+               value = "index">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "files">
+            </PersistentString>
+            <PersistentString
+               value = "arrangedObjects">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
