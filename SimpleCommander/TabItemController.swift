@@ -32,7 +32,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.doubleAction = clSelector
         tableview.target = self
         
-        tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
+        //tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
     }
     
     func getSelectedItem() -> FileSystemItem? {
@@ -44,6 +44,23 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         var index = selectedIndex.firstIndex
         
         return curFsItem.children[index]
+    }
+    
+    func getMarkedItems() -> [FileSystemItem] {
+        var items: [FileSystemItem] = []
+        
+        if tableview.markedRows.count == 0 {
+            var selectedItem = getSelectedItem()
+            if let item = selectedItem {
+                items.append(item)
+            }
+        } else {
+            for index in tableview.markedRows {
+                items.append(curFsItem.children[index])
+            }
+        }
+        
+        return items
     }
     
     func dblClk(sender:AnyObject){
@@ -160,8 +177,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 }
                 
             }
-            
-            
         }
     }
     
@@ -203,6 +218,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dm = DirectoryMonitor(URL: curFsItem.fileURL)
         dm.delegate = self
         dm.startMonitoring()
+        
+        println("start monitor " + curFsItem.fileURL.path!)
     }
     
     func changeDirectory(url: NSURL) {
@@ -221,7 +238,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     override func keyDown(theEvent: NSEvent) {
         println(theEvent.keyCode)
         
-        if theEvent.keyCode == 51 { // delete
+        if theEvent.keyCode == 51 { // delete or backspace
             let parentUrl = curFsItem.fileURL.URLByDeletingLastPathComponent
             
             // Remember last directory, this dir should be selected when backed to parent dir
@@ -231,7 +248,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 changeDirectory(url)
                 return
             }
-        } else if theEvent.keyCode == 36 {
+        } else if theEvent.keyCode == 36 {  // enter
             dblClk(tableview)
             return
         } else if theEvent.keyCode == 96 {  // F5
@@ -285,51 +302,53 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func deleteSelectedFiles() {
-        let item = getSelectedItem()
+        let items = getMarkedItems()
         
-        if let fsItem = item {
-            let windowController = self.view.window!.windowController() as! MainWindowController
-            let targetViewController = windowController.getTargetTabItem()
-            let destination = targetViewController.curFsItem.path
-            let files = [fsItem.name]
-            var tag: NSNumber = 0
-            let result = workspace.performFileOperation(NSWorkspaceRecycleOperation, source: curFsItem.path, destination: destination, files: files, tag: nil)
-            
-            if result {
-                println("delete succeeded")
-            }
+        if items.count == 0 {
+            return
         }
+        
+        let files = items.map { $0.name }
+        
+        let alert = NSAlert()
+        alert.messageText = "删除"
+        
+        var informativeText = "确定删除选中的文件/文件夹吗？"
+        var showCount = files.count
+        var suffix = ""
+        if files.count > 5 {
+            showCount = 5
+            suffix = "\n..."
+        }
+        
+        for var i = 0; i < showCount; i++ {
+            informativeText += ("\n" + files[i])
+        }
+        informativeText += suffix
+        
+        alert.informativeText = informativeText
+        alert.addButtonWithTitle("确定")
+        alert.addButtonWithTitle("取消")
+        
+        alert.beginSheetModalForWindow(self.view.window!, completionHandler: { responseCode in
+            switch responseCode {
+            case NSAlertFirstButtonReturn:
+                if self.workspace.performFileOperation(NSWorkspaceRecycleOperation, source: self.curFsItem.path, destination: "", files: files, tag: nil) {
+                    println("delete succeeded")
+                }
+            default:
+                break
+            }
+        })
     }
     
-    
-    
-    func initSortDescriptors() {
-        // file name
-//        let nameColumn = tableview.tableColumnWithIdentifier("localizedName") as NSTableColumn!
-//        let nameSortDescriptor = NSSortDescriptor(key: "localizedName", ascending: true, selector: "caseInsensitiveCompare:")
-//        nameColumn.sortDescriptorPrototype = nameSortDescriptor
-//        
-//        // date
-//        let dateColumn = tableview.tableColumnWithIdentifier("dateOfLastModification") as NSTableColumn!
-//        let dateSortDescriptor = NSSortDescriptor(key: "dateOfLastModification", ascending: true)
-//        dateColumn.sortDescriptorPrototype = dateSortDescriptor
-//        
-//        // size
-//        let sizeColumn = tableview.tableColumnWithIdentifier("size") as NSTableColumn!
-//        let sizeSortDescriptor = NSSortDescriptor(key: "size", ascending: true)
-//        sizeColumn.sortDescriptorPrototype = sizeSortDescriptor
-//        
-//        // type
-//        let typeColumn = tableview.tableColumnWithIdentifier("localizedType") as NSTableColumn!
-//        let typeSortDescriptor = NSSortDescriptor(key: "localizedType", ascending: true)
-//        typeColumn.sortDescriptorPrototype = typeSortDescriptor
-    }
-    
+    // tab键按下
     override func insertTab(sender: AnyObject?) {
         let windowController = self.view.window!.windowController() as! MainWindowController
         windowController.switchFocus()
     }
     
+    // shift + tab键按下
     override func insertBacktab(sender: AnyObject?) {
         let windowController = self.view.window!.windowController() as! MainWindowController
         windowController.switchFocus()
@@ -348,8 +367,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dateFormatter.timeStyle = .MediumStyle
         let dirUrl = url ?? NSURL.fileURLWithPath(homeDir, isDirectory: true)
         onDirChange(dirUrl!)
-        
-        initSortDescriptors();
     }
 
     required init?(coder: NSCoder) {
@@ -360,8 +377,44 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         println("directoryMonitorDidObserveChange")
         
         dispatch_async(dispatch_get_main_queue(), {
+            self.refreshData()
             self.tableview.reloadData()
         })
+    }
+    
+    func refreshData() {
+        curFsItem = FileSystemItem(fileURL: curFsItem.fileURL)
+    }
+    
+    @IBAction func newDirectory(sender: NSMenuItem) {
+        let alert = NSAlert()
+        alert.addButtonWithTitle("确定")
+        alert.addButtonWithTitle("取消")
+        alert.messageText = "新建文件夹"
+        alert.informativeText = "请输入文件夹名称"
+        
+        let textField = NSTextField(frame: NSMakeRect(0, 0, 200, 24))
+        textField.placeholderString = "文件夹名称"
+        alert.accessoryView = textField
+        
+        alert.beginSheetModalForWindow(self.view.window!, completionHandler: { responseCode in
+            switch responseCode {
+            case NSAlertFirstButtonReturn:
+                let dirName = textField.stringValue
+                let dirUrl = self.curFsItem.fileURL.URLByAppendingPathComponent(dirName)
+                
+                var theError: NSErrorPointer = nil
+                if !self.fileManager.createDirectoryAtURL(dirUrl, withIntermediateDirectories: false, attributes: nil, error: theError) {
+                    // handle the error
+                }
+            default:
+                break
+            }
+        })
+    }
+    
+    @IBAction func quicklook(sender: NSMenuItem) {
+        
     }
     
 }

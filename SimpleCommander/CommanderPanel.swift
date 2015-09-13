@@ -45,6 +45,19 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tabView.selectTabViewItem(newItem)
     }
     
+    func closeTab() {
+        let tabCount = tabView.numberOfTabViewItems
+        
+        // Don't allow to close the last tab
+        if tabCount == 1 {
+            return
+        }
+        
+        if let selectedTab = tabView.selectedTabViewItem {
+            tabView.removeTabViewItem(selectedTab)
+        }
+    }
+    
     func tabView(aTabView: NSTabView!, shouldCloseTabViewItem tabViewItem: NSTabViewItem!) -> Bool {
         return true
     }
@@ -64,6 +77,21 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     func tabView(aTabView: NSTabView!, tabBarViewDidUnhide tabBarView: MMTabBarView!) {
         println("tabBarViewDidUnhide")
     }
+    
+    @IBAction func addNewTab(sender: NSMenuItem) {
+        addNewTabToTabView(tabView)
+    }
 
+    @IBAction func closeSelectedTab(sender: NSMenuItem) {
+        closeTab()
+    }
+    
+    @IBAction func previousTab(sender: NSMenuItem) {
+        tabView.selectPreviousTabViewItem(sender)
+    }
+    
+    @IBAction func nextTab(sender: NSMenuItem) {
+        tabView.selectNextTabViewItem(sender)
+    }
     
 }

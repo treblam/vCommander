@@ -49,10 +49,6 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         
     }
     
-//    override func keyDown(theEvent: NSEvent) {
-//        interpretKeyEvents([theEvent])
-//    }
-    
     override func keyDown(theEvent: NSEvent) {
         interpretKeyEvents([theEvent])
     }

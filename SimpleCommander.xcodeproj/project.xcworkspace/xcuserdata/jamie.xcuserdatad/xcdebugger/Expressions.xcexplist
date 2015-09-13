@@ -3,6 +3,55 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "files">
+            </PersistentString>
+            <PersistentString
+               value = "arrangedObjects">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.SCTableRowView.drawSelectionInRect (SimpleCommander.SCTableRowView)(C.CGRect) -&gt; ():SCTableRowView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.None">
+            </PersistentString>
+            <PersistentString
+               value = "self.selectionHighlightStyle">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "index">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "theEvent.charactersIgnoringModifiers">
+            </PersistentString>
+            <PersistentString
+               value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SimpleCommander.TabItemController.numberOfRowsInTableView (SimpleCommander.TabItemController)(ObjectiveC.NSTableView) -&gt; Swift.Int:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
@@ -18,25 +67,6 @@
             </PersistentString>
             <PersistentString
                value = "item.name">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "index">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "files">
-            </PersistentString>
-            <PersistentString
-               value = "arrangedObjects">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

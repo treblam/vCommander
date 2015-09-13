@@ -52,21 +52,25 @@ class SCTableView: NSTableView {
                 
                 println("markedRows: " + markedRows.description)
                 
-                // TODO: To be reviewed
-                if let delegate = self.delegate() as? TabItemController {
-                    delegate.tableViewMarkedViewsDidChange()
-                }
+                notifyDelegate()
                 
 //                self.selectRowIndexes(NSIndexSet(index: ++row), byExtendingSelection: false)
                 self.setNeedsDisplay()
             }
             
-        case 48:
+        case 48:   // tab键
             self.nextResponder?.keyDown(theEvent)
             
         default:
             super.keyDown(theEvent)
             
+        }
+    }
+    
+    func notifyDelegate() {
+        // TODO: To be reviewed
+        if let delegate = self.delegate() as? TabItemController {
+            delegate.tableViewMarkedViewsDidChange()
         }
     }
     
@@ -87,6 +91,7 @@ class SCTableView: NSTableView {
     
     func cleanData() {
         markedRows.removeAllIndexes()
+        notifyDelegate()
     }
     
 }
