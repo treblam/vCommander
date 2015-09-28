@@ -22,7 +22,7 @@ class SCTableRowView: NSTableRowView {
             NSColor(calibratedRed: 26.0/255.0, green: 154.0/255.0, blue: 252.0/255.0, alpha: 1.0).setStroke()
 //            NSColor(calibratedWhite: 0.82, alpha: 1.0).setFill()
             
-            var selectionPath = NSBezierPath(rect: dirtyRect)
+            let selectionPath = NSBezierPath(rect: dirtyRect)
             
             selectionPath.lineWidth = 4.0
             

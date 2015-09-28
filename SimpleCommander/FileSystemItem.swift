@@ -21,12 +21,12 @@ class FileSystemItem: NSObject {
     }()
     
     lazy var name: String! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLNameKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLNameKey])
         return resourceValues![NSURLNameKey] as? String
     }()
     
     lazy var localizedName: String! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLLocalizedNameKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLLocalizedNameKey])
         return resourceValues![NSURLLocalizedNameKey] as? String
     }()
     
@@ -36,27 +36,27 @@ class FileSystemItem: NSObject {
     }()
     
     lazy var icon: NSImage! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLEffectiveIconKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLEffectiveIconKey])
         return resourceValues![NSURLEffectiveIconKey] as? NSImage
     }()
     
     lazy var dateOfCreation: NSDate! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLCreationDateKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLCreationDateKey])
         return resourceValues![NSURLCreationDateKey] as? NSDate
     }()
     
     lazy var dateOfLastModification: NSDate! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLContentModificationDateKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLContentModificationDateKey])
         return resourceValues![NSURLContentModificationDateKey] as? NSDate
     }()
     
     lazy var typeIdentifier: String! = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLTypeIdentifierKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLTypeIdentifierKey])
         return resourceValues![NSURLTypeIdentifierKey] as? String
     }()
     
     lazy var isDirectory: Bool = { [unowned self] in
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLIsDirectoryKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLIsDirectoryKey])
         let number = resourceValues![NSURLIsDirectoryKey] as? NSNumber
         
         if let isDir = number {
@@ -75,7 +75,7 @@ class FileSystemItem: NSObject {
             return -1
         }
         
-        let resourceValues = self.fileURL.resourceValuesForKeys([NSURLFileSizeKey], error: nil)
+        let resourceValues = try? self.fileURL.resourceValuesForKeys([NSURLFileSizeKey])
         let fileSize = resourceValues![NSURLFileSizeKey] as? NSNumber
         
         return fileSize ?? -1
@@ -100,9 +100,9 @@ class FileSystemItem: NSObject {
         
         if (fileManager.fileExistsAtPath(self.fileURL.relativePath!)) {
             
-            if let itemURLs = fileManager.contentsOfDirectoryAtURL(self.fileURL, includingPropertiesForKeys: self.propertyKeys, options:.SkipsHiddenFiles, error:nil) {
+            if let itemURLs = try? fileManager.contentsOfDirectoryAtURL(self.fileURL, includingPropertiesForKeys: self.propertyKeys, options:.SkipsHiddenFiles) {
                 
-                for fsItemURL in itemURLs as! [NSURL] {
+                for fsItemURL in itemURLs {
                     
                     if fileManager.fileExistsAtPath(fsItemURL.relativePath!, isDirectory: &isDirectory) {
                         //if(isDirectory.boolValue) {

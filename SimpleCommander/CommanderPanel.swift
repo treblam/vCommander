@@ -27,14 +27,14 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var tabBar: MMTabBarView!
     
     func addNewTabToTabView(aTabView: NSTabView!) {
-        var newModel = TabBarModel()
+        let newModel = TabBarModel()
         
-        var newItem = NSTabViewItem(identifier: newModel)
+        let newItem = NSTabViewItem(identifier: newModel)
         
-        var curViewController = tabView.selectedTabViewItem?.viewController as? TabItemController
-        var url = curViewController?.curFsItem.fileURL
+        let curViewController = tabView.selectedTabViewItem?.viewController as? TabItemController
+        let url = curViewController?.curFsItem.fileURL
         
-        var newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url)
+        let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url)
         
         newModel.title = newItemController?.title ?? "Untitled"
         
@@ -71,11 +71,11 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func tabView(aTabView: NSTabView!, tabBarViewDidHide tabBarView: MMTabBarView!) {
-        println("tabBarViewDidHide")
+        print("tabBarViewDidHide")
     }
     
     func tabView(aTabView: NSTabView!, tabBarViewDidUnhide tabBarView: MMTabBarView!) {
-        println("tabBarViewDidUnhide")
+        print("tabBarViewDidUnhide")
     }
     
     @IBAction func addNewTab(sender: NSMenuItem) {

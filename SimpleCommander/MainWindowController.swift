@@ -20,16 +20,24 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
     
     let rightPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil)!
     
+    var leftTab: TabItemController! {
+        return (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
+    }
+    
+    var rightTab: TabItemController! {
+        return (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
+    }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
         
         leftPanel.view.translatesAutoresizingMaskIntoConstraints = false
         rightPanel.view.translatesAutoresizingMaskIntoConstraints = false
         
-        var contentView: NSView = self.window!.contentView as! NSView
+        // var contentView: NSView = self.window!.contentView as! NSView
         
-        var leftView = splitView.subviews[0] as! NSView
-        var rightView = splitView.subviews[1] as! NSView
+        let leftView = splitView.subviews[0] 
+        let rightView = splitView.subviews[1] 
         self.window?.makeFirstResponder(leftPanel.tabView.selectedTabViewItem?.viewController?.view)
         
         leftView.addSubview(leftPanel.view)
@@ -37,13 +45,13 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
-        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[leftPanel(>=400)]-0-|", options: NSLayoutFormatOptions.AlignAllTop | NSLayoutFormatOptions.AlignAllBottom, metrics: nil, views: views))
+        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.AlignAllTop, NSLayoutFormatOptions.AlignAllBottom], metrics: nil, views: views))
         
-        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[leftPanel(>=400)]-3-|", options: nil, metrics: nil, views: views))
+        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[leftPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
-        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[rightPanel(>=400)]-0-|", options: NSLayoutFormatOptions.AlignAllTop | NSLayoutFormatOptions.AlignAllBottom, metrics: nil, views: views))
+        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[rightPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.AlignAllTop, NSLayoutFormatOptions.AlignAllBottom], metrics: nil, views: views))
         
-        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightPanel(>=400)]-3-|", options: nil, metrics: nil, views: views))
+        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
         self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
         
@@ -54,18 +62,18 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
     }
     
     override func insertTab(sender: AnyObject?) {
-        println("inserttab in mainwindowcontroller")
+        print("inserttab in mainwindowcontroller")
     }
     
     func switchFocus() {
-        println("start to switch focus")
+        print("start to switch focus")
         
-        println("firstResponder: " + self.window!.firstResponder.description)
+        print("firstResponder: " + self.window!.firstResponder.description)
         
         let leftTableView = (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
         let rightTableView = (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
         
-        println("leftPanel.tabView.selectedTabViewItem?.viewController!.view: " + leftTableView!.description)
+        print("leftPanel.tabView.selectedTabViewItem?.viewController!.view: " + leftTableView!.description)
         
         if self.window?.firstResponder === leftTableView {
             self.window?.makeFirstResponder(rightTableView)

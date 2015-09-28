@@ -41,16 +41,16 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return nil
         }
         
-        var index = selectedIndex.firstIndex
+        let index = selectedIndex.firstIndex
         
         return curFsItem.children[index]
     }
     
-    func getMarkedItems() -> [FileSystemItem] {
+    func getMarkedItems(isUseSelect: Bool=true) -> [FileSystemItem] {
         var items: [FileSystemItem] = []
         
-        if tableview.markedRows.count == 0 {
-            var selectedItem = getSelectedItem()
+        if isUseSelect && tableview.markedRows.count == 0 {
+            let selectedItem = getSelectedItem()
             if let item = selectedItem {
                 items.append(item)
             }
@@ -64,16 +64,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func dblClk(sender:AnyObject){
-        let tableview = sender as! NSTableView
-        let row = tableview.clickedRow
+
         let item = getSelectedItem()
         
         if let fsItem = item {
-            println("fileURL: " + fsItem.fileURL.path!)
+            print("fileURL: " + fsItem.fileURL.path!)
             if (fsItem.isDirectory) {
                 changeDirectory(fsItem.fileURL)
             } else {
-                println("it's not directory, can't step into")
+                print("it's not directory, can't step into")
                 workspace.openFile(fsItem.fileURL.path!)
             }
         }
@@ -89,9 +88,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        var colIdentifier: String = tableColumn!.identifier
+        let colIdentifier: String = tableColumn!.identifier
         
-        var result: NSTableCellView = tableView.makeViewWithIdentifier(colIdentifier, owner: self) as! NSTableCellView
+        let result: NSTableCellView = tableView.makeViewWithIdentifier(colIdentifier, owner: self) as! NSTableCellView
         
         let item = self.curFsItem.children[row]
         
@@ -140,7 +139,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return 22.0
     }
     
-    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         let sortDescriptors = tableview.sortDescriptors
         let objectsArray = curFsItem.children as NSArray
         let sortedObjects = objectsArray.sortedArrayUsingDescriptors(sortDescriptors)
@@ -152,13 +151,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.enumerateAvailableRowViewsUsingBlock { rowView, rowIndex in
             
             for (var column = 0; column < rowView.numberOfColumns; column++) {
-                var cellView: AnyObject? = rowView.viewAtColumn(column)
+                let cellView: AnyObject? = rowView.viewAtColumn(column)
                 
                 if let tableCellView = cellView as? NSTableCellView {
-                    var textField = tableCellView.textField
-                    if let scRowView = rowView as? SCTableRowView {
+                    let textField = tableCellView.textField
+                    if let _ = rowView as? SCTableRowView {
                         if let text = textField {
-                            var isMarked = self.tableview.isRowMarked(rowIndex)
+                            let isMarked = self.tableview.isRowMarked(rowIndex)
                             if isMarked {
                                 text.textColor = NSColor(calibratedRed: 26.0/255.0, green: 154.0/255.0, blue: 252.0/255.0, alpha: 1)
                             } else {
@@ -187,29 +186,29 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func onDirChange(url: NSURL) {
-        var suc = fileManager.changeCurrentDirectoryPath(url.path!)
+        let suc = fileManager.changeCurrentDirectoryPath(url.path!)
         
         if (!suc) {
-            println("change directory fail")
+            print("change directory fail")
         }
         
-        println(fileManager.currentDirectoryPath)
+        print(fileManager.currentDirectoryPath)
         
-        curFsItem = FileSystemItem(fileURL: NSURL.fileURLWithPath(fileManager.currentDirectoryPath)!)
+        curFsItem = FileSystemItem(fileURL: NSURL.fileURLWithPath(fileManager.currentDirectoryPath))
         
         title = curFsItem.localizedName
         
         // Clean the data for last directory
         if (tableview !== nil) {
-            println("clean data")
+            print("clean data")
             tableview.cleanData()
         }
         
-        println("Change directory success")
+        print("Change directory success")
         
         if self.view !== nil && self.view.superview !== nil {
-            var tabItem = (self.view.superview as! NSTabView).selectedTabViewItem
-            var model = tabItem?.identifier as! TabBarModel
+            let tabItem = (self.view.superview as! NSTabView).selectedTabViewItem
+            let model = tabItem?.identifier as! TabBarModel
             
             model.title = title ?? "Untitled"
             tabItem?.identifier = model
@@ -219,7 +218,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dm.delegate = self
         dm.startMonitoring()
         
-        println("start monitor " + curFsItem.fileURL.path!)
+        print("start monitor " + curFsItem.fileURL.path!)
     }
     
     func changeDirectory(url: NSURL) {
@@ -236,9 +235,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func keyDown(theEvent: NSEvent) {
-        println(theEvent.keyCode)
+        print(theEvent.keyCode)
         
-        if theEvent.keyCode == 51 { // delete or backspace
+        if theEvent.keyCode == 51 || theEvent.keyCode == 4 || theEvent.keyCode == 123 {
+            // delete or h or left arrow
+            // h was used to emulate vim hotkeys
             let parentUrl = curFsItem.fileURL.URLByDeletingLastPathComponent
             
             // Remember last directory, this dir should be selected when backed to parent dir
@@ -248,7 +249,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 changeDirectory(url)
                 return
             }
-        } else if theEvent.keyCode == 36 {  // enter
+        } else if theEvent.keyCode == 36 || theEvent.keyCode == 37 || theEvent.keyCode == 124 {
+            // enter or l or right arrow
+            // l is used to emulate vim hotkeys
             dblClk(tableview)
             return
         } else if theEvent.keyCode == 96 {  // F5
@@ -271,15 +274,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let item = getSelectedItem()
         
         if let fsItem = item {
-            let windowController = self.view.window!.windowController() as! MainWindowController
+            let windowController = self.view.window!.windowController as! MainWindowController
             let targetViewController = windowController.getTargetTabItem()
             let destination = targetViewController.curFsItem.path
             let files = [fsItem.name]
-            var tag: NSNumber = 0
             let result = workspace.performFileOperation(NSWorkspaceCopyOperation, source: curFsItem.path, destination: destination, files: files, tag: nil)
             
             if result {
-                println("copy succeeded")
+                print("copy succeeded")
             }
         }
         
@@ -288,15 +290,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func moveSelectedFiles() {
         let item = getSelectedItem()
         if let fsItem = item {
-            let windowController = self.view.window!.windowController() as! MainWindowController
+            let windowController = self.view.window!.windowController as! MainWindowController
             let targetViewController = windowController.getTargetTabItem()
             let destination = targetViewController.curFsItem.path
             let files = [fsItem.name]
-            var tag: NSNumber = 0
             let result = workspace.performFileOperation(NSWorkspaceMoveOperation, source: curFsItem.path, destination: destination, files: files, tag: nil)
             
             if result {
-                println("move succeeded")
+                print("move succeeded")
             }
         }
     }
@@ -334,7 +335,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             switch responseCode {
             case NSAlertFirstButtonReturn:
                 if self.workspace.performFileOperation(NSWorkspaceRecycleOperation, source: self.curFsItem.path, destination: "", files: files, tag: nil) {
-                    println("delete succeeded")
+                    print("delete succeeded")
                 }
             default:
                 break
@@ -344,13 +345,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     // tab键按下
     override func insertTab(sender: AnyObject?) {
-        let windowController = self.view.window!.windowController() as! MainWindowController
+        let windowController = self.view.window!.windowController as! MainWindowController
         windowController.switchFocus()
     }
     
     // shift + tab键按下
     override func insertBacktab(sender: AnyObject?) {
-        let windowController = self.view.window!.windowController() as! MainWindowController
+        let windowController = self.view.window!.windowController as! MainWindowController
         windowController.switchFocus()
     }
     
@@ -361,12 +362,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?, url: NSURL?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        var homeDir = NSHomeDirectory();
+        let homeDir = NSHomeDirectory();
         
         dateFormatter.dateStyle = .MediumStyle
         dateFormatter.timeStyle = .MediumStyle
         let dirUrl = url ?? NSURL.fileURLWithPath(homeDir, isDirectory: true)
-        onDirChange(dirUrl!)
+        onDirChange(dirUrl)
     }
 
     required init?(coder: NSCoder) {
@@ -374,7 +375,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func directoryMonitorDidObserveChange(directoryMonitor: DirectoryMonitor) {
-        println("directoryMonitorDidObserveChange")
+        print("directoryMonitorDidObserveChange")
         
         dispatch_async(dispatch_get_main_queue(), {
             self.refreshData()
@@ -403,9 +404,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 let dirName = textField.stringValue
                 let dirUrl = self.curFsItem.fileURL.URLByAppendingPathComponent(dirName)
                 
-                var theError: NSErrorPointer = nil
-                if !self.fileManager.createDirectoryAtURL(dirUrl, withIntermediateDirectories: false, attributes: nil, error: theError) {
+                let theError: NSErrorPointer = nil
+                do {
+                    try self.fileManager.createDirectoryAtURL(dirUrl, withIntermediateDirectories: false, attributes: nil)
+                } catch let error as NSError {
+                    theError.memory = error
                     // handle the error
+                } catch {
+                    fatalError()
                 }
             default:
                 break
@@ -415,6 +421,52 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func quicklook(sender: NSMenuItem) {
         
+    }
+    
+    func execcmd(cmdname: String) -> NSString {
+        var outstr = ""
+        let task = NSTask()
+        task.launchPath = "/bin/sh"
+        task.arguments = ["-c", cmdname]
+        
+        let pipe = NSPipe()
+        task.standardOutput = pipe
+        task.launch()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = NSString(data: data, encoding: NSUTF8StringEncoding) {
+            print(output)
+            outstr = output as String
+        }
+        
+        task.waitUntilExit()
+        let status = task.terminationStatus
+        
+        print(status)
+        
+        return outstr
+    }
+    
+    @IBAction func compare(sender: NSMenuItem) {
+        let curItems = getMarkedItems(false)
+        
+        let windowController = self.view.window!.windowController as! MainWindowController
+        let targetViewController = windowController.getTargetTabItem()
+        let targetItems = targetViewController.getMarkedItems(false)
+        
+        let isLeft = self === windowController.leftTab
+        
+        if curItems.count >= 2 {
+            execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
+        } else if curItems.count == 1 && targetItems.count >= 1 {
+            if isLeft {
+                execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
+            } else {
+                execcmd("/usr/local/bin/bcompare \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+            }
+        } else if curItems.count == 1 {
+            execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\"")
+        }
     }
     
 }
