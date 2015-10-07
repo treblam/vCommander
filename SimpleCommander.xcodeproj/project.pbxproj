@@ -54,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextField.swift; sourceTree = "<group>"; };
+		7D42EF5B1BBE3515003383C0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		7D43B06D1B1CB53900E60257 /* SimpleCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleCommander-Bridging-Header.h"; sourceTree = "<group>"; };
 		7D48A0031B209A400043933D /* CommanderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommanderPanel.swift; sourceTree = "<group>"; };
 		7D48A0041B209A400043933D /* CommanderPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommanderPanel.xib; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		7D9422351B024441008429D5 = {
 			isa = PBXGroup;
 			children = (
+				7D42EF5B1BBE3515003383C0 /* QuickLook.framework */,
 				7D5252E61BA3D66A006243F1 /* QuartzCore.framework */,
 				7D9422401B024441008429D5 /* SimpleCommander */,
 				7D9422511B024442008429D5 /* SimpleCommanderTests */,

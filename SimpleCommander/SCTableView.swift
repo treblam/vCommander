@@ -16,6 +16,12 @@ class SCTableView: NSTableView {
         super.drawRect(dirtyRect)
     }
     
+    func convertToInt(str: String) -> Int {
+        let s1 = str.unicodeScalars
+        let s2 = s1[s1.startIndex].value
+        return Int(s2)
+    }
+    
     override func keyDown(theEvent: NSEvent) {
         Swift.print("SCTableView, keycode " + theEvent.keyCode.description)
         
@@ -30,14 +36,41 @@ class SCTableView: NSTableView {
         
         let row = self.selectedRow
         
+        let flags = theEvent.modifierFlags
         
+        let s = theEvent.charactersIgnoringModifiers!
+        
+        let char = convertToInt(s)
+        
+        Swift.print("char:" + String(char))
+        
+        let hasCommand = flags.contains(.CommandKeyMask)
+        
+        let hasShift = flags.contains(.ShiftKeyMask)
+        
+        let hasAlt = flags.contains(.AlternateKeyMask)
+        
+        let hasControl = flags.contains(.ControlKeyMask)
+        
+        Swift.print("hasCommand: " + String(hasCommand))
+        Swift.print("hasShift: " + String(hasShift))
+        Swift.print("hasAlt: " + String(hasAlt))
+        Swift.print("hasControl: " + String(hasControl))
+        
+        let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
+        
+        Swift.print("noneModifiers: " + String(noneModifiers))
+
+        
+        let NSSpaceFunctionKey = 32
+        let NSTabFunctionKey = 9
         
 //        if row != -1 {
 //            rowView = self.rowViewAtRow(row, makeIfNecessary: false) as! SCTableRowView
 //        }
         
-        switch theEvent.keyCode {
-        case 49:    // space key
+        switch char {
+        case NSSpaceFunctionKey:    // space key
             if row != -1 {
                 Swift.print("row != -1")
                 if markedRows.containsIndex(row) {
@@ -58,10 +91,10 @@ class SCTableView: NSTableView {
                 self.setNeedsDisplay()
             }
             
-        case 48:  // tab键
+        case NSTabFunctionKey:  // tab键
             self.nextResponder?.keyDown(theEvent)
             
-        case 38:  // j 模拟vim快捷键
+        case convertToInt("j") where noneModifiers:  // j 模拟vim快捷键
             var char = unichar(NSDownArrowFunctionKey)
             let characterString = NSString(characters: &char, length: 1)
             
@@ -69,7 +102,7 @@ class SCTableView: NSTableView {
             
             super.keyDown(event!)
             
-        case 40:  // k 模拟vim快捷键
+        case convertToInt("k") where noneModifiers:  // k 模拟vim快捷键
             var char = unichar(NSUpArrowFunctionKey)
             let characterString = NSString(characters: &char, length: 1)
             

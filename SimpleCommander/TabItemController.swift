@@ -8,7 +8,9 @@
 
 import Cocoa
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate {
+import Quartz
+
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
     
@@ -23,6 +25,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var dm: DirectoryMonitor!
     
     var lastChildDir: NSURL?
+    
+    var isQLMode = false
+    
+    var isGpressed = false
+    
+    var textField: NSTextField?
+    
+    var isLeft: Bool {
+        let windowController = self.view.window!.windowController as! MainWindowController
+        return self === windowController.leftTab
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +108,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let item = self.curFsItem.children[row]
         
         if item.fileURL.isEqual(lastChildDir) {
-            tableView.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            // if this row is to be selected, scroll it to visible
+            selectRow(row)
         }
         
         switch colIdentifier {
@@ -183,6 +197,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     // TODO: This is to be removed if apple fixed its bug
     func tableViewSelectionDidChange(notification: NSNotification) {
         tableview.setNeedsDisplay()
+        
+        if isQLMode {
+            QLPreviewPanel.sharedPreviewPanel().reloadData()
+        }
     }
     
     func onDirChange(url: NSURL) {
@@ -234,12 +252,65 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return true
     }
     
+    func convertToInt(str: String) -> Int {
+        let s1 = str.unicodeScalars
+        let s2 = s1[s1.startIndex].value
+        return Int(s2)
+    }
+    
     override func keyDown(theEvent: NSEvent) {
-        print(theEvent.keyCode)
+        print("keyCode: " + String(theEvent.keyCode))
         
-        if theEvent.keyCode == 51 || theEvent.keyCode == 4 || theEvent.keyCode == 123 {
+        let flags = theEvent.modifierFlags
+        
+        let s = theEvent.charactersIgnoringModifiers!
+        
+        let char = convertToInt(s)
+        
+        print("char:" + String(char))
+        
+        let hasCommand = flags.contains(.CommandKeyMask)
+        
+        let hasShift = flags.contains(.ShiftKeyMask)
+        
+        let hasAlt = flags.contains(.AlternateKeyMask)
+        
+        let hasControl = flags.contains(.ControlKeyMask)
+        
+        print("hasCommand: " + String(hasCommand))
+        print("hasShift: " + String(hasShift))
+        print("hasAlt: " + String(hasAlt))
+        print("hasControl: " + String(hasControl))
+        
+        let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
+        
+        print("noneModifiers: " + String(noneModifiers))
+        
+        let NSBackspaceFunctionKey = 127
+        
+        let NSEnterFunctionKey = 13
+        
+        switch char {
+        case NSBackspaceFunctionKey where noneModifiers,
+            convertToInt("h") where noneModifiers,
+            NSLeftArrowFunctionKey where noneModifiers:
             // delete or h or left arrow
             // h was used to emulate vim hotkeys
+            // 127 is backspace key
+            
+            if let field = textField {
+                if !field.hidden {
+                    let stringValue = field.stringValue
+                    let len = stringValue.characters.count
+                    
+                    if len > 0 {
+                        field.stringValue = stringValue.substringToIndex(stringValue.endIndex.predecessor())
+                    }
+                    
+                    return
+                }
+            }
+            
             let parentUrl = curFsItem.fileURL.URLByDeletingLastPathComponent
             
             // Remember last directory, this dir should be selected when backed to parent dir
@@ -249,25 +320,82 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 changeDirectory(url)
                 return
             }
-        } else if theEvent.keyCode == 36 || theEvent.keyCode == 37 || theEvent.keyCode == 124 {
+            
+        case NSEnterFunctionKey where noneModifiers,
+            convertToInt("l") where noneModifiers,
+            NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
             dblClk(tableview)
             return
-        } else if theEvent.keyCode == 96 {  // F5
+            
+        case convertToInt("h") where hasControl:
+            if !isLeft {
+                insertTab(nil)
+            }
+            return
+            
+        case convertToInt("l") where hasControl:
+            if isLeft {
+                insertTab(nil)
+            }
+            return
+            
+        case NSF5FunctionKey where noneModifiers:
             copySelectedFiles()
             return
-        } else if theEvent.keyCode == 97 {  // F6
+            
+        case NSF6FunctionKey where noneModifiers:
             moveSelectedFiles()
-        } else if theEvent.keyCode == 98 {  // F7
+            return
+            
+        case NSF7FunctionKey where noneModifiers:
             // create new directory
-        } else if theEvent.keyCode == 100 { // F8
+            return;
+            
+        case NSF8FunctionKey where noneModifiers:
             deleteSelectedFiles()
             return
+            
+        case convertToInt("g") where noneModifiers:
+            if isGpressed {
+                selectRow(0)
+            } else {
+                isGpressed = true
+                NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "clearGPressed", userInfo: nil, repeats: false)
+            }
+            return
+            
+        case convertToInt("G") where hasShift:
+            let count = numberOfRowsInTableView(tableview)
+            selectRow(count - 1)
+            return
+            
+        default:
+            break
         }
         
         interpretKeyEvents([theEvent])
         super.keyDown(theEvent)
+    }
+    
+    func selectLastRow() {
+        let indexSet = NSIndexSet(index: numberOfRowsInTableView(tableview))
+        tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
+    }
+    
+    func selectRow(row: Int) {
+        let indexSet = NSIndexSet(index: row)
+        tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
+        tableview.scrollRowToVisible(row)
+    }
+    
+    func clearGPressed() {
+        isGpressed = false
+    }
+    
+    @IBAction func showQuickLookPanel(sender: NSMenuItem) {
+        QLPreviewPanel.sharedPreviewPanel().makeKeyAndOrderFront(self)
     }
     
     func copySelectedFiles() {
@@ -355,6 +483,43 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         windowController.switchFocus()
     }
     
+    override func insertText(insertString: AnyObject) {
+        print(insertString)
+        
+        var stringValue: String
+        
+        if let field = textField {
+            if field.hidden {
+                field.hidden = false
+            }
+            
+            stringValue = field.stringValue + (insertString as! String)
+        } else {
+            let frameRect = NSMakeRect(20, 20, 100, 20)
+            textField = NSTextField(frame: frameRect)
+            stringValue = insertString as! String
+            
+            self.view.addSubview(textField!)
+//            self.view.window!.makeFirstResponder(textField!)
+        }
+        
+        let filtered = curFsItem.children.filter {
+            return $0.localizedName.rangeOfString(stringValue, options: .CaseInsensitiveSearch) != nil
+        }
+        
+        if filtered.count > 0 {
+            textField!.stringValue = stringValue
+        }
+        
+    }
+    
+    override func cancelOperation(sender: AnyObject?) {
+        print("esc pressed")
+        
+        textField?.stringValue = ""
+        textField?.hidden = true
+    }
+    
     convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil)
     }
@@ -419,10 +584,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         })
     }
     
-    @IBAction func quicklook(sender: NSMenuItem) {
-        
-    }
-    
     func execcmd(cmdname: String) -> NSString {
         var outstr = ""
         let task = NSTask()
@@ -454,8 +615,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let targetViewController = windowController.getTargetTabItem()
         let targetItems = targetViewController.getMarkedItems(false)
         
-        let isLeft = self === windowController.leftTab
-        
         if curItems.count >= 2 {
             execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
@@ -468,5 +627,42 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\"")
         }
     }
+    
+    func numberOfPreviewItemsInPreviewPanel(panel: QLPreviewPanel!) -> Int {
+        return 1
+    }
+    
+    func previewPanel(panel: QLPreviewPanel!, previewItemAtIndex index: Int) -> QLPreviewItem! {
+        print("previewPanel previewItemAtIndex method called.")
+        let item = getSelectedItem()
+        return item?.fileURL ?? NSURL()
+    }
+    
+    func previewPanel(panel: QLPreviewPanel!, handleEvent event: NSEvent!) -> Bool {
+        if event.type == .KeyDown {
+            tableview.keyDown(event)
+            return true
+        }
+        
+        return false
+    }
+    
+    override func acceptsPreviewPanelControl(panel: QLPreviewPanel!) -> Bool {
+        return true
+    }
+    
+    override func beginPreviewPanelControl(panel: QLPreviewPanel!) {
+        panel.delegate = self
+        panel.dataSource = self
+        isQLMode = true
+        print("begin preview panel")
+    }
+    
+    override func endPreviewPanelControl(panel: QLPreviewPanel!) {
+        isQLMode = false
+        print("end preview panel")
+    }
+    
+    
     
 }
