@@ -26,8 +26,6 @@ class SCPreferenceController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        print("abc")
-        
         textEditorField.stringValue = preferenceManager.textEditor!
         
         diffToolField.stringValue = preferenceManager.diffTool!
