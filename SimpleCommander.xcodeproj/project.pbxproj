@@ -16,6 +16,7 @@
 		7D552D501B1DFE5E00031203 /* MMTabBarView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552D511B1E09FC00031203 /* TabItemController.swift */; };
 		7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D552D521B1E09FC00031203 /* TabItemController.xib */; };
+		7D8455631BEF8B7D009999F0 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */; };
 		7D9422441B024441008429D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9422431B024441008429D5 /* AppDelegate.swift */; };
 		7D9422461B024441008429D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D9422451B024441008429D5 /* Images.xcassets */; };
 		7D9422491B024442008429D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D9422471B024442008429D5 /* MainMenu.xib */; };
@@ -27,6 +28,8 @@
 		7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */; };
 		7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */; };
 		7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323721B2D5247006EF722 /* SCTableView.swift */; };
+		7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */; };
+		7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,7 @@
 		7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MMTabBarView.framework; sourceTree = "<group>"; };
 		7D552D511B1E09FC00031203 /* TabItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabItemController.swift; sourceTree = "<group>"; };
 		7D552D521B1E09FC00031203 /* TabItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabItemController.xib; sourceTree = "<group>"; };
+		7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
 		7D94223E1B024441008429D5 /* SimpleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9422421B024441008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422431B024441008429D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryMonitor.swift; sourceTree = "<group>"; };
 		7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableRowView.swift; sourceTree = "<group>"; };
 		7DD323721B2D5247006EF722 /* SCTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableView.swift; sourceTree = "<group>"; };
+		7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPreferenceController.swift; sourceTree = "<group>"; };
+		7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCPreferenceController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,9 @@
 				7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */,
 				7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */,
 				7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */,
+				7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */,
+				7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */,
+				7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */,
 			);
 			path = SimpleCommander;
 			sourceTree = "<group>";
@@ -257,6 +266,7 @@
 			files = (
 				7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */,
 				7D9422461B024441008429D5 /* Images.xcassets in Resources */,
+				7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */,
 				7D9422611B024480008429D5 /* MainWindowController.xib in Resources */,
 				7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */,
 				7D9422491B024442008429D5 /* MainMenu.xib in Resources */,
@@ -280,7 +290,9 @@
 				7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */,
 				7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */,
 				7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */,
+				7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */,
 				7D131BAD1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift in Sources */,
+				7D8455631BEF8B7D009999F0 /* PreferenceManager.swift in Sources */,
 				7D9422601B024480008429D5 /* MainWindowController.swift in Sources */,
 				7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */,
 				7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */,

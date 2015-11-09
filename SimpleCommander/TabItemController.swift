@@ -22,6 +22,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     let workspace = NSWorkspace.sharedWorkspace()
     
+    let preferenceManager = PreferenceManager()
+    
     var dm: DirectoryMonitor!
     
     var lastChildDir: NSURL?
@@ -292,7 +294,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         switch char {
         case NSBackspaceFunctionKey where noneModifiers,
-            convertToInt("h") where noneModifiers,
+//            convertToInt("h") where noneModifiers,
             NSLeftArrowFunctionKey where noneModifiers:
             // delete or h or left arrow
             // h was used to emulate vim hotkeys
@@ -322,31 +324,31 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
             
         case NSEnterFunctionKey where noneModifiers,
-            convertToInt("l") where noneModifiers,
+//            convertToInt("l") where noneModifiers,
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
             dblClk(tableview)
             return
             
-        case convertToInt("h") where hasControl:
-            if !isLeft {
-                insertTab(nil)
-            }
-            return
-            
-        case convertToInt("l") where hasControl:
-            if isLeft {
-                insertTab(nil)
-            }
-            return
+//        case convertToInt("h") where hasControl:
+//            if !isLeft {
+//                insertTab(nil)
+//            }
+//            return
+//            
+//        case convertToInt("l") where hasControl:
+//            if isLeft {
+//                insertTab(nil)
+//            }
+//            return
             
         case NSF5FunctionKey where noneModifiers:
-            copySelectedFiles()
+            copySelectedFiles(nil)
             return
             
         case NSF6FunctionKey where noneModifiers:
-            moveSelectedFiles()
+            moveSelectedFiles(nil)
             return
             
         case NSF7FunctionKey where noneModifiers:
@@ -354,22 +356,22 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return;
             
         case NSF8FunctionKey where noneModifiers:
-            deleteSelectedFiles()
+            deleteSelectedFiles(nil)
             return
             
-        case convertToInt("g") where noneModifiers:
-            if isGpressed {
-                selectRow(0)
-            } else {
-                isGpressed = true
-                NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "clearGPressed", userInfo: nil, repeats: false)
-            }
-            return
-            
-        case convertToInt("G") where hasShift:
-            let count = numberOfRowsInTableView(tableview)
-            selectRow(count - 1)
-            return
+//        case convertToInt("g") where noneModifiers:
+//            if isGpressed {
+//                selectRow(0)
+//            } else {
+//                isGpressed = true
+//                NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "clearGPressed", userInfo: nil, repeats: false)
+//            }
+//            return
+//            
+//        case convertToInt("G") where hasShift:
+//            let count = numberOfRowsInTableView(tableview)
+//            selectRow(count - 1)
+//            return
             
         default:
             break
@@ -394,11 +396,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         isGpressed = false
     }
     
-    @IBAction func showQuickLookPanel(sender: NSMenuItem) {
+    @IBAction func showQuickLookPanel(sender: AnyObject?) {
         QLPreviewPanel.sharedPreviewPanel().makeKeyAndOrderFront(self)
     }
     
-    func copySelectedFiles() {
+    @IBAction func copySelectedFiles(sender: AnyObject?) {
         let item = getSelectedItem()
         
         if let fsItem = item {
@@ -415,7 +417,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
     }
     
-    func moveSelectedFiles() {
+    @IBAction func moveSelectedFiles(sender: AnyObject?) {
         let item = getSelectedItem()
         if let fsItem = item {
             let windowController = self.view.window!.windowController as! MainWindowController
@@ -430,7 +432,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
-    func deleteSelectedFiles() {
+    @IBAction func deleteSelectedFiles(sender: AnyObject?) {
         let items = getMarkedItems()
         
         if items.count == 0 {
@@ -471,6 +473,25 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         })
     }
     
+    @IBAction func editSelectedFile(sender: NSMenuItem) {
+        let item = getSelectedItem()
+        
+        if let fsItem = item {
+            print("fileURL: " + fsItem.fileURL.path!)
+            if (fsItem.isDirectory) {
+                let alert = NSAlert()
+                alert.messageText = "不支持编辑该类型的文件"
+                alert.informativeText = "不支持编辑该类型的文件"
+                alert.beginSheetModalForWindow(self.view.window!, completionHandler: {responseCode in
+                    
+                })
+            } else {
+                print("it's not directory, can't step into")
+                workspace.openFile(fsItem.fileURL.path!, withApplication: preferenceManager.textEditor!)
+            }
+        }
+    }
+    
     // tab键按下
     override func insertTab(sender: AnyObject?) {
         let windowController = self.view.window!.windowController as! MainWindowController
@@ -483,42 +504,43 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         windowController.switchFocus()
     }
     
-    override func insertText(insertString: AnyObject) {
-        print(insertString)
-        
-        var stringValue: String
-        
-        if let field = textField {
-            if field.hidden {
-                field.hidden = false
-            }
-            
-            stringValue = field.stringValue + (insertString as! String)
-        } else {
-            let frameRect = NSMakeRect(20, 20, 100, 20)
-            textField = NSTextField(frame: frameRect)
-            stringValue = insertString as! String
-            
-            self.view.addSubview(textField!)
-//            self.view.window!.makeFirstResponder(textField!)
-        }
-        
-        let filtered = curFsItem.children.filter {
-            return $0.localizedName.rangeOfString(stringValue, options: .CaseInsensitiveSearch) != nil
-        }
-        
-        if filtered.count > 0 {
-            textField!.stringValue = stringValue
-        }
-        
-    }
-    
-    override func cancelOperation(sender: AnyObject?) {
-        print("esc pressed")
-        
-        textField?.stringValue = ""
-        textField?.hidden = true
-    }
+    // Temporarily remove this feature.
+//    override func insertText(insertString: AnyObject) {
+//        print(insertString)
+//        
+//        var stringValue: String
+//        
+//        if let field = textField {
+//            if field.hidden {
+//                field.hidden = false
+//            }
+//            
+//            stringValue = field.stringValue + (insertString as! String)
+//        } else {
+//            let frameRect = NSMakeRect(20, 20, 100, 20)
+//            textField = NSTextField(frame: frameRect)
+//            stringValue = insertString as! String
+//            
+//            self.view.addSubview(textField!)
+////            self.view.window!.makeFirstResponder(textField!)
+//        }
+//        
+//        let filtered = curFsItem.children.filter {
+//            return $0.localizedName.rangeOfString(stringValue, options: .CaseInsensitiveSearch) != nil
+//        }
+//        
+//        if filtered.count > 0 {
+//            textField!.stringValue = stringValue
+//        }
+//        
+//    }
+//    
+//    override func cancelOperation(sender: AnyObject?) {
+//        print("esc pressed")
+//        
+//        textField?.stringValue = ""
+//        textField?.hidden = true
+//    }
     
     convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil)
@@ -608,7 +630,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return outstr
     }
     
-    @IBAction func compare(sender: NSMenuItem) {
+    @IBAction func compare(sender: AnyObject?) {
         let curItems = getMarkedItems(false)
         
         let windowController = self.view.window!.windowController as! MainWindowController
@@ -616,15 +638,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let targetItems = targetViewController.getMarkedItems(false)
         
         if curItems.count >= 2 {
-            execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
+            execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
             if isLeft {
-                execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
+                execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
             } else {
-                execcmd("/usr/local/bin/bcompare \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+                execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
             }
         } else if curItems.count == 1 {
-            execcmd("/usr/local/bin/bcompare \"" + curItems[0].path + "\"")
+            execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\"")
         }
     }
     

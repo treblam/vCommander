@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="SimpleCommander" customModuleProvider="target">
@@ -32,58 +32,85 @@
                             <customView fixedFrame="YES" id="BJd-zv-cLD">
                                 <rect key="frame" x="0.0" y="0.0" width="564.5" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
                             </customView>
                             <customView fixedFrame="YES" id="9Zd-jo-Pg7">
                                 <rect key="frame" x="573.5" y="0.0" width="557.5" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
                             </customView>
                         </subviews>
+                        <animations/>
                         <holdingPriorities>
                             <real value="250"/>
                             <real value="250"/>
                         </holdingPriorities>
                     </splitView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-Ja-adT">
-                        <rect key="frame" x="6" y="-1" width="186.5" height="32"/>
+                        <rect key="frame" x="6" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="预览(F3)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="showQuickLookPanel:" target="-1" id="PqJ-ME-CHu"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ieu-hS-cXg">
-                        <rect key="frame" x="379" y="-1" width="186.5" height="32"/>
+                        <rect key="frame" x="379" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="复制(F5)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="copySelectedFiles:" target="-1" id="85o-42-oof"/>
+                        </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
-                        <rect key="frame" x="565" y="-1" width="186.5" height="32"/>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
+                        <rect key="frame" x="565" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="移动(F6)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="moveSelectedFiles:" target="-1" id="76J-p6-gfB"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pEP-bh-Z6V">
-                        <rect key="frame" x="752" y="-1" width="186.5" height="32"/>
+                        <rect key="frame" x="752" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="新建文件夹(F7)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="newDirectory:" target="-1" id="Au8-TR-dkX"/>
+                        </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
-                        <rect key="frame" x="938" y="-1" width="186.5" height="32"/>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
+                        <rect key="frame" x="938" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="删除(F8)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="deleteSelectedFiles:" target="-1" id="rUc-tV-KVZ"/>
+                        </connections>
                     </button>
-                    <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
-                        <rect key="frame" x="192" y="-1" width="186.5" height="32"/>
+                    <button horizontalHuggingPriority="249" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
+                        <rect key="frame" x="192" y="-1" width="187" height="32"/>
+                        <animations/>
                         <buttonCell key="cell" type="push" title="编辑(F4)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" size="13" name="STHeitiSC-Light"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="editSelectedFile:" target="-1" id="igG-g8-FSe"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -110,6 +137,7 @@
                     <constraint firstItem="GnM-HQ-MfU" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="jQO-iI-zUf"/>
                     <constraint firstAttribute="trailing" secondItem="1Vh-jl-co6" secondAttribute="trailing" constant="12" id="ofI-LN-voB"/>
                 </constraints>
+                <animations/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>

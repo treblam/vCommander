@@ -94,21 +94,22 @@ class SCTableView: NSTableView {
         case NSTabFunctionKey:  // tab键
             self.nextResponder?.keyDown(theEvent)
             
-        case convertToInt("j") where noneModifiers:  // j 模拟vim快捷键
-            var char = unichar(NSDownArrowFunctionKey)
-            let characterString = NSString(characters: &char, length: 1)
-            
-            let event = NSEvent.keyEventWithType(NSEventType.KeyDown, location: theEvent.locationInWindow, modifierFlags: theEvent.modifierFlags, timestamp: theEvent.timestamp, windowNumber: theEvent.windowNumber, context: nil, characters: characterString as String, charactersIgnoringModifiers: characterString as String, isARepeat: theEvent.ARepeat, keyCode: char)
-            
-            super.keyDown(event!)
-            
-        case convertToInt("k") where noneModifiers:  // k 模拟vim快捷键
-            var char = unichar(NSUpArrowFunctionKey)
-            let characterString = NSString(characters: &char, length: 1)
-            
-            let event = NSEvent.keyEventWithType(NSEventType.KeyDown, location: theEvent.locationInWindow, modifierFlags: theEvent.modifierFlags, timestamp: theEvent.timestamp, windowNumber: theEvent.windowNumber, context: nil, characters: characterString as String, charactersIgnoringModifiers: characterString as String, isARepeat: theEvent.ARepeat, keyCode: char)
-            
-            super.keyDown(event!)
+// Temporarily comment vim mode, make normal mode ease to use first.
+//        case convertToInt("j") where noneModifiers:  // j 模拟vim快捷键
+//            var char = unichar(NSDownArrowFunctionKey)
+//            let characterString = NSString(characters: &char, length: 1)
+//            
+//            let event = NSEvent.keyEventWithType(NSEventType.KeyDown, location: theEvent.locationInWindow, modifierFlags: theEvent.modifierFlags, timestamp: theEvent.timestamp, windowNumber: theEvent.windowNumber, context: nil, characters: characterString as String, charactersIgnoringModifiers: characterString as String, isARepeat: theEvent.ARepeat, keyCode: char)
+//            
+//            super.keyDown(event!)
+//            
+//        case convertToInt("k") where noneModifiers:  // k 模拟vim快捷键
+//            var char = unichar(NSUpArrowFunctionKey)
+//            let characterString = NSString(characters: &char, length: 1)
+//            
+//            let event = NSEvent.keyEventWithType(NSEventType.KeyDown, location: theEvent.locationInWindow, modifierFlags: theEvent.modifierFlags, timestamp: theEvent.timestamp, windowNumber: theEvent.windowNumber, context: nil, characters: characterString as String, charactersIgnoringModifiers: characterString as String, isARepeat: theEvent.ARepeat, keyCode: char)
+//            
+//            super.keyDown(event!)
             
         default:
             super.keyDown(theEvent)

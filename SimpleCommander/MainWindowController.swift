@@ -12,6 +12,10 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
     
     @IBOutlet weak var splitView: NSSplitView!
     
+    let preferenceManager = PreferenceManager()
+    
+    let preferenceController = SCPreferenceController()
+    
     override var windowNibName: String {
         return "MainWindowController"
     }
@@ -95,6 +99,11 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         }
         
         return result
+    }
+    
+    @IBAction func openPreferencePanel(sender: AnyObject?) {
+        print("openPreferencePanel called.")
+        preferenceController.window?.makeKeyAndOrderFront(self)
     }
     
 }
