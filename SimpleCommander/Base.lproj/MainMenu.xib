@@ -75,12 +75,6 @@
                             <menuItem title="New file" id="cmG-Z9-yJz">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
-                            <menuItem title="New Directory" keyEquivalent="" id="Cym-NK-CYd">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="newDirectory:" target="-1" id="Fey-Ln-fWE"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
                                 <connections>
                                     <action selector="openDocument:" target="-1" id="bVn-NM-KNZ"/>
@@ -120,6 +114,54 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="revertDocumentToSaved:" target="-1" id="iJ3-Pv-kwq"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="c4l-gt-Umc"/>
+                            <menuItem title="Rename" keyEquivalent="" id="apF-S9-cqt">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="rename:" target="-1" id="VDr-te-ac4"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Quick Look" keyEquivalent="" id="2Tu-N0-Z10">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showQuickLookPanel:" target="-1" id="thZ-bc-6SC"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Edit" keyEquivalent="" id="Wne-K5-aST">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="editSelectedFile:" target="-1" id="iwh-Oh-jaX"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy" keyEquivalent="" id="qTl-06-tnR">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="copySelectedFiles:" target="-1" id="SQi-lM-n2p"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Move" keyEquivalent="" id="caR-Y9-4rN">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="moveSelectedFiles:" target="-1" id="FfZ-w1-WAs"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="New Directory" keyEquivalent="" id="Cym-NK-CYd">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="newDirectory:" target="-1" id="Fey-Ln-fWE"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Delete" keyEquivalent="" id="HzP-zo-lD5">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="deleteSelectedFiles:" target="-1" id="Bg1-bd-beS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Get Info" keyEquivalent="i" id="hQx-ux-Nmc">
+                                <connections>
+                                    <action selector="getInfo:" target="-1" id="OTm-35-Etn"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
@@ -170,12 +212,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Edit" id="W48-6f-4Dl">
                         <items>
-                            <menuItem title="Edit" keyEquivalent="" id="8fg-Ze-Gif">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="editSelectedFile:" target="-1" id="RKH-37-Ao9"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Undo" keyEquivalent="z" id="dRJ-4n-Yzg">
                                 <connections>
                                     <action selector="undo:" target="-1" id="M6e-cu-g7V"/>
@@ -200,18 +236,6 @@
                             <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
                                 <connections>
                                     <action selector="paste:" target="-1" id="UvS-8e-Qdg"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="pasteAsPlainText:" target="-1" id="cEh-KX-wJQ"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Delete" id="pa3-QI-u2k">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="delete:" target="-1" id="0Mk-Ml-PaM"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
@@ -401,17 +425,6 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
-                            <menuItem title="Quicklook" keyEquivalent="" id="uxo-6H-XsK">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="showQuickLookPanel:" target="-1" id="MEJ-R3-9rD"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Get Info" keyEquivalent="i" id="JLV-Ui-PZ9">
-                                <connections>
-                                    <action selector="getInfo:" target="-1" id="LXk-Am-UBB"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -466,5 +479,37 @@
                 </menuItem>
             </items>
         </menu>
+        <menuItem title="Get Info" keyEquivalent="i" id="JLV-Ui-PZ9">
+            <connections>
+                <action selector="getInfo:" target="-1" id="LXk-Am-UBB"/>
+            </connections>
+        </menuItem>
+        <menuItem title="Rename" keyEquivalent="" id="t9i-L6-cm4">
+            <modifierMask key="keyEquivalentModifierMask"/>
+        </menuItem>
+        <menuItem title="Edit" keyEquivalent="" id="8fg-Ze-Gif">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="editSelectedFile:" target="-1" id="RKH-37-Ao9"/>
+            </connections>
+        </menuItem>
+        <menuItem title="Delete" id="pa3-QI-u2k">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="delete:" target="-1" id="0Mk-Ml-PaM"/>
+            </connections>
+        </menuItem>
+        <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
+            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+            <connections>
+                <action selector="pasteAsPlainText:" target="-1" id="cEh-KX-wJQ"/>
+            </connections>
+        </menuItem>
+        <menuItem title="Quicklook" keyEquivalent="" id="uxo-6H-XsK">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="showQuickLookPanel:" target="-1" id="MEJ-R3-9rD"/>
+            </connections>
+        </menuItem>
     </objects>
 </document>
