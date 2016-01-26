@@ -33,6 +33,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TabItemController.controlTextDidEndEditing(NSNotification) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
@@ -41,13 +49,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
+         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "theEvent.charactersIgnoringModifiers">
-            </PersistentString>
-            <PersistentString
-               value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
+               value = "convertToInt(&quot;G&quot;)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -60,10 +65,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
+         contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "convertToInt(&quot;G&quot;)">
+               value = "theEvent.charactersIgnoringModifiers">
+            </PersistentString>
+            <PersistentString
+               value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

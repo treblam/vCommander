@@ -128,20 +128,68 @@ class SCTableView: NSTableView {
         return markedRows.containsIndex(row)
     }
     
-    override func rightMouseDown(theEvent: NSEvent) {
-        let row = self.rowAtPoint(self.convertPoint(theEvent.locationInWindow, fromView: nil))
-        if self.markedRows.containsIndex(row) {
-            self.markedRows.removeIndex(row)
-        } else {
-            self.markedRows.addIndex(row)
+    func markRowIndexes(indexes: NSIndexSet, byExtendingSelection extend: Bool) {
+        if !extend {
+            markedRows.removeAllIndexes()
         }
         
-        self.setNeedsDisplay()
+        if markedRows.containsIndexes(indexes) {
+            return
+        }
+        
+        markedRows.addIndexes(indexes)
+//        self.setNeedsDisplay()
+        notifyDelegate()
+    }
+    
+    func unmark(row: Int) {
+        markedRows.removeIndex(row)
+//        self.setNeedsDisplay()
+        notifyDelegate()
+    }
+    
+    func unmarkAll() {
+        markedRows.removeAllIndexes()
+//        self.setNeedsDisplay()
+        notifyDelegate()
+    }
+    
+//    override func rightMouseDown(theEvent: NSEvent) {
+//        super.rightMouseDown(theEvent)
+        
+//        let row = self.rowAtPoint(self.convertPoint(theEvent.locationInWindow, fromView: nil))
+//        if isRowMarked(row) {
+//            unmark(row)
+//        } else {
+//            markRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+//        }
+//    }
+    
+    override func mouseDown(theEvent: NSEvent) {
+        super.mouseDown(theEvent)
+        
+        let row = self.rowAtPoint(self.convertPoint(theEvent.locationInWindow, fromView: nil))
+        if isRowMarked(row) {
+            markRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+        } else {
+            unmarkAll()
+        }
     }
     
     func cleanData() {
-        markedRows.removeAllIndexes()
+        unmarkAll()
         notifyDelegate()
+    }
+    
+    override func menuForEvent(event: NSEvent) -> NSMenu? {
+        let row = self.rowAtPoint(self.convertPoint(event.locationInWindow, fromView: nil))
+        
+        if (row != -1) {
+            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            self.markRowIndexes(NSIndexSet(index: row), byExtendingSelection: isRowMarked(row))
+        }
+        
+        return super.menu
     }
     
 }

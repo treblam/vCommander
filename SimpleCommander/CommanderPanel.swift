@@ -21,7 +21,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         addNewTabToTabView(tabView)
     }
     
-    
     @IBOutlet weak var tabView: NSTabView!
     
     @IBOutlet weak var tabBar: MMTabBarView!

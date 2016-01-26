@@ -10,7 +10,7 @@ import Cocoa
 
 import Quartz
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate {
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
     
@@ -34,6 +34,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var textField: NSTextField?
     
+    var lastRenamedFileURL: NSURL?
+    
+    var lastRenamedFileIndex: Int?
+    
+    let pasteboard = NSPasteboard.generalPasteboard()
+    
     var isLeft: Bool {
         let windowController = self.view.window!.windowController as! MainWindowController
         return self === windowController.leftTab
@@ -43,7 +49,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         super.viewDidLoad()
         // Do view setup here.
         
-        let clSelector:Selector = "dblClk:"
+        let clSelector:Selector = "openFile:"
         tableview.doubleAction = clSelector
         tableview.target = self
         
@@ -78,7 +84,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return items
     }
     
-    func dblClk(sender:AnyObject){
+    @IBAction func openFile(sender:AnyObject){
 
         let item = getSelectedItem()
         
@@ -156,11 +162,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        sortData()
+        tableview.reloadData()
+    }
+    
+    func sortData() {
         let sortDescriptors = tableview.sortDescriptors
         let objectsArray = curFsItem.children as NSArray
         let sortedObjects = objectsArray.sortedArrayUsingDescriptors(sortDescriptors)
         curFsItem.children = sortedObjects as! [FileSystemItem]
-        tableview.reloadData()
     }
     
     func tableViewMarkedViewsDidChange() {
@@ -190,7 +200,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                         }
                     }
                 }
-                
             }
         }
     }
@@ -328,7 +337,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
-            dblClk(tableview)
+            openFile(tableview)
             return
             
 //        case convertToInt("h") where hasControl:
@@ -566,12 +575,24 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         dispatch_async(dispatch_get_main_queue(), {
             self.refreshData()
+            print("start to reloadData")
             self.tableview.reloadData()
         })
     }
     
     func refreshData() {
         curFsItem = FileSystemItem(fileURL: curFsItem.fileURL)
+        
+        sortData()
+        if let url = lastRenamedFileURL {
+            lastRenamedFileIndex = curFsItem.children.indexOf {fileItem in
+                return fileItem.fileURL.path == url.path
+            }
+            
+            print("lastRenamedFileURL: \(lastRenamedFileURL)")
+            print("lastRenamedFileIndex: \(lastRenamedFileIndex)")
+            lastRenamedFileURL = nil
+        }
     }
     
     @IBAction func newDirectory(sender: NSMenuItem) {
@@ -650,6 +671,169 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
+    // Choose an app to open current file
+    @IBAction func openWith(sender: AnyObject?) {
+        let file = getSelectedItem()
+        let filePath = file?.path
+        let appDirURL: NSURL
+        
+        let appDirURLArr = fileManager.URLsForDirectory(.ApplicationDirectory, inDomains: .SystemDomainMask)
+        
+        if appDirURLArr.count > 0 {
+            appDirURL = appDirURLArr[0]
+            let chooseAppDialog = NSOpenPanel()
+            chooseAppDialog.directoryURL = appDirURL
+            chooseAppDialog.canChooseDirectories = false
+            chooseAppDialog.canCreateDirectories = false
+            chooseAppDialog.canChooseFiles = true
+            chooseAppDialog.allowedFileTypes = ["app"]
+            chooseAppDialog.beginWithCompletionHandler { (result) -> Void in
+                if result == NSFileHandlingPanelOKButton {
+                    let appPath = chooseAppDialog.URL?.path
+                    if appPath != nil && filePath != nil {
+                        self.workspace.openFile(filePath!, withApplication: appPath)
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBAction func revealInFinder(sender: AnyObject?) {
+        let selectedFiles = getMarkedItems()
+        
+        let fileURLs = selectedFiles.map {
+            return $0.fileURL
+        }
+        
+        workspace.activateFileViewerSelectingURLs(fileURLs)
+    }
+    
+    @IBAction func rename(sender: AnyObject?) {
+        let row = tableview.selectedRow
+        let selected = getSelectedItem()
+        print("path:" + (selected?.path)! ?? "")
+        print("row:" + String(row))
+        
+        let cellview = tableview.viewAtColumn(0, row: row, makeIfNecessary: false) as! NSTableCellView
+        cellview.textField?.editable = true
+        tableview.editColumn(0, row: row, withEvent: nil, select: true)
+    }
+    
+    @IBAction func paste(sender: AnyObject?) {
+        let classArray : Array<AnyClass> = [NSURL.self]
+        
+        let canReadData = pasteboard.canReadObjectForClasses(classArray, options: nil)
+        if canReadData {
+            print("canReadData: \(canReadData)")
+            let objectsToPaste = pasteboard.readObjectsForClasses(classArray, options: nil) as! Array<NSURL>
+            var toURL: NSURL!
+            var fileName: String!
+            for url in objectsToPaste {
+                print("start to get toURL.")
+                fileName = url.lastPathComponent
+                toURL = NSURL(string: fileName, relativeToURL: curFsItem.fileURL)
+                print("fileName: \(fileName), toURL: \(toURL)")
+                do {
+                    try fileManager.copyItemAtURL(url, toURL: toURL)
+                } catch let error as NSError {
+                    print("Ooops! Something went wrong: \(error)")
+                }
+            }
+        }
+    }
+    
+    @IBAction func copy(sender: AnyObject?) {
+        let files = getMarkedItems()
+        let objectsToCopy: Array<NSURL>
+        
+        if files.count > 0 {
+            pasteboard.clearContents()
+            objectsToCopy = files.map {
+                return $0.fileURL
+            }
+            pasteboard.writeObjects(objectsToCopy)
+        }
+    }
+    
+    @IBAction func getInfo(sender: AnyObject?) {
+        let files = getMarkedItems()
+        let filesToGetInfo = NSMutableArray()
+        
+        for file in files {
+            filesToGetInfo.addObject(file.fileURL.path!)
+        }
+        let pasteboard = NSPasteboard.pasteboardWithUniqueName()
+        pasteboard.declareTypes([NSStringPboardType], owner: nil)
+        print("filesToGetInfo: \(filesToGetInfo)")
+        pasteboard.setPropertyList(filesToGetInfo, forType: NSFilenamesPboardType)
+        NSPerformService("Finder/Show Info", pasteboard);
+    }
+    
+    @IBAction func copyFullPath(sender: AnyObject?) {
+        let files = getMarkedItems()
+        let result = files.reduce("", combine: {
+            return $0 + "\n" + $1.path
+        });
+        
+        pasteboard.clearContents()
+        pasteboard.writeObjects([result])
+    }
+    
+    override func controlTextDidEndEditing(obj: NSNotification) {
+        let textField = obj.object as? NSTextField
+        let newName = textField?.stringValue
+        let selected = getSelectedItem()
+        let currentName = selected?.fileURL.lastPathComponent!
+        
+        if newName == nil || newName == "" {
+            print("New name is empty, restore to old name.")
+            textField?.stringValue = currentName!
+            return
+        }
+        
+        if newName == currentName {
+            print("New name is the same as the old name, do nothing.")
+            return
+        }
+        
+        print("currentName: \(currentName)")
+        print("newName: \(newName)")
+        
+        if textField!.tag == 1 {
+            do {
+                print("start to change name")
+                try fileManager.moveItemAtPath(currentName!, toPath: newName!)
+                // Remember the path after rename
+                print("Rename done.")
+                lastRenamedFileURL = NSURL(string: newName!, relativeToURL: curFsItem.fileURL)!
+            } catch let error as NSError {
+                print("Ooops! Something went wrong: \(error)")
+            }
+        }
+        
+        textField?.editable = false
+    }
+    
+    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
+        print("tableView selectionIndexesForProposedSelection called")
+        
+        print("size: \(proposedSelectionIndexes.count)")
+        print("index: \(proposedSelectionIndexes.firstIndex)")
+        
+        let result: NSIndexSet!
+        
+        if lastRenamedFileIndex != nil {
+            print("lastRenamedFileIndex: \(lastRenamedFileIndex)")
+            result = NSIndexSet(index: lastRenamedFileIndex!)
+            lastRenamedFileIndex = nil
+        } else {
+            print("lastRenamedFileIndex is nil")
+            result = proposedSelectionIndexes
+        }
+        
+        return result
+    }
+    
     func numberOfPreviewItemsInPreviewPanel(panel: QLPreviewPanel!) -> Int {
         return 1
     }
@@ -685,6 +869,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("end preview panel")
     }
     
-    
+    func menuNeedsUpdate(menu: NSMenu) {
+        
+    }
     
 }
