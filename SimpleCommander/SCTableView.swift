@@ -12,17 +12,17 @@ class SCTableView: NSTableView {
     
     var markedRows = NSMutableIndexSet()
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
     }
     
-    func convertToInt(str: String) -> Int {
+    func convertToInt(_ str: String) -> Int {
         let s1 = str.unicodeScalars
         let s2 = s1[s1.startIndex].value
         return Int(s2)
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         Swift.print("SCTableView, keycode " + theEvent.keyCode.description)
         
 //        var keyString: String
@@ -44,13 +44,13 @@ class SCTableView: NSTableView {
         
         Swift.print("char:" + String(char))
         
-        let hasCommand = flags.contains(.CommandKeyMask)
+        let hasCommand = flags.contains(.command)
         
-        let hasShift = flags.contains(.ShiftKeyMask)
+        let hasShift = flags.contains(.shift)
         
-        let hasAlt = flags.contains(.AlternateKeyMask)
+        let hasAlt = flags.contains(.option)
         
-        let hasControl = flags.contains(.ControlKeyMask)
+        let hasControl = flags.contains(.control)
         
         Swift.print("hasCommand: " + String(hasCommand))
         Swift.print("hasShift: " + String(hasShift))
@@ -73,12 +73,12 @@ class SCTableView: NSTableView {
         case NSSpaceFunctionKey:    // space key
             if row != -1 {
                 Swift.print("row != -1")
-                if markedRows.containsIndex(row) {
-                    self.markedRows.removeIndex(row)
+                if markedRows.contains(row) {
+                    self.markedRows.remove(row)
 //                    rowView.marked = false
                     Swift.print("row: " + row.description + " was removed from markedRows")
                 } else {
-                    self.markedRows.addIndex(row)
+                    self.markedRows.add(row)
 //                    rowView.marked = true
                     Swift.print("row: " + row.description + " was added to markedRows")
                 }
@@ -92,7 +92,7 @@ class SCTableView: NSTableView {
             }
             
         case NSTabFunctionKey:  // tab键
-            self.nextResponder?.keyDown(theEvent)
+            self.nextResponder?.keyDown(with: theEvent)
             
 // Temporarily comment vim mode, make normal mode ease to use first.
 //        case convertToInt("j") where noneModifiers:  // j 模拟vim快捷键
@@ -112,38 +112,38 @@ class SCTableView: NSTableView {
 //            super.keyDown(event!)
             
         default:
-            super.keyDown(theEvent)
+            super.keyDown(with: theEvent)
             
         }
     }
     
     func notifyDelegate() {
         // TODO: To be reviewed
-        if let delegate = self.delegate() as? TabItemController {
+        if let delegate = self.delegate as? TabItemController {
             delegate.tableViewMarkedViewsDidChange()
         }
     }
     
-    func isRowMarked(row: Int) -> Bool {
-        return markedRows.containsIndex(row)
+    func isRowMarked(_ row: Int) -> Bool {
+        return markedRows.contains(row)
     }
     
-    func markRowIndexes(indexes: NSIndexSet, byExtendingSelection extend: Bool) {
+    func markRowIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool) {
         if !extend {
             markedRows.removeAllIndexes()
         }
         
-        if markedRows.containsIndexes(indexes) {
+        if markedRows.contains(indexes) {
             return
         }
         
-        markedRows.addIndexes(indexes)
+        markedRows.add(indexes)
 //        self.setNeedsDisplay()
         notifyDelegate()
     }
     
-    func unmark(row: Int) {
-        markedRows.removeIndex(row)
+    func unmark(_ row: Int) {
+        markedRows.remove(row)
 //        self.setNeedsDisplay()
         notifyDelegate()
     }
@@ -165,31 +165,36 @@ class SCTableView: NSTableView {
 //        }
 //    }
     
-    override func mouseDown(theEvent: NSEvent) {
-        super.mouseDown(theEvent)
+    override func mouseDown(with theEvent: NSEvent) {
+        super.mouseDown(with: theEvent)
         
-        let row = self.rowAtPoint(self.convertPoint(theEvent.locationInWindow, fromView: nil))
+        let row = self.row(at: self.convert(theEvent.locationInWindow, from: nil))
         if isRowMarked(row) {
-            markRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
+            markRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
         } else {
             unmarkAll()
         }
     }
     
     func cleanData() {
-        unmarkAll()
-        notifyDelegate()
+        markedRows.removeAllIndexes()
     }
     
-    override func menuForEvent(event: NSEvent) -> NSMenu? {
-        let row = self.rowAtPoint(self.convertPoint(event.locationInWindow, fromView: nil))
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let row = self.row(at: self.convert(event.locationInWindow, from: nil))
         
         if (row != -1) {
-            self.selectRowIndexes(NSIndexSet(index: row), byExtendingSelection: false)
-            self.markRowIndexes(NSIndexSet(index: row), byExtendingSelection: isRowMarked(row))
+            self.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+            self.markRowIndexes(IndexSet(integer: row), byExtendingSelection: isRowMarked(row))
         }
         
         return super.menu
+    }
+    
+    // Do not show animation when drap items
+    override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        sender.animatesToDestination = false
+        return true
     }
     
 }

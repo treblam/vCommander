@@ -33,7 +33,7 @@ class SCPreferenceController: NSWindowController {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
     
-    @IBAction func chooseEditor(sender: AnyObject) {
+    @IBAction func chooseEditor(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = true
@@ -42,15 +42,15 @@ class SCPreferenceController: NSWindowController {
         let clicked = panel.runModal()
         
         if clicked == NSFileHandlingPanelOKButton {
-            if panel.URLs.count == 1 {
-                let editor = panel.URLs[0].path!
+            if panel.urls.count == 1 {
+                let editor = panel.urls[0].path
                 textEditorField.stringValue = editor
                 preferenceManager.textEditor = editor
             }
         }
     }
     
-    @IBAction func chooseDiffTool(sender: AnyObject) {
+    @IBAction func chooseDiffTool(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = true
@@ -59,8 +59,8 @@ class SCPreferenceController: NSWindowController {
         let clicked = panel.runModal()
         
         if clicked == NSFileHandlingPanelOKButton {
-            if panel.URLs.count == 1 {
-                let diffTool = panel.URLs[0].path!
+            if panel.urls.count == 1 {
+                let diffTool = panel.urls[0].path
                 diffToolField.stringValue = diffTool
                 preferenceManager.diffTool = diffTool
             }

@@ -10,12 +10,12 @@ import Cocoa
 
 class SCTableRowView: NSTableRowView {
     
-//    var marked = false
+    var marked = false
     
     
-    override func drawSelectionInRect(dirtyRect: NSRect) {
+    override func drawSelection(in dirtyRect: NSRect) {
         
-        if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.None && self.emphasized) {
+        if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.none && self.isEmphasized) {
             //            var selectionRect = NSInsetRect(self.bounds, 2.5, 2.5)
             
             //            NSColor(calibratedWhite: 0.0, alpha: 1.0).setStroke()
@@ -40,20 +40,24 @@ class SCTableRowView: NSTableRowView {
     
     
     override var interiorBackgroundStyle: NSBackgroundStyle {
-        return NSBackgroundStyle.Light
+        return NSBackgroundStyle.light
     }
     
 //    override func drawBackgroundInRect(dirtyRect: NSRect) {
 //        
 //        let context = NSGraphicsContext.currentContext()!.CGContext
 //        
-//        super.drawBackgroundInRect(dirtyRect)
-    
+////        super.drawBackgroundInRect(dirtyRect)
+//        
+//        self.print("drawBackgroundInRect called.")
+//    
 //        if !self.marked {
-//            CGContextSetFillColorWithColor(context, NSColor.redColor().CGColor);
+//            self.print("drawBackgroundInRect called. marked")
+////            CGContextSetFillColorWithColor(context, NSColor.redColor().CGColor);
 //            super.drawBackgroundInRect(dirtyRect)
 //            return
 //        } else {
+//            self.print("drawBackgroundInRect called. not marked")
 //            CGContextSetFillColorWithColor(context, NSColor.alternateSelectedControlColor().CGColor)
 //            CGContextSetStrokeColorWithColor(context, NSColor.whiteColor().CGColor)
 //            CGContextFillRect(context, dirtyRect);

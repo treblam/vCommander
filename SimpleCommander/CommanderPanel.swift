@@ -18,14 +18,14 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tabBar.setStyleNamed("Aqua")
         tabBar.setOnlyShowCloseOnHover(true)
         
-        addNewTabToTabView(tabView)
+        self.addNewTab(to: tabView)
     }
     
     @IBOutlet weak var tabView: NSTabView!
     
     @IBOutlet weak var tabBar: MMTabBarView!
     
-    func addNewTabToTabView(aTabView: NSTabView!) {
+    func addNewTab(to aTabView: NSTabView!) {
         let newModel = TabBarModel()
         
         let newItem = NSTabViewItem(identifier: newModel)
@@ -57,39 +57,39 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
     }
     
-    func tabView(aTabView: NSTabView!, shouldCloseTabViewItem tabViewItem: NSTabViewItem!) -> Bool {
+    func tabView(_ aTabView: NSTabView!, shouldClose tabViewItem: NSTabViewItem!) -> Bool {
         return true
     }
     
-    func tabView(aTabView: NSTabView!, shouldAllowTabViewItem tabViewItem: NSTabViewItem!, toLeaveTabBarView tabBarView: MMTabBarView!) -> Bool {
+    func tabView(_ aTabView: NSTabView!, shouldAllow tabViewItem: NSTabViewItem!, toLeave tabBarView: MMTabBarView!) -> Bool {
         return true
     }
     
-    func tabView(aTabView: NSTabView!, toolTipForTabViewItem tabViewItem: NSTabViewItem!) -> String! {
+    func tabView(_ aTabView: NSTabView!, toolTipFor tabViewItem: NSTabViewItem!) -> String! {
         return tabViewItem.label
     }
     
-    func tabView(aTabView: NSTabView!, tabBarViewDidHide tabBarView: MMTabBarView!) {
+    func tabView(_ aTabView: NSTabView!, tabBarViewDidHide tabBarView: MMTabBarView!) {
         print("tabBarViewDidHide")
     }
     
-    func tabView(aTabView: NSTabView!, tabBarViewDidUnhide tabBarView: MMTabBarView!) {
+    func tabView(_ aTabView: NSTabView!, tabBarViewDidUnhide tabBarView: MMTabBarView!) {
         print("tabBarViewDidUnhide")
     }
     
-    @IBAction func addNewTab(sender: NSMenuItem) {
-        addNewTabToTabView(tabView)
+    @IBAction func addNewTab(_ sender: NSMenuItem) {
+        self.addNewTab(to: tabView)
     }
 
-    @IBAction func closeSelectedTab(sender: NSMenuItem) {
+    @IBAction func closeSelectedTab(_ sender: NSMenuItem) {
         closeTab()
     }
     
-    @IBAction func previousTab(sender: NSMenuItem) {
+    @IBAction func previousTab(_ sender: NSMenuItem) {
         tabView.selectPreviousTabViewItem(sender)
     }
     
-    @IBAction func nextTab(sender: NSMenuItem) {
+    @IBAction func nextTab(_ sender: NSMenuItem) {
         tabView.selectNextTabViewItem(sender)
     }
     

@@ -13,7 +13,7 @@ private let textEditorKey = "textEditor"
 private let diffToolKey = "diffTool"
 
 class PreferenceManager {
-    private let userDefaults = NSUserDefaults.standardUserDefaults()
+    fileprivate let userDefaults = UserDefaults.standard
     
     init() {
         registerDefaultPreferences()
@@ -22,24 +22,24 @@ class PreferenceManager {
     func registerDefaultPreferences() {
         let defaults = [ textEditorKey: "/Applications/textEdit.app", diffToolKey: "/usr/local/bin/bcompare" ]
         
-        userDefaults.registerDefaults(defaults)
+        userDefaults.register(defaults: defaults)
     }
     
     var textEditor: String? {
         set (newTextEditor) {
-            userDefaults.setObject(newTextEditor, forKey: textEditorKey)
+            userDefaults.set(newTextEditor, forKey: textEditorKey)
         }
         get {
-            return userDefaults.objectForKey(textEditorKey) as? String
+            return userDefaults.object(forKey: textEditorKey) as? String
         }
     }
     
     var diffTool: String? {
         set (newDiffTool) {
-            userDefaults.setObject(newDiffTool, forKey: diffToolKey)
+            userDefaults.set(newDiffTool, forKey: diffToolKey)
         }
         get {
-            return userDefaults.objectForKey(diffToolKey) as? String
+            return userDefaults.object(forKey: diffToolKey) as? String
         }
     }
     

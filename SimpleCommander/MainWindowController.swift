@@ -49,23 +49,23 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
-        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.AlignAllTop, NSLayoutFormatOptions.AlignAllBottom], metrics: nil, views: views))
+        leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
         
-        leftView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[leftPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
+        leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[leftPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
-        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[rightPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.AlignAllTop, NSLayoutFormatOptions.AlignAllBottom], metrics: nil, views: views))
+        rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[rightPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
         
-        rightView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
+        rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
         self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
         
     }
     
-    override func keyDown(theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         interpretKeyEvents([theEvent])
     }
     
-    override func insertTab(sender: AnyObject?) {
+    override func insertTab(_ sender: Any?) {
         print("inserttab in mainwindowcontroller")
     }
     
@@ -101,7 +101,7 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         return result
     }
     
-    @IBAction func openPreferencePanel(sender: AnyObject?) {
+    @IBAction func openPreferencePanel(_ sender: AnyObject?) {
         print("openPreferencePanel called.")
         preferenceController.window?.makeKeyAndOrderFront(self)
     }

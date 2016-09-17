@@ -14,6 +14,91 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.controlTextDidEndEditing(NSNotification) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "NSURL(string: currentName!, relativeToURL: curFsItem.fileURL)">
+            </PersistentString>
+            <PersistentString
+               value = "curFsItem.fileURL">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lastChildDir">
+            </PersistentString>
+            <PersistentString
+               value = "item">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.onDirChange(URL) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.superview">
+            </PersistentString>
+            <PersistentString
+               value = "(self.view as! NSView)">
+            </PersistentString>
+            <PersistentString
+               value = "self.view">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.curFsItem.path">
+            </PersistentString>
+            <PersistentString
+               value = "NSAlertFirstButtonReturn">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "convertToInt(&quot;G&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.MainWindowController.tableView (SimpleCommander.MainWindowController)(ObjectiveC.NSTableView, viewForTableColumn : Swift.Optional&lt;ObjectiveC.NSTableColumn&gt;, row : Swift.Int) -&gt; Swift.Optional&lt;ObjectiveC.NSView&gt;:MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.localizedType">
+            </PersistentString>
+            <PersistentString
+               value = "item.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "theEvent.charactersIgnoringModifiers">
+            </PersistentString>
+            <PersistentString
+               value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
@@ -33,30 +118,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.controlTextDidEndEditing(NSNotification) -&gt; ():TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "tableview">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "convertToInt(&quot;G&quot;)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "SimpleCommander.TabItemController.numberOfRowsInTableView (SimpleCommander.TabItemController)(ObjectiveC.NSTableView) -&gt; Swift.Int:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
@@ -65,24 +126,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
+         contextName = "TabItemController.moveSelectedFiles(AnyObject?) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "theEvent.charactersIgnoringModifiers">
+               value = "destination">
             </PersistentString>
             <PersistentString
-               value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.MainWindowController.tableView (SimpleCommander.MainWindowController)(ObjectiveC.NSTableView, viewForTableColumn : Swift.Optional&lt;ObjectiveC.NSTableColumn&gt;, row : Swift.Int) -&gt; Swift.Optional&lt;ObjectiveC.NSView&gt;:MainWindowController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "item.localizedType">
-            </PersistentString>
-            <PersistentString
-               value = "item.name">
+               value = "item.fileURL.lastPathComponent">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
