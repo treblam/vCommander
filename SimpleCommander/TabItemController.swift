@@ -41,6 +41,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     let pasteboard = NSPasteboard.general()
     
+    var selectedItems = [URL]()
     var markedItems = [URL]()
     
     var isLeft: Bool {
@@ -228,31 +229,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func refreshTableview() {
-        var selectedItems = [URL]()
-        var markedItems = [URL]()
+        print("refreshTableview called")
+        
         var selectedIndexes = NSMutableIndexSet()
-        
-        (tableview.selectedRowIndexes as NSIndexSet).enumerate({(index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
-            // todo: To be optimized for file deletion or move
-            if index < 0 || index >= self.curFsItem.children.count {
-                return
-            }
-            let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
-            print("selectedIndex: \(index)")
-            print("add file to selectedItems: \(fileRefURL!)")
-            selectedItems.append(fileRefURL!)
-        })
-
-        
-        tableview.markedRows.enumerate({(index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
-            // todo: To be optimized for file deletion or move
-            if index < 0 || index >= self.curFsItem.children.count {
-                return
-            }
-            let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
-            print("add \(fileRefURL) to markedItems")
-            markedItems.append(fileRefURL!)
-        })
         
         sortData()
         
@@ -302,14 +281,45 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return indexes
     }
     
+    func rememberMarkedItems() {
+        markedItems.removeAll()
+        
+        tableview.markedRows.enumerate({(index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
+            // todo: To be optimized for file deletion or move
+            if index < 0 || index >= self.curFsItem.children.count {
+                return
+            }
+            let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
+            print("add \(fileRefURL) to markedItems")
+            self.markedItems.append(fileRefURL!)
+        })
+    }
+    
+    func rememberSlectedItems() {
+        selectedItems.removeAll()
+        
+        (tableview.selectedRowIndexes as NSIndexSet).enumerate({(index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
+            // todo: To be optimized for file deletion or move
+            if index < 0 || index >= self.curFsItem.children.count {
+                return
+            }
+            let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
+            print("selectedIndex: \(index)")
+            print("add file to selectedItems: \(fileRefURL!)")
+            self.selectedItems.append(fileRefURL!)
+        })
+    }
+    
     func tableViewMarkedViewsDidChange() {
         print("tableViewMarkedViewsDidChange() called, start to rememberMarkedItems()")
+        rememberMarkedItems()
         updateMarkedRowsApperance()
     }
     
     // TODO: This is to be removed if apple fixed its bug
     func tableViewSelectionDidChange(_ notification: Notification) {
         print("tableViewSelectionDigChange called. index: \(tableview.selectedRowIndexes.first)")
+        rememberSlectedItems()
         
         if isQLMode {
             QLPreviewPanel.shared().reloadData()
@@ -590,6 +600,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         alert.informativeText = informativeText
         alert.addButton(withTitle: "确定")
         alert.addButton(withTitle: "取消")
+        alert.alertStyle = .warning
+        alert.window.initialFirstResponder = alert.buttons[0]
         
         alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
             
@@ -728,6 +740,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let textField = NSTextField(frame: NSMakeRect(0, 0, 200, 24))
         textField.placeholderString = "文件夹名称"
         alert.accessoryView = textField
+        alert.window.initialFirstResponder = textField
         
         alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
             switch responseCode {
@@ -738,10 +751,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 let theError: NSErrorPointer? = nil
                 do {
                     try self.fileManager.createDirectory(at: dirUrl, withIntermediateDirectories: false, attributes: nil)
+                    // Select the new directory after create
+                    self.lastRenamedFileURL = dirUrl
                 } catch let error as NSError {
                     theError??.pointee = error
                     // handle the error
+                    print("def");
                 } catch {
+                    print("ghi")
                     fatalError()
                 }
             default:
@@ -946,18 +963,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         textField?.isEditable = false
     }
     
-    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
-        print("tableView selectionIndexesForProposedSelection called")
-        print("proposedSelectionIndex: \(proposedSelectionIndexes.first)")
-        
-        let result: IndexSet!
-        
-        print("lastRenamedFileIndex is nil")
-        print("return proposedSelectionIndexes")
-        result = proposedSelectionIndexes
-        
-        return result
-    }
+//    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+//        print("tableView selectionIndexesForProposedSelection called")
+//        print("proposedSelectionIndex: \(proposedSelectionIndexes.first)")
+//        
+//        let result: IndexSet!
+//        
+//        print("return proposedSelectionIndexes")
+//        result = proposedSelectionIndexes
+//        
+//        return result
+//    }
     
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
         let items = getMarkedItems()
@@ -1095,4 +1111,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
         })
     }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+//        coder.encode(<#T##objv: Any?##Any?#>, forKey: <#T##String#>)
+    }
+    
+    override func restoreState(with coder: NSCoder) {
+//        c
+    }
+    
 }

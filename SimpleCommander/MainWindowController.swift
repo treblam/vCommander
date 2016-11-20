@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, MMTabBarViewDelegate {
+class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDelegate {
     
     @IBOutlet weak var splitView: NSSplitView!
     
@@ -31,7 +31,7 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
     var rightTab: TabItemController! {
         return (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
     }
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
         
@@ -41,11 +41,11 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
         // var contentView: NSView = self.window!.contentView as! NSView
         
         let leftView = splitView.subviews[0] 
-        let rightView = splitView.subviews[1] 
-        self.window?.makeFirstResponder(leftPanel.tabView.selectedTabViewItem?.viewController?.view)
-        
+        let rightView = splitView.subviews[1]
         leftView.addSubview(leftPanel.view)
         rightView.addSubview(rightPanel.view)
+        
+        self.window?.makeFirstResponder(leftPanel.tabView.selectedTabViewItem?.viewController?.view)
         
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
@@ -104,6 +104,24 @@ class MainWindowController: NSWindowController, NSTableViewDataSource, NSTableVi
     @IBAction func openPreferencePanel(_ sender: AnyObject?) {
         print("openPreferencePanel called.")
         preferenceController.window?.makeKeyAndOrderFront(self)
+    }
+    
+//    override func encodeRestorableState(with coder: NSCoder) {
+//        print("encodeRestorableState in MainWindowController called.")
+//    }
+//    
+//    override func restoreState(with coder: NSCoder) {
+//        print("restoreState in MainWindowController called.")
+//    }
+    
+    func window(_ window: NSWindow, willEncodeRestorableState state: NSCoder) {
+        print("willEncodeRestorableState in MainWindowController called")
+//        leftPanel.encodeRestorableState(with: state)
+//        rightPanel.encodeRestorableState(with: state)
+    }
+    
+    func window(_ window: NSWindow, didDecodeRestorableState state: NSCoder) {
+//        leftPanel =
     }
     
 }

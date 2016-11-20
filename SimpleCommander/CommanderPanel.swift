@@ -10,6 +10,10 @@ import Cocoa
 
 class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelegate, MMTabBarViewDelegate {
 
+    @IBOutlet weak var tabView: NSTabView!
+    
+    @IBOutlet weak var tabBar: MMTabBarView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -20,10 +24,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
         self.addNewTab(to: tabView)
     }
-    
-    @IBOutlet weak var tabView: NSTabView!
-    
-    @IBOutlet weak var tabBar: MMTabBarView!
     
     func addNewTab(to aTabView: NSTabView!) {
         let newModel = TabBarModel()
@@ -43,6 +43,10 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tabView.addTabViewItem(newItem)
         tabView.selectTabViewItem(newItem)
     }
+    
+//    func getAllPath() {
+//        tabView.tabViewItems
+//    }
     
     func closeTab() {
         let tabCount = tabView.numberOfTabViewItems
@@ -93,4 +97,11 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         tabView.selectNextTabViewItem(sender)
     }
     
+    override func encodeRestorableState(with coder: NSCoder) {
+        print("encodeRestorableState called.")
+    }
+    
+    override func restoreState(with coder: NSCoder) {
+        print("restoreState called.")
+    }
 }

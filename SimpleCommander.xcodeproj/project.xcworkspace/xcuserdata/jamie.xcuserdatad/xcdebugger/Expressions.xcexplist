@@ -47,13 +47,13 @@
          contextName = "TabItemController.onDirChange(URL) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.view.superview">
+               value = "self.view">
             </PersistentString>
             <PersistentString
                value = "(self.view as! NSView)">
             </PersistentString>
             <PersistentString
-               value = "self.view">
+               value = "self.view.superview">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -61,10 +61,10 @@
          contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.curFsItem.path">
+               value = "NSAlertFirstButtonReturn">
             </PersistentString>
             <PersistentString
-               value = "NSAlertFirstButtonReturn">
+               value = "self.curFsItem.path">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -84,6 +84,23 @@
             </PersistentString>
             <PersistentString
                value = "item.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AppDelegate.applicationDidFinishLaunching(Notification) -&gt; ():AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mainWindowController.window?">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController.window?.isRestorable">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController.window">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -133,6 +150,20 @@
             </PersistentString>
             <PersistentString
                value = "item.fileURL.lastPathComponent">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static AppDelegate.restoreWindow(withIdentifier : String, state : NSCoder, completionHandler : (NSWindow?, Error?) -&gt; ()) -&gt; ():AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+            <PersistentString
+               value = "window">
+            </PersistentString>
+            <PersistentString
+               value = "appDelegate.mainWindowController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
