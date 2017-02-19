@@ -11,7 +11,6 @@ import Foundation
 class TabBarModel: NSObject, MMTabBarItem {
     
     var title: String
-    var icon: NSImage?
     
     var length = 10
     

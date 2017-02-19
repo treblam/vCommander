@@ -6,22 +6,17 @@
 //  Copyright 2006 Keith Blount. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 #import "MMTabStyle.h"
 #import "NSBezierPath+MMTabBarViewExtensions.h"
 
-@interface MMLiveChatTabStyle : NSObject <MMTabStyle> {
-	NSImage				*liveChatCloseButton;
-	NSImage				*liveChatCloseButtonDown;
-	NSImage				*liveChatCloseButtonOver;
-	NSImage				*liveChatCloseDirtyButton;
-	NSImage				*liveChatCloseDirtyButtonDown;
-	NSImage				*liveChatCloseDirtyButtonOver;
+NS_ASSUME_NONNULL_BEGIN
 
-	NSDictionary		*_objectCountStringAttributes;
-
-	CGFloat				_leftMargin;
-}
+@interface MMLiveChatTabStyle : NSObject <MMTabStyle>
 
 @property (assign) CGFloat leftMarginForTabBarView;
 
@@ -31,3 +26,5 @@
 - (void)drawBezelInRect:(NSRect)aRect withCapMask:(MMBezierShapeCapMask)capMask usingStatesOfAttachedButton:(MMAttachedTabBarButton *)button ofTabBarView:(MMTabBarView *)tabBarView;
 
 @end
+
+NS_ASSUME_NONNULL_END

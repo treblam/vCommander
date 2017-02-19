@@ -3,10 +3,12 @@
 //  MMTabBarView
 //
 //  Created by Michael Monscheuer on 9/19/12.
-//  Copyright (c) 2012 Michael Monscheuer. All rights reserved.
+//  Copyright (c) 2016 Michael Monscheuer. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (MMTabBarViewExtensions)
 
@@ -14,3 +16,5 @@
 - (NSString *)stringByTruncatingToLength:(NSUInteger)truncationLength;
 
 @end
+
+NS_ASSUME_NONNULL_END

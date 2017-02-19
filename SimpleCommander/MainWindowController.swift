@@ -20,9 +20,9 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         return "MainWindowController"
     }
     
-    let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil)!
+    let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, panelName: "leftPanel")!
     
-    let rightPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil)!
+    let rightPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, panelName: "rightPanel")!
     
     var leftTab: TabItemController! {
         return (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
@@ -40,7 +40,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         // var contentView: NSView = self.window!.contentView as! NSView
         
-        let leftView = splitView.subviews[0] 
+        let leftView = splitView.subviews[0]
         let rightView = splitView.subviews[1]
         leftView.addSubview(leftPanel.view)
         rightView.addSubview(rightPanel.view)
@@ -106,13 +106,13 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         preferenceController.window?.makeKeyAndOrderFront(self)
     }
     
-//    override func encodeRestorableState(with coder: NSCoder) {
-//        print("encodeRestorableState in MainWindowController called.")
-//    }
-//    
-//    override func restoreState(with coder: NSCoder) {
-//        print("restoreState in MainWindowController called.")
-//    }
+    override func encodeRestorableState(with coder: NSCoder) {
+        print("encodeRestorableState in MainWindowController called.")
+    }
+    
+    override func restoreState(with coder: NSCoder) {
+        print("restoreState in MainWindowController called.")
+    }
     
     func window(_ window: NSWindow, willEncodeRestorableState state: NSCoder) {
         print("willEncodeRestorableState in MainWindowController called")

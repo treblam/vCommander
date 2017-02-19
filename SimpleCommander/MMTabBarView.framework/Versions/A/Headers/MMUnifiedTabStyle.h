@@ -6,21 +6,19 @@
 //  Copyright 2006 Keith Blount. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 #import "MMTabStyle.h"
 
-@interface MMUnifiedTabStyle : NSObject <MMTabStyle> {
+NS_ASSUME_NONNULL_BEGIN
 
-	NSImage				*unifiedCloseButton;
-	NSImage				*unifiedCloseButtonDown;
-	NSImage				*unifiedCloseButtonOver;
-	NSImage				*unifiedCloseDirtyButton;
-	NSImage				*unifiedCloseDirtyButtonDown;
-	NSImage				*unifiedCloseDirtyButtonOver;
-
-	CGFloat				_leftMargin;
-}
+@interface MMUnifiedTabStyle : NSObject <MMTabStyle>
 
 @property (assign) CGFloat leftMarginForTabBarView;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -28,6 +28,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var dm: DirectoryMonitor!
     
     var lastChildDir: URL?
+    var lastChildDirIndex: Int?
     
     var isQLMode = false
     
@@ -155,11 +156,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         let item = self.curFsItem.children[row]
         
-        if item.fileURL == lastChildDir {
-            // If this row is to be selected, scroll it to visible
-            selectRow(row)
-        }
-        
         // Customize appearance for marked rows
         let isMarked = self.tableview.isRowMarked(row)
         
@@ -223,7 +219,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         refreshTableview()
-        
+        print("sortDescriptorsDigChange")
 //        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(TabItemController.resetMarkedItems), userInfo: nil, repeats: false)
 
     }
@@ -347,6 +343,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         print("Change directory success")
         
+        // Notify the panel the directory was changed.
+//        sendNotification()
+        
        // let tabItem = (self.view.superview as! NSTabView).selectedTabViewItem
        // let model = tabItem?.identifier as! TabBarModel
         
@@ -374,6 +373,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func changeDirectory(_ url: URL) {
         onDirChange(url)
         tableview.reloadData()
+        selectRowIfNeed()
+    }
+    
+    func sendNotification() {
+        let notificationKey = "DirectoryChanged"
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationKey), object: self)
     }
     
     override func becomeFirstResponder() -> Bool {
@@ -518,6 +523,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let indexSet = IndexSet(integer: row)
         tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
         tableview.scrollRowToVisible(row)
+    }
+    
+    func selectRowIfNeed() {
+        var toBeSelectedRowIndex: Int?
+        if curFsItem.children.count > 0 {
+            if let lastViewedDir = lastChildDir {
+                toBeSelectedRowIndex = curFsItem.children.index(where: {$0.fileURL == lastViewedDir})
+                lastChildDir = nil
+            }
+            selectRow(toBeSelectedRowIndex ?? 0)
+        }
     }
     
     func clearGPressed() {
@@ -711,6 +727,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dateFormatter.timeStyle = .medium
         let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
         onDirChange(dirUrl)
+        selectRowIfNeed()
     }
 
     required init?(coder: NSCoder) {
@@ -799,15 +816,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let targetItems = targetViewController.getMarkedItems(false)
         
         if curItems.count >= 2 {
-            execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
+            _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
             if isLeft {
-                execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
+                _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
             } else {
-                execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+                _ = execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
             }
         } else if curItems.count == 1 {
-            execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\"")
+            _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\"")
         }
     }
     
@@ -1113,11 +1130,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func encodeRestorableState(with coder: NSCoder) {
-//        coder.encode(<#T##objv: Any?##Any?#>, forKey: <#T##String#>)
+        
     }
     
     override func restoreState(with coder: NSCoder) {
-//        c
+        
     }
     
 }

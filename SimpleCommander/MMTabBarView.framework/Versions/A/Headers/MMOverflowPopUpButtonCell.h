@@ -3,29 +3,30 @@
 //  MMTabBarView
 //
 //  Created by Michael Monscheuer on 9/24/12.
-//  Copyright (c) 2012 Michael Monscheuer. All rights reserved.
+//  Copyright (c) 2016 Michael Monscheuer. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 
 #import "MMOverflowPopUpButton.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MMImageTransitionAnimation;
 
-@interface MMOverflowPopUpButtonCell : NSPopUpButtonCell <NSAnimationDelegate> {
-
-@private
-    MMCellBezelDrawingBlock _bezelDrawingBlock;
-    NSImage *_image;
-    NSImage *_secondImage;
-    CGFloat _secondImageAlpha;
-}
+@interface MMOverflowPopUpButtonCell : NSPopUpButtonCell <NSAnimationDelegate>
 
 @property (copy) MMCellBezelDrawingBlock bezelDrawingBlock;
-@property (retain) NSImage *image;
-@property (retain) NSImage *secondImage;
+@property (strong) NSImage *image;
+@property (strong) NSImage *secondImage;
 @property (assign) CGFloat secondImageAlpha;
 
 - (void)drawImage:(NSImage *)image withFrame:(NSRect)frame inView:(NSView *)controlView alpha:(CGFloat)alpha;
 
 @end
+
+NS_ASSUME_NONNULL_END

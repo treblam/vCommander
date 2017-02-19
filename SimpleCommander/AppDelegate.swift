@@ -30,7 +30,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
 
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        storeTabsData()
+    }
+    
+    func applicationWillResignActive(_ notification: Notification) {
+        storeTabsData()
+    }
+    
+    func applicationWillHide(_ notification: Notification) {
+        storeTabsData()
+    }
+    
+    func storeTabsData() {
+        print("start to store tabs data")
+        if let mainController = _mainWindowController {
+            mainController.leftPanel.storeTabsData()
+            mainController.rightPanel.storeTabsData()
+        }
     }
     
     public static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {

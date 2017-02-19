@@ -8,10 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MMSlideButtonsAnimation : NSViewAnimation
 
-- (id)initWithTabBarButtons:(NSSet *)buttons;
+- (instancetype)initWithTabBarButtons:(NSSet *)buttons NS_DESIGNATED_INITIALIZER;
 
 - (void)addAnimationDictionary:(NSDictionary *)aDict;
 
 @end
+
+NS_ASSUME_NONNULL_END

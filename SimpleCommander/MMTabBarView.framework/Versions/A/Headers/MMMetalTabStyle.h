@@ -6,21 +6,17 @@
 //  Copyright 2006 Positive Spin Media. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 #import "MMTabStyle.h"
 
-@interface MMMetalTabStyle : NSObject <MMTabStyle> {
-	NSImage					*metalCloseButton;
-	NSImage					*metalCloseButtonDown;
-	NSImage					*metalCloseButtonOver;
-	NSImage					*metalCloseDirtyButton;
-	NSImage					*metalCloseDirtyButtonDown;
-	NSImage					*metalCloseDirtyButtonOver;
+NS_ASSUME_NONNULL_BEGIN
 
-	NSDictionary			*_objectCountStringAttributes;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-- (id)initWithCoder:(NSCoder *)aDecoder;
+@interface MMMetalTabStyle : NSObject <MMTabStyle>
 
 @end
+
+NS_ASSUME_NONNULL_END

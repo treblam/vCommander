@@ -6,27 +6,17 @@
 //  Copyright 2006 Positive Spin Media. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 #import "MMTabStyle.h"
 
-@interface MMAquaTabStyle : NSObject <MMTabStyle> {
-	NSImage									*aquaTabBg;
-	NSImage									*aquaTabBgDown;
-	NSImage									*aquaTabBgDownGraphite;
-	NSImage									*aquaTabBgDownNonKey;
-	NSImage									*aquaDividerDown;
-	NSImage									*aquaDivider;
-	NSImage									*aquaCloseButton;
-	NSImage									*aquaCloseButtonDown;
-	NSImage									*aquaCloseButtonOver;
-	NSImage									*aquaCloseDirtyButton;
-	NSImage									*aquaCloseDirtyButtonDown;
-	NSImage									*aquaCloseDirtyButtonOver;
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (void)loadImages;
-
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-- (id)initWithCoder:(NSCoder *)aDecoder;
+@interface MMAquaTabStyle : NSObject <MMTabStyle>
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -7,18 +7,25 @@
 //
 
 #import "MMTabBarButtonCell.h"
-#import "MMTabBarView.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class MMAttachedTabBarButton;
 
-@interface MMAttachedTabBarButtonCell : MMTabBarButtonCell {
-
-    BOOL _isOverflowButton;
-}
+@interface MMAttachedTabBarButtonCell : MMTabBarButtonCell
 
 @property (assign) BOOL isOverflowButton;
 
-- (MMAttachedTabBarButton *)controlView;
-- (void)setControlView:(MMAttachedTabBarButton *)aView;
+/**
+ *  The control view
+ * 
+ *  TODO: fix, rename "attachedTabBarButton"
+ */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-property-type"
+@property (assign) MMAttachedTabBarButton *controlView;
+#pragma clang diagnostic pop
 
 @end
+
+NS_ASSUME_NONNULL_END

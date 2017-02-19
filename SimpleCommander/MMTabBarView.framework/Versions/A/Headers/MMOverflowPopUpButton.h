@@ -6,26 +6,30 @@
 //  Copyright 2005 Positive Spin Media. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+@import QuartzCore;
+#else
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MMCellBezelDrawingBlock)(NSCell *cell, NSRect frame, NSView *controlView);
 
-@interface MMOverflowPopUpButton : NSPopUpButton {
+@interface MMOverflowPopUpButton : NSPopUpButton 
 
-    BOOL _isAnimating;                      // pulsating animation of image and second image
-}
+/**
+ *  Second image
+ */
+@property (strong) NSImage *secondImage;
 
-// accessors
-- (NSImage *)secondImage;
-- (void)setSecondImage:(NSImage *)anImage;
-
-// archiving
-- (void)encodeWithCoder:(NSCoder *)aCoder;
-- (id)initWithCoder:(NSCoder *)aDecoder;
-
-// bezel drawing
-- (MMCellBezelDrawingBlock)bezelDrawingBlock;
-- (void)setBezelDrawingBlock:(MMCellBezelDrawingBlock)aBlock;
+/**
+ *  Block to be used for drawing the bezel
+ */
+@property (copy) MMCellBezelDrawingBlock bezelDrawingBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

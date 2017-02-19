@@ -12,6 +12,10 @@ private let textEditorKey = "textEditor"
 
 private let diffToolKey = "diffTool"
 
+private let leftPanelKey = "leftPanel"
+
+private let rightPanelKey = "rightPanel"
+
 class PreferenceManager {
     fileprivate let userDefaults = UserDefaults.standard
     
@@ -40,6 +44,24 @@ class PreferenceManager {
         }
         get {
             return userDefaults.object(forKey: diffToolKey) as? String
+        }
+    }
+    
+    var leftPanelData: Dictionary<String, Any>? {
+        set (panelData) {
+            userDefaults.set(panelData, forKey: leftPanelKey)
+        }
+        get {
+            return userDefaults.dictionary(forKey: leftPanelKey)
+        }
+    }
+    
+    var rightPanelData: Dictionary<String, Any>? {
+        set (panelData) {
+            userDefaults.set(panelData, forKey: rightPanelKey)
+        }
+        get {
+            return userDefaults.dictionary(forKey: rightPanelKey)
         }
     }
     

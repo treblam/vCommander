@@ -8,18 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MMTabBarView, MMAttachedTabBarButton;
 
 @interface MMTabBarController : NSObject <NSMenuDelegate>
-{
-	MMTabBarView	*_tabBarView;
-	NSMenu			*_overflowMenu;
-}
 
-- (id)initWithTabBarView:(MMTabBarView *)aTabBarView;
+- (instancetype)initWithTabBarView:(MMTabBarView *)aTabBarView;
 
-- (NSMenu *)overflowMenu;
+@property (readonly) NSMenu *overflowMenu;
 
 - (void)layoutButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

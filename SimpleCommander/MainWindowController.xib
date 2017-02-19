@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -41,9 +41,9 @@
                     </splitView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-Ja-adT">
                         <rect key="frame" x="6" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="预览(F3)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
+                        <buttonCell key="cell" type="push" title="预览 (F3)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="showQuickLookPanel:" target="-1" id="PqJ-ME-CHu"/>
@@ -51,9 +51,9 @@
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ieu-hS-cXg">
                         <rect key="frame" x="379" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="复制(F5)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
+                        <buttonCell key="cell" type="push" title="复制 (F5)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="copySelectedFiles:" target="-1" id="85o-42-oof"/>
@@ -61,9 +61,9 @@
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
                         <rect key="frame" x="565" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="移动(F6)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
+                        <buttonCell key="cell" type="push" title="移动 (F6)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="moveSelectedFiles:" target="-1" id="76J-p6-gfB"/>
@@ -71,9 +71,9 @@
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pEP-bh-Z6V">
                         <rect key="frame" x="752" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="新建文件夹(F7)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
+                        <buttonCell key="cell" type="push" title="新建文件夹 (F7)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="newDirectory:" target="-1" id="Au8-TR-dkX"/>
@@ -81,9 +81,9 @@
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
                         <rect key="frame" x="938" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="删除(F8)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
+                        <buttonCell key="cell" type="push" title="删除 (F8)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="deleteSelectedFiles:" target="-1" id="rUc-tV-KVZ"/>
@@ -91,9 +91,9 @@
                     </button>
                     <button horizontalHuggingPriority="249" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
                         <rect key="frame" x="192" y="-1" width="187" height="32"/>
-                        <buttonCell key="cell" type="push" title="编辑(F4)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
+                        <buttonCell key="cell" type="push" title="编辑 (F4)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name="STHeitiSC-Light"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="editSelectedFile:" target="-1" id="igG-g8-FSe"/>

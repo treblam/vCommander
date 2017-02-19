@@ -5,23 +5,27 @@
 //  Created by Michael Monscheuer on 9/8/12.
 //
 
+#if __has_feature(modules)
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 
 #import "MMRolloverButtonCell.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface MMRolloverButton : NSButton 
 
 #pragma mark Cell Interface
 
-- (NSImage *)rolloverImage;
-- (void)setRolloverImage:(NSImage *)image;
+@property (strong) NSImage *rolloverImage;
+@property (assign) MMRolloverButtonType rolloverButtonType;
 
-- (MMRolloverButtonType)rolloverButtonType;
-- (void)setRolloverButtonType:(MMRolloverButtonType)aType;
+@property (readonly) BOOL mouseHovered;
 
-- (BOOL)mouseHovered;
-
-- (BOOL)simulateClickOnMouseHovered;
-- (void)setSimulateClickOnMouseHovered:(BOOL)flag;
+@property (assign) BOOL simulateClickOnMouseHovered;
 
 @end
+
+NS_ASSUME_NONNULL_END
