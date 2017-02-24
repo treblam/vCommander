@@ -29,6 +29,7 @@
 		7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */; };
 		7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */; };
 		7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323721B2D5247006EF722 /* SCTableView.swift */; };
+		7DD4CDBA1E5E5985001A6560 /* NSViewWithRectInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */; };
 		7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */; };
 		7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryMonitor.swift; sourceTree = "<group>"; };
 		7DC2AC501B4935CE006BA33A /* SCTableRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableRowView.swift; sourceTree = "<group>"; };
 		7DD323721B2D5247006EF722 /* SCTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableView.swift; sourceTree = "<group>"; };
+		7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSViewWithRectInset.swift; sourceTree = "<group>"; };
 		7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPreferenceController.swift; sourceTree = "<group>"; };
 		7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCPreferenceController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +157,7 @@
 				7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */,
 				7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */,
 				7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */,
+				7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */,
 			);
 			path = SimpleCommander;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				7D9422441B024441008429D5 /* AppDelegate.swift in Sources */,
 				7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */,
 				7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */,
+				7DD4CDBA1E5E5985001A6560 /* NSViewWithRectInset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

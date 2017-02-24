@@ -34,7 +34,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var isGpressed = false
     
-    var textField: NSTextField?
+    var typeSelectTextField: NSTextField?
     
     var lastRenamedFileURL: URL?
     
@@ -373,7 +373,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func changeDirectory(_ url: URL) {
         onDirChange(url)
         tableview.reloadData()
-        selectRowIfNeed()
+        selectRowIfNecessary()
     }
     
     func sendNotification() {
@@ -435,7 +435,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             // h was used to emulate vim hotkeys
             // 127 is backspace key
             
-            if let field = textField {
+            if let field = typeSelectTextField {
                 if !field.isHidden {
                     let stringValue = field.stringValue
                     let len = stringValue.characters.count
@@ -525,7 +525,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.scrollRowToVisible(row)
     }
     
-    func selectRowIfNeed() {
+    func selectRowIfNecessary() {
         var toBeSelectedRowIndex: Int?
         if curFsItem.children.count > 0 {
             if let lastViewedDir = lastChildDir {
@@ -666,53 +666,57 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     // tab键按下
     override func insertTab(_ sender: Any?) {
+        print("Tab pressed")
         let windowController = self.view.window!.windowController as! MainWindowController
         windowController.switchFocus()
     }
     
     // shift + tab键按下
     override func insertBacktab(_ sender: Any?) {
+        print("Back tab pressed")
         let windowController = self.view.window!.windowController as! MainWindowController
         windowController.switchFocus()
     }
     
     // Temporarily remove this feature.
-//    override func insertText(insertString: AnyObject) {
-//        print(insertString)
-//        
-//        var stringValue: String
-//        
-//        if let field = textField {
-//            if field.hidden {
-//                field.hidden = false
-//            }
-//            
-//            stringValue = field.stringValue + (insertString as! String)
-//        } else {
-//            let frameRect = NSMakeRect(20, 20, 100, 20)
-//            textField = NSTextField(frame: frameRect)
-//            stringValue = insertString as! String
-//            
-//            self.view.addSubview(textField!)
-////            self.view.window!.makeFirstResponder(textField!)
-//        }
-//        
-//        let filtered = curFsItem.children.filter {
-//            return $0.localizedName.rangeOfString(stringValue, options: .CaseInsensitiveSearch) != nil
-//        }
-//        
-//        if filtered.count > 0 {
-//            textField!.stringValue = stringValue
-//        }
-//        
-//    }
-//    
-//    override func cancelOperation(sender: AnyObject?) {
-//        print("esc pressed")
-//        
-//        textField?.stringValue = ""
-//        textField?.hidden = true
-//    }
+    override func insertText(_ insertString: Any) {
+        print(insertString)
+        
+        var stringValue: String
+        
+        if let field = typeSelectTextField {
+            if field.isHidden {
+                field.isHidden = false
+            }
+            
+            stringValue = field.stringValue + (insertString as! String)
+        } else {
+            let frameRect = NSMakeRect(20, 20, 100, 20)
+            typeSelectTextField = NSTextField(frame: frameRect)
+            stringValue = insertString as! String
+            
+            self.view.addSubview(typeSelectTextField!)
+//            self.view.window!.makeFirstResponder(textField!)
+        }
+        
+        let indexesArr = curFsItem.children.enumerated().filter {
+            $0.element.localizedName.range(of: stringValue, options: .caseInsensitive, range: nil, locale: nil) != nil
+        }.map {
+            $0.offset
+        }
+        
+        if indexesArr.count > 0 {
+            typeSelectTextField!.stringValue = stringValue
+            selectRow(indexesArr[0])
+        }
+    }
+    
+    override func cancelOperation(_ sender: Any?) {
+        print("esc pressed")
+        
+        typeSelectTextField?.stringValue = ""
+        typeSelectTextField?.isHidden = true
+    }
     
     convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil)
@@ -727,7 +731,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dateFormatter.timeStyle = .medium
         let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
         onDirChange(dirUrl)
-        selectRowIfNeed()
+        selectRowIfNecessary()
     }
 
     required init?(coder: NSCoder) {

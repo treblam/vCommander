@@ -94,7 +94,7 @@ class SCTableView: NSTableView {
         case NSTabFunctionKey:  // tab键
             self.nextResponder?.keyDown(with: theEvent)
             
-// Temporarily comment vim mode, make normal mode ease to use first.
+// Temporarily comment vim mode, make normal mode easy to use first.
 //        case convertToInt("j") where noneModifiers:  // j 模拟vim快捷键
 //            var char = unichar(NSDownArrowFunctionKey)
 //            let characterString = NSString(characters: &char, length: 1)
@@ -138,19 +138,16 @@ class SCTableView: NSTableView {
         }
         
         markedRows.add(indexes)
-//        self.setNeedsDisplay()
         notifyDelegate()
     }
     
     func unmark(_ row: Int) {
         markedRows.remove(row)
-//        self.setNeedsDisplay()
         notifyDelegate()
     }
     
     func unmarkAll() {
         markedRows.removeAllIndexes()
-//        self.setNeedsDisplay()
         notifyDelegate()
     }
     
@@ -191,7 +188,7 @@ class SCTableView: NSTableView {
         return super.menu
     }
     
-    // Do not show animation when drap items
+    // Do not show animation when drag items
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
         sender.animatesToDestination = false
         return true

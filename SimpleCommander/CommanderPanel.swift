@@ -81,7 +81,7 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let bookmarks = items.map {item -> NSData in
             let controller = item.viewController as! TabItemController
             let url = controller.curFsItem.fileURL
-            print("Start to generate bookmark for Url:" + url.absoluteString)
+//            print("Start to generate bookmark for Url:" + url.absoluteString)
             return bookmarkForURL(url: url) as NSData!
         }
         
@@ -92,8 +92,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         
         let panelData = ["bookmarks": bookmarks, "selected": selectedIndex] as [String : Any]
-        
-        print(panelData)
         
         if panelName == "leftPanel" {
             print("start to store leftPanel")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,8 +17,8 @@
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY" customClass="FlippedView" customModule="SimpleCommander" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="505" height="505"/>
             <subviews>
-                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sdO-nP-7kp" customClass="MMTabBarView">
-                    <rect key="frame" x="0.0" y="0.0" width="505" height="22"/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="sdO-nP-7kp" customClass="MMTabBarView">
+                    <rect key="frame" x="0.0" y="479" width="505" height="26"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="26" id="GOg-S8-3a8"/>
                     </constraints>
@@ -28,8 +28,8 @@
                         <outlet property="tabView" destination="Wg5-CC-E0k" id="mN1-DQ-Xlr"/>
                     </connections>
                 </customView>
-                <tabView focusRingType="exterior" misplaced="YES" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Wg5-CC-E0k">
-                    <rect key="frame" x="-7" y="-10" width="519" height="16"/>
+                <tabView focusRingType="exterior" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Wg5-CC-E0k">
+                    <rect key="frame" x="0.0" y="0.0" width="505" height="479"/>
                     <font key="font" metaFont="system"/>
                     <tabViewItems/>
                     <connections>
