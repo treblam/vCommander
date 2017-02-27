@@ -23,7 +23,7 @@ class SCTableView: NSTableView {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        Swift.print("SCTableView, keycode " + theEvent.keyCode.description)
+        Swift.print("SCTableView, keyDown called, keycode: " + theEvent.keyCode.description)
         
 //        var keyString: String
         
@@ -118,10 +118,7 @@ class SCTableView: NSTableView {
     }
     
     func notifyDelegate() {
-        // TODO: To be reviewed
-        if let delegate = self.delegate as? TabItemController {
-            delegate.tableViewMarkedViewsDidChange()
-        }
+        (self.delegate as? SCTableViewDelegate)?.tableViewMarkedViewsDidChange()
     }
     
     func isRowMarked(_ row: Int) -> Bool {
@@ -165,9 +162,9 @@ class SCTableView: NSTableView {
     override func mouseDown(with theEvent: NSEvent) {
         super.mouseDown(with: theEvent)
         
-        let row = self.row(at: self.convert(theEvent.locationInWindow, from: nil))
-        if isRowMarked(row) {
-            markRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+        let clickedRow = self.row(at: self.convert(theEvent.locationInWindow, from: nil))
+        if isRowMarked(clickedRow) {
+            markRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
         } else {
             unmarkAll()
         }
@@ -195,3 +192,9 @@ class SCTableView: NSTableView {
     }
     
 }
+
+protocol SCTableViewDelegate: NSTableViewDelegate {
+    func tableViewMarkedViewsDidChange()
+}
+
+

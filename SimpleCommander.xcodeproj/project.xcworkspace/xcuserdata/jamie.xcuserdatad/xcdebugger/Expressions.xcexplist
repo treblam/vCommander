@@ -33,6 +33,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TabItemController.rememberSlectedItems() -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview.selectedRowIndexes">
+            </PersistentString>
+            <PersistentString
+               value = "tableview.selectedRowIndexes.first">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TabItemController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
@@ -47,13 +58,13 @@
          contextName = "TabItemController.onDirChange(URL) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "self.view.superview">
+            </PersistentString>
+            <PersistentString
                value = "self.view">
             </PersistentString>
             <PersistentString
                value = "(self.view as! NSView)">
-            </PersistentString>
-            <PersistentString
-               value = "self.view.superview">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -61,10 +72,10 @@
          contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "NSAlertFirstButtonReturn">
+               value = "self.curFsItem.path">
             </PersistentString>
             <PersistentString
-               value = "self.curFsItem.path">
+               value = "NSAlertFirstButtonReturn">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -164,6 +175,30 @@
             </PersistentString>
             <PersistentString
                value = "appDelegate.mainWindowController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.onRowClicked(AnyObject) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview.clickedRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.tableViewSelectionDidChange(Notification) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview.selectedRowIndexes">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.openFile(AnyObject) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview.clickedRow">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

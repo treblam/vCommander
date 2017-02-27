@@ -10,7 +10,7 @@ import Cocoa
 
 import Quartz
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate
 {
 
     @IBOutlet weak var tableview: SCTableView!
@@ -34,7 +34,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var isGpressed = false
     
+    // Variables for type select
     var typeSelectTextField: NSTextField?
+    var typeSelectIndices: [Int]?
+    var typeSelectIndex: Int?
     
     var lastRenamedFileURL: URL?
     
@@ -52,14 +55,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do view setup here.
-        
-        let clSelector:Selector = #selector(TabItemController.openFile(_:))
-        tableview.doubleAction = clSelector
-        tableview.target = self
-        
+//        tableview.target = self
         tableview.register(forDraggedTypes: [NSFilenamesPboardType])
-        
         //tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
         tableview.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: false)
     }
@@ -92,9 +91,28 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return items
     }
     
-    @IBAction func openFile(_ sender:AnyObject) {
-
+    @IBAction func onDoubleClick(_ sender:AnyObject) {
+        openFileOrDirectory(true)
+    }
+    
+    @IBAction func onRowClicked(_ sender:AnyObject) {
+        print("row was clicked, \(tableview.clickedRow)")
+        
+        if typeSelectIndices != nil && typeSelectIndices!.count > 0 {
+            clearTypeSelect()
+            
+            if tableview.clickedRow >= 0 {
+                selectRow(tableview.clickedRow)
+            }
+        }
+    }
+    
+    func openFileOrDirectory(_ isMouseClick: Bool) {
         let item = getSelectedItem()
+        
+        if isMouseClick && tableview.clickedRow == -1 {
+            return
+        }
         
         if let fsItem = item {
             print("fileURL: " + fsItem.fileURL.path)
@@ -218,10 +236,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        print("sortDescriptorsDidChange called.")
         refreshTableview()
-        print("sortDescriptorsDigChange")
-//        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(TabItemController.resetMarkedItems), userInfo: nil, repeats: false)
-
     }
     
     func refreshTableview() {
@@ -249,7 +265,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         } else {
             selectedIndexes = getIndexesForItems(selectedItems)
         }
-        tableview.selectRowIndexes(selectedIndexes as IndexSet, byExtendingSelection: false)
+        print("Start to reselect")
+        selectRow(selectedIndexes.firstIndex)
         tableview.markRowIndexes(getIndexesForItems(markedItems) as IndexSet, byExtendingSelection: false)
     }
     
@@ -291,19 +308,20 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         })
     }
     
-    func rememberSlectedItems() {
+    func rememberSelectedItems(_ selectedIndexes: IndexSet) {
+        print("Start to remember selected items")
         selectedItems.removeAll()
         
-        (tableview.selectedRowIndexes as NSIndexSet).enumerate({(index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
-            // todo: To be optimized for file deletion or move
-            if index < 0 || index >= self.curFsItem.children.count {
+        selectedIndexes.forEach {
+            if $0 < 0 || $0 >= self.curFsItem.children.count {
                 return
             }
-            let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
-            print("selectedIndex: \(index)")
+            
+            let fileRefURL = (self.curFsItem.children[$0].fileURL as NSURL).fileReferenceURL()
+            print("selectedIndex: \($0)")
             print("add file to selectedItems: \(fileRefURL!)")
             self.selectedItems.append(fileRefURL!)
-        })
+        }
     }
     
     func tableViewMarkedViewsDidChange() {
@@ -312,10 +330,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         updateMarkedRowsApperance()
     }
     
-    // TODO: This is to be removed if apple fixed its bug
     func tableViewSelectionDidChange(_ notification: Notification) {
         print("tableViewSelectionDigChange called. index: \(tableview.selectedRowIndexes.first)")
-        rememberSlectedItems()
         
         if isQLMode {
             QLPreviewPanel.shared().reloadData()
@@ -368,6 +384,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 
     func cleanTableViewData() {
         tableview.cleanData()
+        clearTypeSelect()
     }
     
     func changeDirectory(_ url: URL) {
@@ -435,18 +452,21 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             // h was used to emulate vim hotkeys
             // 127 is backspace key
             
-            if let field = typeSelectTextField {
-                if !field.isHidden {
-                    let stringValue = field.stringValue
-                    let len = stringValue.characters.count
-                    
-                    if len > 0 {
-                        field.stringValue = stringValue.substring(to: stringValue.characters.index(before: stringValue.endIndex))
+            if char == NSBackspaceFunctionKey && noneModifiers {
+                if let field = typeSelectTextField {
+                    if !field.isHidden {
+                        let stringValue = field.stringValue
+                        let len = stringValue.characters.count
+                        
+                        if len > 0 {
+                            field.stringValue = stringValue.substring(to: stringValue.characters.index(before: stringValue.endIndex))
+                        }
+                        
+                        return
                     }
-                    
-                    return
                 }
             }
+            
             
             let parentUrl = curFsItem.fileURL.deletingLastPathComponent()
             
@@ -461,7 +481,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
-            openFile(tableview)
+            openFileOrDirectory(false)
             return
             
 //        case convertToInt("h") where hasControl:
@@ -532,7 +552,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 toBeSelectedRowIndex = curFsItem.children.index(where: {$0.fileURL == lastViewedDir})
                 lastChildDir = nil
             }
-            selectRow(toBeSelectedRowIndex ?? 0)
+            
+            if toBeSelectedRowIndex != nil && toBeSelectedRowIndex! >= 0 {
+                selectRow(toBeSelectedRowIndex!)
+            }
         }
     }
     
@@ -667,14 +690,18 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     // tab键按下
     override func insertTab(_ sender: Any?) {
         print("Tab pressed")
-        let windowController = self.view.window!.windowController as! MainWindowController
-        windowController.switchFocus()
+        switchFocus()
     }
     
     // shift + tab键按下
     override func insertBacktab(_ sender: Any?) {
         print("Back tab pressed")
+        switchFocus()
+    }
+    
+    func switchFocus() {
         let windowController = self.view.window!.windowController as! MainWindowController
+        clearTypeSelect()
         windowController.switchFocus()
     }
     
@@ -684,6 +711,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         var stringValue: String
         
+        // If the textfield already exists
         if let field = typeSelectTextField {
             if field.isHidden {
                 field.isHidden = false
@@ -691,31 +719,48 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
             stringValue = field.stringValue + (insertString as! String)
         } else {
-            let frameRect = NSMakeRect(20, 20, 100, 20)
-            typeSelectTextField = NSTextField(frame: frameRect)
+            // Create a new NSTextField
+            typeSelectTextField = NSTextField()
             stringValue = insertString as! String
             
+            typeSelectTextField!.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(typeSelectTextField!)
+            typeSelectTextField?.isEditable = false
+            typeSelectTextField?.drawsBackground = false
+            
+            let trailingConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -20)
+            let bottomConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -20)
+            let widthConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 150)
+            let heightConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20)
+            self.view.addConstraints([widthConstraint, heightConstraint, trailingConstraint, bottomConstraint])
 //            self.view.window!.makeFirstResponder(textField!)
         }
         
-        let indexesArr = curFsItem.children.enumerated().filter {
-            $0.element.localizedName.range(of: stringValue, options: .caseInsensitive, range: nil, locale: nil) != nil
+        typeSelectIndices = curFsItem.children.enumerated().filter {
+            $0.element.localizedName.transformToPinYin().range(of: stringValue, options: .caseInsensitive, range: nil, locale: nil) != nil
         }.map {
             $0.offset
         }
         
-        if indexesArr.count > 0 {
+        if typeSelectIndices!.count > 0 {
             typeSelectTextField!.stringValue = stringValue
-            selectRow(indexesArr[0])
+            typeSelectIndex = 0;
+            
+            selectRow(typeSelectIndices![typeSelectIndex!])
         }
     }
     
     override func cancelOperation(_ sender: Any?) {
-        print("esc pressed")
-        
+        print("esc pressed, clear type select")
+        clearTypeSelect()
+    }
+    
+    func clearTypeSelect() {
+        print("Start to clear type select")
         typeSelectTextField?.stringValue = ""
         typeSelectTextField?.isHidden = true
+        typeSelectIndices = nil
+        typeSelectIndex = nil
     }
     
     convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -731,7 +776,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dateFormatter.timeStyle = .medium
         let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
         onDirChange(dirUrl)
-        selectRowIfNecessary()
     }
 
     required init?(coder: NSCoder) {
@@ -984,18 +1028,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         textField?.isEditable = false
     }
     
-//    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
-//        print("tableView selectionIndexesForProposedSelection called")
-//        print("proposedSelectionIndex: \(proposedSelectionIndexes.first)")
-//        
-//        let result: IndexSet!
-//        
-//        print("return proposedSelectionIndexes")
-//        result = proposedSelectionIndexes
-//        
-//        return result
-//    }
-    
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
         let items = getMarkedItems()
         return items.count
@@ -1049,6 +1081,71 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return item.fileURL as NSPasteboardWriting?
     }
     
+//    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+//        print("shouldSelectRow called")
+//        if let indices = typeSelectIndices {
+//            if indices.count > 0 && indices.contains(row) {
+//                return true
+//            } else {
+//                return false
+//            }
+//        } else {
+//            return true
+//        }
+//    }
+    
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
+        print("selectionIndexesForProposedSelection called.")
+        
+        let proposedIndex = proposedSelectionIndexes.first
+        let currentIndex = tableView.selectedRowIndexes.first
+        
+        var myArrIndex: Int?
+        var myProposedIndex: Int?
+        
+        var isAccept = false
+        
+        
+        if let indices = typeSelectIndices {
+            
+            print("typeSelectIndices is not nil, count: \(indices.count)")
+            
+            myArrIndex = indices.index(of: currentIndex ?? -1)
+            print("myArrIndex: \(myArrIndex)")
+            if indices.count > 1 && myArrIndex != nil && proposedIndex != nil && currentIndex != nil {
+                // Already at the upper bounds, and user pressed up arrow
+                if myArrIndex! == 0 && proposedIndex! < currentIndex! {
+                    myProposedIndex = indices[indices.count - 1]
+                }
+                // Already at the bottom bounds, and user clicked down arrow
+                if myArrIndex! == indices.count - 1 && proposedIndex! > currentIndex!  {
+                    myProposedIndex = indices[0]
+                }
+            }
+            
+            // proposedIndex is in my array
+            if indices.index(of: proposedIndex ?? -1) != nil {
+                isAccept = true
+            }
+        } else {
+            isAccept = true
+        }
+        
+        print("proposedIndex: \(proposedIndex)")
+        print("currentIndex: \(currentIndex)")
+        if isAccept {
+            print("return proposedIndex: \(proposedIndex)")
+            rememberSelectedItems(proposedSelectionIndexes)
+            return proposedSelectionIndexes
+        } else {
+            if let mpIndex = myProposedIndex {
+                selectRow(mpIndex)
+            }
+            print("return currentIndex: \(currentIndex)")
+            return IndexSet(integer: currentIndex ?? 0)
+        }
+    }
+
     func pasteboardReadingOptions() -> [String: AnyObject] {
         return [
             NSPasteboardURLReadingFileURLsOnlyKey: true as AnyObject
