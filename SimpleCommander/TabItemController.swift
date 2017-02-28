@@ -416,32 +416,23 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("keyCode: " + String(theEvent.keyCode))
         
         let flags = theEvent.modifierFlags
-        
         let s = theEvent.charactersIgnoringModifiers!
-        
         let char = convertToInt(s)
-        
         print("char:" + String(char))
         
         let hasCommand = flags.contains(.command)
-        
         let hasShift = flags.contains(.shift)
-        
         let hasAlt = flags.contains(.option)
-        
         let hasControl = flags.contains(.control)
-        
         print("hasCommand: " + String(hasCommand))
         print("hasShift: " + String(hasShift))
         print("hasAlt: " + String(hasAlt))
         print("hasControl: " + String(hasControl))
         
         let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
-        
         print("noneModifiers: " + String(noneModifiers))
         
         let NSBackspaceFunctionKey = 127
-        
         let NSEnterFunctionKey = 13
         
         switch char {
@@ -459,7 +450,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                         let len = stringValue.characters.count
                         
                         if len > 0 {
-                            field.stringValue = stringValue.substring(to: stringValue.characters.index(before: stringValue.endIndex))
+                            let filterString = stringValue.substring(to: stringValue.characters.index(before: stringValue.endIndex))
+                            field.stringValue = filterString
+                            updateTypeSelectMatches(byString: filterString)
                         }
                         
                         return
@@ -736,17 +729,21 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //            self.view.window!.makeFirstResponder(textField!)
         }
         
-        typeSelectIndices = curFsItem.children.enumerated().filter {
-            $0.element.localizedName.transformToPinYin().range(of: stringValue, options: .caseInsensitive, range: nil, locale: nil) != nil
-        }.map {
-            $0.offset
-        }
+        updateTypeSelectMatches(byString: stringValue)
         
         if typeSelectIndices!.count > 0 {
             typeSelectTextField!.stringValue = stringValue
             typeSelectIndex = 0;
             
             selectRow(typeSelectIndices![typeSelectIndex!])
+        }
+    }
+    
+    func updateTypeSelectMatches(byString string: String) {
+        typeSelectIndices = curFsItem.children.enumerated().filter {
+            $0.element.localizedName.transformToPinYin().range(of: string, options: .caseInsensitive, range: nil, locale: nil) != nil
+            }.map {
+                $0.offset
         }
     }
     
