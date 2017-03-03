@@ -58,13 +58,19 @@
          contextName = "TabItemController.onDirChange(URL) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "(self.view as! NSView)">
+            </PersistentString>
+            <PersistentString
                value = "self.view.superview">
             </PersistentString>
             <PersistentString
                value = "self.view">
             </PersistentString>
             <PersistentString
-               value = "(self.view as! NSView)">
+               value = "url.relativePath">
+            </PersistentString>
+            <PersistentString
+               value = "url">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -72,10 +78,10 @@
          contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.curFsItem.path">
+               value = "NSAlertFirstButtonReturn">
             </PersistentString>
             <PersistentString
-               value = "NSAlertFirstButtonReturn">
+               value = "self.curFsItem.path">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

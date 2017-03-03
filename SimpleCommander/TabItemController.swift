@@ -63,6 +63,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: false)
     }
     
+    override func viewWillDisappear() {
+        dm.stopMonitoring()
+    }
+    
     func getSelectedItem() -> FileSystemItem? {
         let selectedIndex = tableview.selectedRowIndexes
         if selectedIndex.count == 0 {
@@ -265,8 +269,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         } else {
             selectedIndexes = getIndexesForItems(selectedItems)
         }
+        
         print("Start to reselect")
-        selectRow(selectedIndexes.firstIndex)
+        if selectedIndexes.count > 0 {
+            selectRow(selectedIndexes.firstIndex)
+        }
         tableview.markRowIndexes(getIndexesForItems(markedItems) as IndexSet, byExtendingSelection: false)
     }
     
@@ -339,8 +346,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func onDirChange(_ url: URL) {
-        let suc = fileManager.changeCurrentDirectoryPath(url.path)
+        if !fileManager.fileExists(atPath: url.relativePath) {
+            backToParentDirectory()
+            return
+        }
         
+        let suc = fileManager.changeCurrentDirectoryPath(url.path)
         if (!suc) {
             print("change directory fail")
         }
@@ -378,7 +389,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dm = DirectoryMonitor(URL: curFsItem.fileURL)
         dm.delegate = self
         dm.startMonitoring()
-        
         print("start monitor \(curFsItem.fileURL.path)")
     }
 
@@ -410,6 +420,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let s1 = str.unicodeScalars
         let s2 = s1[s1.startIndex].value
         return Int(s2)
+    }
+    
+    func backToParentDirectory() {
+        var parentUrl = curFsItem.fileURL.deletingLastPathComponent()
+        while !fileManager.fileExists(atPath: parentUrl.relativePath) {
+            parentUrl = parentUrl.deletingLastPathComponent()
+        }
+        
+        // Remember last directory, this dir should be selected when backed to parent dir
+        lastChildDir = curFsItem.fileURL as URL
+        changeDirectory(parentUrl)
     }
     
     override func keyDown(with theEvent: NSEvent) {
@@ -460,13 +481,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 }
             }
             
-            
-            let parentUrl = curFsItem.fileURL.deletingLastPathComponent()
-            
-            // Remember last directory, this dir should be selected when backed to parent dir
-            lastChildDir = curFsItem.fileURL as URL
-            
-            changeDirectory(parentUrl)
+            backToParentDirectory()
             return
             
         case NSEnterFunctionKey where noneModifiers,
@@ -771,6 +786,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
+        
+        
         let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
         onDirChange(dirUrl)
     }
@@ -783,11 +800,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("directoryMonitorDidObserveChange")
         
         DispatchQueue.main.async(execute: {
+            // If the current directory was deleted, go to its parent directory
+            if !self.fileManager.fileExists(atPath: self.curFsItem.fileURL.relativePath) {
+                self.backToParentDirectory()
+                return
+            }
             self.refreshData()
             self.refreshTableview()
         })
     }
     
+    // Refresh the items if directory changes
     func refreshData() {
         curFsItem = FileSystemItem(fileURL: curFsItem.fileURL)
     }

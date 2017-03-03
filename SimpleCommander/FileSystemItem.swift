@@ -98,7 +98,7 @@ class FileSystemItem: NSObject {
         var isDirectory: ObjCBool = ObjCBool(true)
         let fileManager = FileManager.default
         
-        if (fileManager.fileExists(atPath: self.fileURL.relativePath)) {
+        if fileManager.fileExists(atPath: self.fileURL.relativePath) {
             
             if let itemURLs = try? fileManager.contentsOfDirectory(at: self.fileURL, includingPropertiesForKeys: self.propertyKeys, options:.skipsHiddenFiles) {
                 
