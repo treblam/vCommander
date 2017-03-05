@@ -453,6 +453,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
         print("noneModifiers: " + String(noneModifiers))
         
+        let isInputText = !hasCommand && !hasAlt && !hasControl
+        
         let NSBackspaceFunctionKey = 127
         let NSEnterFunctionKey = 13
         
@@ -536,6 +538,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
         default:
             break
+        }
+        
+        if let insertString = theEvent.characters {
+            if isInputText {
+                if handleInsertText(insertString) {
+                    return
+                }
+            }
         }
         
         interpretKeyEvents([theEvent])
@@ -714,7 +724,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     // Temporarily remove this feature.
-    override func insertText(_ insertString: Any) {
+    func handleInsertText(_ insertString: Any) -> Bool {
         print(insertString)
         
         var stringValue: String
@@ -741,17 +751,20 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             let widthConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 150)
             let heightConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20)
             self.view.addConstraints([widthConstraint, heightConstraint, trailingConstraint, bottomConstraint])
-//            self.view.window!.makeFirstResponder(textField!)
+//            self.view.window!.makeFirstResponder(typeSelectTextField!)
         }
         
         updateTypeSelectMatches(byString: stringValue)
         
+        // If find at least one match
         if typeSelectIndices!.count > 0 {
             typeSelectTextField!.stringValue = stringValue
             typeSelectIndex = 0;
             
             selectRow(typeSelectIndices![typeSelectIndex!])
+            return true
         }
+        return false
     }
     
     func updateTypeSelectMatches(byString string: String) {

@@ -29,14 +29,15 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
         
         tabBar.showAddTabButton = true
         tabBar.onlyShowCloseOnHover = true
         tabBar.setStyleNamed("Yosemite")
         
         restoreTabs()
-        
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            self.handleKeyDown(with: $0)
+        }
 //        listenForDirChanges()
     }
     
@@ -202,14 +203,55 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         closeTab()
     }
     
-    @IBAction func previousTab(_ sender: NSMenuItem) {
-        tabView.selectPreviousTabViewItem(sender)
-//        storeTabsData()
+    @IBAction func previousTab(_ sender: AnyObject?) {
+        let index = tabView.indexOfTabViewItem(tabView.selectedTabViewItem!)
+        
+        if index == 0 {
+            tabView.selectLastTabViewItem(sender)
+        } else {
+            tabView.selectPreviousTabViewItem(sender)
+        }
     }
     
-    @IBAction func nextTab(_ sender: NSMenuItem) {
-        tabView.selectNextTabViewItem(sender)
-//        storeTabsData()
+    @IBAction func nextTab(_ sender: AnyObject?) {
+        if tabView.indexOfTabViewItem(tabView.selectedTabViewItem!) == tabView.numberOfTabViewItems - 1 {
+            tabView.selectFirstTabViewItem(sender)
+        } else {
+            tabView.selectNextTabViewItem(sender)
+        }
     }
     
+    func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
+        if !isActive() {
+            return theEvent
+        }
+        
+        print("keyCode: " + String(theEvent.keyCode))
+        
+        
+        let flags = theEvent.modifierFlags
+        let hasShift = flags.contains(.shift)
+        let hasControl = flags.contains(.control)
+        print("hasShift: " + String(hasShift))
+        print("hasControl: " + String(hasControl))
+        
+        let TabKey_KeyCode: UInt16 = 48
+        
+        switch theEvent.keyCode {
+        case TabKey_KeyCode where hasControl && !hasShift:
+            nextTab(self.view)
+            return nil
+            
+        case TabKey_KeyCode where hasControl && hasShift:
+            previousTab(self.view)
+            return nil
+            
+        default:
+            return theEvent
+        }
+    }
+    
+    func isActive() -> Bool {
+        return (self.view.window?.firstResponder === (tabView.selectedTabViewItem?.viewController as! TabItemController).tableview)
+    }
 }
