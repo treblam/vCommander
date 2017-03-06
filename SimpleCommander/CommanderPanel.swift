@@ -51,8 +51,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let url = curViewController?.curFsItem.fileURL
         
         addNewTab(withUrl: url, andSelectIt: true)
-        
-//        storeTabsData()
     }
     
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false) {
@@ -79,10 +77,9 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         print("store tabs data called.")
         
         let items = tabView.tabViewItems
-        let bookmarks = items.map {item -> NSData in
+        let bookmarks = items.map { (item) -> NSData! in
             let controller = item.viewController as! TabItemController
             let url = controller.curFsItem.fileURL
-//            print("Start to generate bookmark for Url:" + url.absoluteString)
             return bookmarkForURL(url: url) as NSData!
         }
         
@@ -227,8 +224,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         }
         
         print("keyCode: " + String(theEvent.keyCode))
-        
-        
         let flags = theEvent.modifierFlags
         let hasShift = flags.contains(.shift)
         let hasControl = flags.contains(.control)
