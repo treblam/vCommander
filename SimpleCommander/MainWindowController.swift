@@ -31,6 +31,16 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     var rightTab: TabItemController! {
         return (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
     }
+    
+    var isPrimaryActive = true
+    
+    var activePanel: CommanderPanel {
+        return isPrimaryActive ? leftPanel : rightPanel
+    }
+    
+    var inactivePanel: CommanderPanel {
+        return isPrimaryActive ? rightPanel : leftPanel
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -45,8 +55,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         leftView.addSubview(leftPanel.view)
         rightView.addSubview(rightPanel.view)
         
-        self.window?.makeFirstResponder(leftPanel.tabView.selectedTabViewItem?.viewController?.view)
-        
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
         leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
@@ -57,8 +65,10 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
-        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
         
+        self.window?.makeFirstResponder((activePanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview)
+        
+        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
     }
     
     override func keyDown(with theEvent: NSEvent) {
@@ -71,34 +81,17 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     
     func switchFocus() {
         print("start to switch focus")
-        
-        print("firstResponder: " + self.window!.firstResponder.description)
-        
-        let leftTableView = (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
-        let rightTableView = (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
-        
-        print("leftPanel.tabView.selectedTabViewItem?.viewController!.view: " + leftTableView!.description)
-        
-        if self.window?.firstResponder === leftTableView {
-            self.window?.makeFirstResponder(rightTableView)
-        } else if self.window?.firstResponder === rightTableView {
-            self.window?.makeFirstResponder(leftTableView)
-        }
+        let tableview = (inactivePanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
+        self.window?.makeFirstResponder(tableview)
+        isPrimaryActive = !isPrimaryActive
     }
     
     func getTargetTabItem() -> TabItemController {
-        let leftViewController = (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
-        let rightViewController = (rightPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
-        
-        var result: TabItemController!
-        
-        if self.window?.firstResponder === leftViewController.tableview {
-            result = rightViewController
-        } else if self.window?.firstResponder === rightViewController.tableview {
-            result = leftViewController
-        }
-        
-        return result
+        return inactivePanel.tabView.selectedTabViewItem?.viewController as! TabItemController
+    }
+    
+    func openFile(for fileName: String) -> Bool {
+        return activePanel.openFile(for: fileName)
     }
     
     @IBAction func openPreferencePanel(_ sender: AnyObject?) {

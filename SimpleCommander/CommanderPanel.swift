@@ -53,23 +53,42 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         addNewTab(withUrl: url, andSelectIt: true)
     }
     
-    func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false) {
+    func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
         let newModel = TabBarModel()
         let newItem = NSTabViewItem(identifier: newModel)
         
-        let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url)
+        let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, withSelected: item)
         
         newModel.title = newItemController?.title ?? "Untitled"
         
         newItem.viewController = newItemController!
         newItem.identifier = newModel
         
-        print("add new tab hhhh")
+        print("add new tab")
         tabView.addTabViewItem(newItem)
         
         if isSelect! {
             tabView.selectTabViewItem(newItem)
         }
+    }
+    
+    func openFile(for fileName: String) -> Bool {
+        var result = false
+        var isDirectory: ObjCBool = false
+        let fileUrl = URL(fileURLWithPath: fileName)
+        var dirUrl: URL
+        if (FileManager.default.fileExists(atPath: fileName, isDirectory: &isDirectory)) {
+            if !isDirectory.boolValue {
+                dirUrl = fileUrl.deletingLastPathComponent()
+            } else {
+                dirUrl = fileUrl
+            }
+            
+            addNewTab(withUrl: dirUrl, andSelectIt: true, withSelected: fileUrl)
+            result = true
+        }
+        
+        return result
     }
     
     // Store all tab urls and selected index to UserDefaults
@@ -247,6 +266,6 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func isActive() -> Bool {
-        return (self.view.window?.firstResponder === (tabView.selectedTabViewItem?.viewController as! TabItemController).tableview)
+        return self == (self.view.window?.windowController as! MainWindowController).activePanel
     }
 }

@@ -99,6 +99,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         openFileOrDirectory(true)
     }
     
+    @IBAction func openFile(_ sender:AnyObject) {
+        openFileOrDirectory(false)
+    }
+    
     @IBAction func onRowClicked(_ sender:AnyObject) {
         print("row was clicked, \(tableview.clickedRow)")
         
@@ -792,7 +796,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil)
     }
     
-    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?) {
+    convenience init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?) {
+        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: url, withSelected: nil)
+    }
+    
+    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, withSelected itemUrl: URL?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         let homeDir = NSHomeDirectory();
@@ -800,7 +808,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
         
-        
+        lastChildDir = itemUrl
         let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
         onDirChange(dirUrl)
     }

@@ -59,6 +59,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
         print("restoreWindow in AppDelegate calle.")
         completionHandler(window, nil)
     }
+    
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        if let mainController = _mainWindowController {
+            return mainController.openFile(for: filename)
+        }
+        
+        return false
+    }
 
 }
 

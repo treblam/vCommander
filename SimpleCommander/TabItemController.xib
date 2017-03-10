@@ -21,7 +21,7 @@ DQ
 </string>
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="openFile:" target="-2" id="nZH-qT-Uhj"/>
+                        <action selector="openFile:" target="-2" id="0zl-jf-t2a"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Open with" id="jfn-Rw-45f">
