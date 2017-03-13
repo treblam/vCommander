@@ -61,7 +61,7 @@
 /* Begin PBXFileReference section */
 		7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextField.swift; sourceTree = "<group>"; };
 		7D42EF5B1BBE3515003383C0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		7D43B06D1B1CB53900E60257 /* SimpleCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleCommander-Bridging-Header.h"; sourceTree = "<group>"; };
+		7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vCommander-Bridging-Header.h"; sourceTree = "<group>"; };
 		7D48A0031B209A400043933D /* CommanderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommanderPanel.swift; sourceTree = "<group>"; };
 		7D48A0041B209A400043933D /* CommanderPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommanderPanel.xib; sourceTree = "<group>"; };
 		7D4F2E301DE1AFC1004D16DC /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
@@ -73,12 +73,12 @@
 		7D552D521B1E09FC00031203 /* TabItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabItemController.xib; sourceTree = "<group>"; };
 		7D7B0F381E639DFB0052DB63 /* String+transformToPinyin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+transformToPinyin.swift"; sourceTree = "<group>"; };
 		7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
-		7D94223E1B024441008429D5 /* SimpleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D94223E1B024441008429D5 /* vCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9422421B024441008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422431B024441008429D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D9422451B024441008429D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7D9422481B024442008429D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		7D94224E1B024442008429D5 /* SimpleCommanderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleCommanderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D94224E1B024442008429D5 /* vCommanderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = vCommanderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9422531B024442008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422541B024442008429D5 /* SimpleCommanderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCommanderTests.swift; sourceTree = "<group>"; };
 		7D94225E1B024480008429D5 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
@@ -127,8 +127,8 @@
 				7D4F2E301DE1AFC1004D16DC /* Cartfile */,
 				7D42EF5B1BBE3515003383C0 /* QuickLook.framework */,
 				7D5252E61BA3D66A006243F1 /* QuartzCore.framework */,
-				7D9422401B024441008429D5 /* SimpleCommander */,
-				7D9422511B024442008429D5 /* SimpleCommanderTests */,
+				7D9422401B024441008429D5 /* vCommander */,
+				7D9422511B024442008429D5 /* vCommanderTests */,
 				7D94223F1B024441008429D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,13 +136,13 @@
 		7D94223F1B024441008429D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7D94223E1B024441008429D5 /* SimpleCommander.app */,
-				7D94224E1B024442008429D5 /* SimpleCommanderTests.xctest */,
+				7D94223E1B024441008429D5 /* vCommander.app */,
+				7D94224E1B024442008429D5 /* vCommanderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7D9422401B024441008429D5 /* SimpleCommander */ = {
+		7D9422401B024441008429D5 /* vCommander */ = {
 			isa = PBXGroup;
 			children = (
 				7D7B0F371E639D9D0052DB63 /* Extensions */,
@@ -154,7 +154,7 @@
 				7D94225E1B024480008429D5 /* MainWindowController.swift */,
 				7D94225F1B024480008429D5 /* MainWindowController.xib */,
 				7DA9FA771B0644A90092C971 /* FileSystemItem.swift */,
-				7D43B06D1B1CB53900E60257 /* SimpleCommander-Bridging-Header.h */,
+				7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */,
 				7D552D4A1B1DE5A400031203 /* TabBarModel.swift */,
 				7D552D511B1E09FC00031203 /* TabItemController.swift */,
 				7D552D521B1E09FC00031203 /* TabItemController.xib */,
@@ -170,7 +170,7 @@
 				7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */,
 				7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */,
 			);
-			path = SimpleCommander;
+			path = vCommander;
 			sourceTree = "<group>";
 		};
 		7D9422411B024441008429D5 /* Supporting Files */ = {
@@ -181,13 +181,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7D9422511B024442008429D5 /* SimpleCommanderTests */ = {
+		7D9422511B024442008429D5 /* vCommanderTests */ = {
 			isa = PBXGroup;
 			children = (
 				7D9422541B024442008429D5 /* SimpleCommanderTests.swift */,
 				7D9422521B024442008429D5 /* Supporting Files */,
 			);
-			path = SimpleCommanderTests;
+			path = vCommanderTests;
 			sourceTree = "<group>";
 		};
 		7D9422521B024442008429D5 /* Supporting Files */ = {
@@ -201,9 +201,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7D94223D1B024441008429D5 /* SimpleCommander */ = {
+		7D94223D1B024441008429D5 /* vCommander */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7D9422581B024442008429D5 /* Build configuration list for PBXNativeTarget "SimpleCommander" */;
+			buildConfigurationList = 7D9422581B024442008429D5 /* Build configuration list for PBXNativeTarget "vCommander" */;
 			buildPhases = (
 				7D94223A1B024441008429D5 /* Sources */,
 				7D94223B1B024441008429D5 /* Frameworks */,
@@ -214,14 +214,14 @@
 			);
 			dependencies = (
 			);
-			name = SimpleCommander;
+			name = vCommander;
 			productName = SimpleCommander;
-			productReference = 7D94223E1B024441008429D5 /* SimpleCommander.app */;
+			productReference = 7D94223E1B024441008429D5 /* vCommander.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7D94224D1B024442008429D5 /* SimpleCommanderTests */ = {
+		7D94224D1B024442008429D5 /* vCommanderTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7D94225B1B024442008429D5 /* Build configuration list for PBXNativeTarget "SimpleCommanderTests" */;
+			buildConfigurationList = 7D94225B1B024442008429D5 /* Build configuration list for PBXNativeTarget "vCommanderTests" */;
 			buildPhases = (
 				7D94224A1B024442008429D5 /* Sources */,
 				7D94224B1B024442008429D5 /* Frameworks */,
@@ -232,9 +232,9 @@
 			dependencies = (
 				7D9422501B024442008429D5 /* PBXTargetDependency */,
 			);
-			name = SimpleCommanderTests;
+			name = vCommanderTests;
 			productName = SimpleCommanderTests;
-			productReference = 7D94224E1B024442008429D5 /* SimpleCommanderTests.xctest */;
+			productReference = 7D94224E1B024442008429D5 /* vCommanderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -259,7 +259,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7D9422391B024441008429D5 /* Build configuration list for PBXProject "SimpleCommander" */;
+			buildConfigurationList = 7D9422391B024441008429D5 /* Build configuration list for PBXProject "vCommander" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -272,8 +272,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7D94223D1B024441008429D5 /* SimpleCommander */,
-				7D94224D1B024442008429D5 /* SimpleCommanderTests */,
+				7D94223D1B024441008429D5 /* vCommander */,
+				7D94224D1B024442008429D5 /* vCommanderTests */,
 			);
 		};
 /* End PBXProject section */
@@ -338,7 +338,7 @@
 /* Begin PBXTargetDependency section */
 		7D9422501B024442008429D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7D94223D1B024441008429D5 /* SimpleCommander */;
+			target = 7D94223D1B024441008429D5 /* vCommander */;
 			targetProxy = 7D94224F1B024442008429D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -462,18 +462,18 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/SimpleCommander",
+					"$(PROJECT_DIR)/vCommander",
 					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = SimpleCommander/Info.plist;
+				INFOPLIST_FILE = vCommander/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SimpleCommander/SimpleCommander-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "vCommander/vCommander-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -487,18 +487,18 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/SimpleCommander",
+					"$(PROJECT_DIR)/vCommander",
 					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = SimpleCommander/Info.plist;
+				INFOPLIST_FILE = vCommander/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SimpleCommander/SimpleCommander-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "vCommander/vCommander-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -516,12 +516,12 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SimpleCommanderTests/Info.plist;
+				INFOPLIST_FILE = vCommanderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleCommander.app/Contents/MacOS/SimpleCommander";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vCommander.app/Contents/MacOS/vCommander";
 			};
 			name = Debug;
 		};
@@ -534,19 +534,19 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SimpleCommanderTests/Info.plist;
+				INFOPLIST_FILE = vCommanderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleCommander.app/Contents/MacOS/SimpleCommander";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vCommander.app/Contents/MacOS/vCommander";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7D9422391B024441008429D5 /* Build configuration list for PBXProject "SimpleCommander" */ = {
+		7D9422391B024441008429D5 /* Build configuration list for PBXProject "vCommander" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D9422561B024442008429D5 /* Debug */,
@@ -555,7 +555,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7D9422581B024442008429D5 /* Build configuration list for PBXNativeTarget "SimpleCommander" */ = {
+		7D9422581B024442008429D5 /* Build configuration list for PBXNativeTarget "vCommander" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D9422591B024442008429D5 /* Debug */,
@@ -564,7 +564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7D94225B1B024442008429D5 /* Build configuration list for PBXNativeTarget "SimpleCommanderTests" */ = {
+		7D94225B1B024442008429D5 /* Build configuration list for PBXNativeTarget "vCommanderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7D94225C1B024442008429D5 /* Debug */,

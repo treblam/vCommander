@@ -1,6 +1,6 @@
 //
 //  NSViewWithRectInset.swift
-//  SimpleCommander
+//  vCommander
 //
 //  Created by Jamie on 2017/2/23.
 //  Copyright © 2017年 Jamie. All rights reserved.

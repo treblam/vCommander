@@ -1,6 +1,6 @@
 //
 //  PreferenceManager.swift
-//  SimpleCommander
+//  vCommander
 //
 //  Created by Jamie on 15/11/8.
 //  Copyright © 2015年 Jamie. All rights reserved.

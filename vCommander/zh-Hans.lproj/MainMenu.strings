@@ -2,8 +2,8 @@
 /* Class = "NSMenuItem"; title = "Customize Toolbar…"; ObjectID = "1UK-8n-QPP"; */
 "1UK-8n-QPP.title" = "Customize Toolbar…";
 
-/* Class = "NSMenuItem"; title = "SimpleCommander"; ObjectID = "1Xt-HY-uBw"; */
-"1Xt-HY-uBw.title" = "SimpleCommander";
+/* Class = "NSMenuItem"; title = "vCommander"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "vCommander";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
 "1b7-l0-nxx.title" = "Find";
@@ -32,8 +32,8 @@
 /* Class = "NSMenuItem"; title = "Find"; ObjectID = "4EN-yA-p0u"; */
 "4EN-yA-p0u.title" = "Find";
 
-/* Class = "NSMenuItem"; title = "Quit SimpleCommander"; ObjectID = "4sb-4s-VLi"; */
-"4sb-4s-VLi.title" = "Quit SimpleCommander";
+/* Class = "NSMenuItem"; title = "Quit vCommander"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Quit vCommander";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
 "5QF-Oa-p0T.title" = "Edit";
@@ -41,8 +41,8 @@
 /* Class = "NSMenuItem"; title = "Copy Style"; ObjectID = "5Vv-lz-BsD"; */
 "5Vv-lz-BsD.title" = "Copy Style";
 
-/* Class = "NSMenuItem"; title = "About SimpleCommander"; ObjectID = "5kV-Vb-QxS"; */
-"5kV-Vb-QxS.title" = "About SimpleCommander";
+/* Class = "NSMenuItem"; title = "About vCommander"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "About vCommander";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "Redo";
@@ -80,8 +80,8 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "Help";
 
-/* Class = "NSMenuItem"; title = "SimpleCommander Help"; ObjectID = "FKE-Sm-Kum"; */
-"FKE-Sm-Kum.title" = "SimpleCommander Help";
+/* Class = "NSMenuItem"; title = "vCommander Help"; ObjectID = "FKE-Sm-Kum"; */
+"FKE-Sm-Kum.title" = "vCommander Help";
 
 /* Class = "NSMenuItem"; title = "Text"; ObjectID = "Fal-I4-PZk"; */
 "Fal-I4-PZk.title" = "Text";
@@ -158,8 +158,8 @@
 /* Class = "NSMenuItem"; title = "Baseline"; ObjectID = "OaQ-X3-Vso"; */
 "OaQ-X3-Vso.title" = "Baseline";
 
-/* Class = "NSMenuItem"; title = "Hide SimpleCommander"; ObjectID = "Olw-nP-bQN"; */
-"Olw-nP-bQN.title" = "Hide SimpleCommander";
+/* Class = "NSMenuItem"; title = "Hide vCommander"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Hide vCommander";
 
 /* Class = "NSMenuItem"; title = "Find Previous"; ObjectID = "OwM-mh-QMV"; */
 "OwM-mh-QMV.title" = "Find Previous";
@@ -347,8 +347,8 @@
 /* Class = "NSMenu"; title = "Kern"; ObjectID = "tlD-Oa-oAM"; */
 "tlD-Oa-oAM.title" = "Kern";
 
-/* Class = "NSMenu"; title = "SimpleCommander"; ObjectID = "uQy-DD-JDr"; */
-"uQy-DD-JDr.title" = "SimpleCommander";
+/* Class = "NSMenu"; title = "vCommander"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "vCommander";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
 "uRl-iY-unG.title" = "Cut";

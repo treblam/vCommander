@@ -1,6 +1,6 @@
 //
 //  FileSystemItem.swift
-//  SimpleCommander
+//  vCommander
 //
 //  Created by Jamie on 15/5/15.
 //  Copyright (c) 2015年 Jamie. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  SCPreferenceController.swift
-//  SimpleCommander
+//  vCommander
 //
 //  Created by Jamie on 15/11/9.
 //  Copyright © 2015年 Jamie. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  SCTableRowView.swift
-//  SimpleCommander
+//  vCommander
 //
 //  Created by Jamie on 15/7/5.
 //  Copyright (c) 2015年 Jamie. All rights reserved.
