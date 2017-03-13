@@ -55,15 +55,12 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
         let newModel = TabBarModel()
-        let newItem = NSTabViewItem(identifier: newModel)
-        
         let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, withSelected: item)
-        
         newModel.title = newItemController?.title ?? "Untitled"
         
+        let newItem = NSTabViewItem(identifier: newModel)
         newItem.viewController = newItemController!
         newItem.identifier = newModel
-        
         print("add new tab")
         tabView.addTabViewItem(newItem)
         
@@ -77,8 +74,9 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         var isDirectory: ObjCBool = false
         let fileUrl = URL(fileURLWithPath: fileName)
         var dirUrl: URL
+        let isPackage = NSWorkspace().isFilePackage(atPath: fileName)
         if (FileManager.default.fileExists(atPath: fileName, isDirectory: &isDirectory)) {
-            if !isDirectory.boolValue {
+            if !isDirectory.boolValue || isPackage {
                 dirUrl = fileUrl.deletingLastPathComponent()
             } else {
                 dirUrl = fileUrl

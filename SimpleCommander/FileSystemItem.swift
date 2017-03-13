@@ -92,7 +92,7 @@ class FileSystemItem: NSObject {
         }
     }()
     
-    lazy var children: [FileSystemItem] = { [unowned self] in
+    lazy var children: [FileSystemItem]! = { [unowned self] in
         
         var childs: [FileSystemItem] = []
         var isDirectory: ObjCBool = ObjCBool(true)

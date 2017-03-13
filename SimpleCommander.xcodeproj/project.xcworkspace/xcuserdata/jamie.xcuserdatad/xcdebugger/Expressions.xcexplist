@@ -3,21 +3,13 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         contextName = "TabItemController.rememberSlectedItems() -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "files">
+               value = "tableview.selectedRowIndexes">
             </PersistentString>
             <PersistentString
-               value = "arrangedObjects">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "tableview">
+               value = "tableview.selectedRowIndexes.first">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -33,24 +25,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.rememberSlectedItems() -&gt; ():TabItemController.swift">
+         contextName = "TabItemController.onRowClicked(AnyObject) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableview.selectedRowIndexes">
-            </PersistentString>
-            <PersistentString
-               value = "tableview.selectedRowIndexes.first">
+               value = "tableview.clickedRow">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:TabItemController.swift">
+         contextName = "TabItemController.tableViewSelectionDidChange(Notification) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "lastChildDir">
+               value = "tableview.selectedRowIndexes">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.TabItemController.onDirChange (SimpleCommander.TabItemController)(ObjectiveC.NSURL) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "item">
+               value = "tableview">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -75,21 +69,92 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
+         contextName = "static AppDelegate.restoreWindow(withIdentifier : String, state : NSCoder, completionHandler : (NSWindow?, Error?) -&gt; ()) -&gt; ():AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
-               value = "NSAlertFirstButtonReturn">
+               value = "appDelegate">
             </PersistentString>
             <PersistentString
-               value = "self.curFsItem.path">
+               value = "window">
+            </PersistentString>
+            <PersistentString
+               value = "appDelegate.mainWindowController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
+         contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "convertToInt(&quot;G&quot;)">
+               value = "index">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.MainWindowController.windowDidLoad (SimpleCommander.MainWindowController)() -&gt; ():MainWindowController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "files">
+            </PersistentString>
+            <PersistentString
+               value = "arrangedObjects">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SimpleCommander.SCTableRowView.drawSelectionInRect (SimpleCommander.SCTableRowView)(C.CGRect) -&gt; ():SCTableRowView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.None">
+            </PersistentString>
+            <PersistentString
+               value = "self.selectionHighlightStyle">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.openFile(AnyObject) -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableview.clickedRow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.tableView(NSTableView, viewFor : NSTableColumn?, row : Int) -&gt; NSView?:TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "lastChildDir">
+            </PersistentString>
+            <PersistentString
+               value = "item">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.reselectIfNecessary() -&gt; ():TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.(directoryMonitorDidObserveChange(DirectoryMonitor) -&gt; ()).(closure #1):TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedItems">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabItemController.(deleteSelectedFiles(AnyObject?) -&gt; ()).(closure #2):TabItemController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.curFsItem.path">
+            </PersistentString>
+            <PersistentString
+               value = "NSAlertFirstButtonReturn">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -105,21 +170,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "AppDelegate.applicationDidFinishLaunching(Notification) -&gt; ():AppDelegate.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "mainWindowController.window?">
-            </PersistentString>
-            <PersistentString
-               value = "mainWindowController">
-            </PersistentString>
-            <PersistentString
-               value = "mainWindowController.window?.isRestorable">
-            </PersistentString>
-            <PersistentString
-               value = "mainWindowController.window">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "TabItemController.refreshTableview() -&gt; ():TabItemController.swift">
       </ContextState>
       <ContextState
          contextName = "SimpleCommander.TabItemController.keyDown (SimpleCommander.TabItemController)(ObjectiveC.NSEvent) -&gt; ():TabItemController.swift">
@@ -129,25 +180,6 @@
             </PersistentString>
             <PersistentString
                value = "theEvent.modifierFlags &amp; .CommandKeyMask != nil">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.TabItemController.getSelectedItem (SimpleCommander.TabItemController)() -&gt; SimpleCommander.FileSystemItem:TabItemController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "index">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SimpleCommander.SCTableRowView.drawSelectionInRect (SimpleCommander.SCTableRowView)(C.CGRect) -&gt; ():SCTableRowView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.None">
-            </PersistentString>
-            <PersistentString
-               value = "self.selectionHighlightStyle">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -171,40 +203,41 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "static AppDelegate.restoreWindow(withIdentifier : String, state : NSCoder, completionHandler : (NSWindow?, Error?) -&gt; ()) -&gt; ():AppDelegate.swift">
+         contextName = "TabItemController.keyDown(NSEvent) -&gt; ():TabItemController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "appDelegate">
-            </PersistentString>
-            <PersistentString
-               value = "window">
-            </PersistentString>
-            <PersistentString
-               value = "appDelegate.mainWindowController">
+               value = "convertToInt(&quot;G&quot;)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.onRowClicked(AnyObject) -&gt; ():TabItemController.swift">
+         contextName = "AppDelegate.applicationDidFinishLaunching(Notification) -&gt; ():AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableview.clickedRow">
+               value = "mainWindowController.window?">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController.window?.isRestorable">
+            </PersistentString>
+            <PersistentString
+               value = "mainWindowController.window">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabItemController.tableViewSelectionDidChange(Notification) -&gt; ():TabItemController.swift">
+         contextName = "DirectoryMonitor.startMonitoring() -&gt; ():DirectoryMonitor.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableview.selectedRowIndexes">
+               value = "monitoredDirectoryFileDescriptor">
             </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "TabItemController.openFile(AnyObject) -&gt; ():TabItemController.swift">
-         <PersistentStrings>
             <PersistentString
-               value = "tableview.clickedRow">
+               value = "directoryMonitorSource">
+            </PersistentString>
+            <PersistentString
+               value = "URL.path">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

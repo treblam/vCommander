@@ -25,7 +25,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     let preferenceManager = PreferenceManager()
     
-    var dm: DirectoryMonitor!
+    var directoryMonitor: DirectoryMonitor!
     
     var lastChildDir: URL?
     var lastChildDirIndex: Int?
@@ -46,7 +46,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     let pasteboard = NSPasteboard.general()
     
     var selectedItems = [URL]()
+    var selectedIndexes: IndexSet?
     var markedItems = [URL]()
+    var needToRestoreSelected = false
     
     var isLeft: Bool {
         let windowController = self.view.window!.windowController as! MainWindowController
@@ -64,7 +66,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func viewWillDisappear() {
-        dm.stopMonitoring()
+//        directoryMonitor.stopMonitoring()
     }
     
     func getSelectedItem() -> FileSystemItem? {
@@ -96,11 +98,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     @IBAction func onDoubleClick(_ sender:AnyObject) {
-        openFileOrDirectory(true)
+        openFileOrDirectory(byMouseClick: true)
     }
     
     @IBAction func openFile(_ sender:AnyObject) {
-        openFileOrDirectory(false)
+        openFileOrDirectory()
     }
     
     @IBAction func onRowClicked(_ sender:AnyObject) {
@@ -115,7 +117,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
-    func openFileOrDirectory(_ isMouseClick: Bool) {
+    func openFileOrDirectory(byMouseClick isMouseClick: Bool = false) {
         let item = getSelectedItem()
         
         if isMouseClick && tableview.clickedRow == -1 {
@@ -125,7 +127,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if let fsItem = item {
             print("fileURL: " + fsItem.fileURL.path)
             if (fsItem.isDirectory) {
-                changeDirectory(fsItem.fileURL as URL)
+                goToDirectory(withUrl: fsItem.fileURL as URL)
             } else {
                 print("It's not directory, can't step into")
                 workspace.openFile(fsItem.fileURL.path)
@@ -250,34 +252,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func refreshTableview() {
         print("refreshTableview called")
-        
-        var selectedIndexes = NSMutableIndexSet()
-        
         sortData()
-        
         tableview.reloadData()
         
-        if let url = lastRenamedFileURL {
-            lastRenamedFileIndex = curFsItem.children.index {fileItem in
-                return fileItem.fileURL.path == url.path
-            }
-            
-            if let theIndex = lastRenamedFileIndex {
-                selectedIndexes.add(theIndex)
-            } else {
-                selectedIndexes = getIndexesForItems(selectedItems)
-            }
-            print("lastRenamedFileURL: \(lastRenamedFileURL)")
-            print("lastRenamedFileIndex: \(lastRenamedFileIndex)")
-            lastRenamedFileURL = nil
-        } else {
-            selectedIndexes = getIndexesForItems(selectedItems)
-        }
-        
-        print("Start to reselect")
-        if selectedIndexes.count > 0 {
-            selectRow(selectedIndexes.firstIndex)
-        }
+        print("Start to reselect items")
+        reselectIfNecessary()
         tableview.markRowIndexes(getIndexesForItems(markedItems) as IndexSet, byExtendingSelection: false)
     }
     
@@ -290,19 +269,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func getIndexesForItems(_ items: [URL]) -> NSMutableIndexSet {
-        let indexes = NSMutableIndexSet()
-        
-        for item in items {
-            let index = curFsItem.children.index {
-                ($0.fileURL as NSURL).fileReferenceURL() == item
-            }
-            
-            if let theIndex = index {
-                indexes.add(theIndex)
-            }
+        let result = NSMutableIndexSet()
+        let index = curFsItem.children.index {
+            items.contains(($0.fileURL as NSURL).fileReferenceURL()!)
         }
         
-        return indexes
+        if let i = index {
+            result.add(i)
+        }
+        return result
     }
     
     func rememberMarkedItems() {
@@ -319,19 +294,31 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         })
     }
     
-    func rememberSelectedItems(_ selectedIndexes: IndexSet) {
+    func updateSelectedItems(withIndexes indexes: IndexSet) {
         print("Start to remember selected items")
+        selectedIndexes = indexes
         selectedItems.removeAll()
         
-        selectedIndexes.forEach {
+        indexes.forEach {
             if $0 < 0 || $0 >= self.curFsItem.children.count {
                 return
             }
             
             let fileRefURL = (self.curFsItem.children[$0].fileURL as NSURL).fileReferenceURL()
-            print("selectedIndex: \($0)")
-            print("add file to selectedItems: \(fileRefURL!)")
-            self.selectedItems.append(fileRefURL!)
+            if fileRefURL != nil {
+                print("add file to selectedItems: \(fileRefURL!)")
+                self.selectedItems.append(fileRefURL!)
+            }
+        }
+    }
+    
+    func updateSelectedItems(withUrl url: URL) {
+        selectedIndexes = getIndexesForItems([url]) as IndexSet
+        selectedItems.removeAll()
+        let fileRefURL = (url as NSURL).fileReferenceURL()
+        
+        if fileRefURL != nil {
+            selectedItems.append(fileRefURL!)
         }
     }
     
@@ -341,70 +328,83 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         updateMarkedRowsApperance()
     }
     
+    func clearSelectedItems() {
+        selectedItems.removeAll()
+        selectedIndexes = nil
+    }
+    
     func tableViewSelectionDidChange(_ notification: Notification) {
         print("tableViewSelectionDigChange called. index: \(tableview.selectedRowIndexes.first)")
+        updateSelectedItems(withIndexes: tableview.selectedRowIndexes)
         
         if isQLMode {
             QLPreviewPanel.shared().reloadData()
         }
     }
+
+    func cleanTableViewData(_ isFromChild: Bool) {
+        tableview.cleanData()
+        clearTypeSelect()
+        if !isFromChild {
+            clearSelectedItems()
+        }
+    }
     
-    func onDirChange(_ url: URL) {
+    func goToDirectory(withUrl url: URL, andNoReload noReload: Bool = false, fromChild isFromChild: Bool = false) {
         if !fileManager.fileExists(atPath: url.relativePath) {
             backToParentDirectory()
             return
         }
         
-        let suc = fileManager.changeCurrentDirectoryPath(url.path)
-        if (!suc) {
-            print("change directory fail")
-        }
+        //        todo: review whether should I use fileManager.changeCurrentDirectoryPath here
+        //        let suc = fileManager.changeCurrentDirectoryPath(url.path)
+        //        if (!suc) {
+        //            print("change directory fail")
+        //        }
+        //
+        //        print(fileManager.currentDirectoryPath)
         
-        print(fileManager.currentDirectoryPath)
-        
-        curFsItem = FileSystemItem(fileURL: URL(fileURLWithPath: fileManager.currentDirectoryPath))
-        
-        title = curFsItem.localizedName
+        curFsItem = FileSystemItem(fileURL: url)
         
         // Clean the data for last directory
         if (tableview !== nil) {
             print("clean data")
-            cleanTableViewData()
+            cleanTableViewData(isFromChild)
         }
         
-        print("Change directory success")
-        
         // Notify the panel the directory was changed.
-//        sendNotification()
+        // sendNotification()
         
-       // let tabItem = (self.view.superview as! NSTabView).selectedTabViewItem
-       // let model = tabItem?.identifier as! TabBarModel
-        
-       // model.title = title ?? "Untitled"
-       // tabItem?.identifier = model
-
+        // Change tab name
+        self.title = curFsItem.localizedName
         if let tabview = (self.view.superview as? NSTabView) {
             let tabItem = tabview.selectedTabViewItem
             let model = tabItem?.identifier as? TabBarModel
-            model?.title = title ?? "Untitled"
+            model?.title = self.title!
             tabItem?.identifier = model
         }
         
-        dm = DirectoryMonitor(URL: curFsItem.fileURL)
-        dm.delegate = self
-        dm.startMonitoring()
-        print("start monitor \(curFsItem.fileURL.path)")
-    }
-
-    func cleanTableViewData() {
-        tableview.cleanData()
-        clearTypeSelect()
+        startMonitoring(directory: url)
+        
+        if !noReload {
+            tableview.reloadData()
+        }
+        reselectIfNecessary()
     }
     
-    func changeDirectory(_ url: URL) {
-        onDirChange(url)
-        tableview.reloadData()
-        selectRowIfNecessary()
+    func startMonitoring(directory url: URL) {
+        // Start to monitor directory for changes
+        if directoryMonitor != nil {
+//            directoryMonitor.stopMonitoring()
+            directoryMonitor.delegate = nil
+            directoryMonitor = nil
+        }
+        
+        directoryMonitor = DirectoryMonitor(URL: url)
+        directoryMonitor.delegate = self
+        directoryMonitor.URL = url
+        directoryMonitor.startMonitoring()
+        print("start monitor \(curFsItem.fileURL.path)")
     }
     
     func sendNotification() {
@@ -433,8 +433,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
         
         // Remember last directory, this dir should be selected when backed to parent dir
-        lastChildDir = curFsItem.fileURL as URL
-        changeDirectory(parentUrl)
+        updateSelectedItems(withUrl: curFsItem.fileURL as URL)
+        goToDirectory(withUrl: parentUrl, andNoReload: false, fromChild: true)
     }
     
     override func keyDown(with theEvent: NSEvent) {
@@ -495,7 +495,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
-            openFileOrDirectory(false)
+            openFileOrDirectory()
             return
             
 //        case convertToInt("h") where hasControl:
@@ -567,18 +567,38 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.scrollRowToVisible(row)
     }
     
-    func selectRowIfNecessary() {
-        var toBeSelectedRowIndex: Int?
-        if curFsItem.children.count > 0 {
-            if let lastViewedDir = lastChildDir {
-                toBeSelectedRowIndex = curFsItem.children.index(where: {$0.fileURL == lastViewedDir})
-                lastChildDir = nil
-            }
-            
-            if toBeSelectedRowIndex != nil && toBeSelectedRowIndex! >= 0 {
-                selectRow(toBeSelectedRowIndex!)
-            }
+    func reselectIfNecessary() {
+        let indexesForUrls = getIndexesForItems(selectedItems)
+        var toBeSelectedIndex: Int?
+        if indexesForUrls.count > 0 {
+            toBeSelectedIndex = indexesForUrls.firstIndex
+        } else {
+            toBeSelectedIndex = selectedIndexes?.first ?? 0
         }
+        
+        let count = curFsItem.children.count
+        if count > 0 {
+            if toBeSelectedIndex != nil {
+                if toBeSelectedIndex! < 0 {
+                    toBeSelectedIndex = 0
+                } else if toBeSelectedIndex! >= count {
+                    toBeSelectedIndex = count - 1
+                }
+            }
+            selectRow(toBeSelectedIndex ?? 0)
+        }
+        
+//        var toBeSelectedRowIndex: Int?
+//        if curFsItem.children.count > 0 {
+//            if let lastViewedDir = lastChildDir {
+//                toBeSelectedRowIndex = curFsItem.children.index(where: {$0.fileURL == lastViewedDir})
+//                lastChildDir = nil
+//            }
+//            
+//            if toBeSelectedRowIndex != nil && toBeSelectedRowIndex! >= 0 {
+//                selectRow(toBeSelectedRowIndex!)
+//            }
+//        }
     }
     
     func clearGPressed() {
@@ -793,7 +813,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil)
+        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil, withSelected: nil)
     }
     
     convenience init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?) {
@@ -803,14 +823,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, withSelected itemUrl: URL?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        let homeDir = NSHomeDirectory();
-        
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
         
-        lastChildDir = itemUrl
-        let dirUrl = url ?? URL(fileURLWithPath: homeDir, isDirectory: true)
-        onDirChange(dirUrl)
+        if itemUrl != nil {
+            updateSelectedItems(withUrl: itemUrl!)
+        }
+        let dirUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        goToDirectory(withUrl: dirUrl, andNoReload: true)
     }
 
     required init?(coder: NSCoder) {
@@ -819,7 +839,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func directoryMonitorDidObserveChange(_ directoryMonitor: DirectoryMonitor) {
         print("directoryMonitorDidObserveChange")
-        
         DispatchQueue.main.async(execute: {
             // If the current directory was deleted, go to its parent directory
             if !self.fileManager.fileExists(atPath: self.curFsItem.fileURL.relativePath) {
@@ -833,6 +852,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     // Refresh the items if directory changes
     func refreshData() {
+//        curFsItem.children = nil
         curFsItem = FileSystemItem(fileURL: curFsItem.fileURL)
     }
     
@@ -857,8 +877,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 let theError: NSErrorPointer? = nil
                 do {
                     try self.fileManager.createDirectory(at: dirUrl, withIntermediateDirectories: false, attributes: nil)
-                    // Select the new directory after create
-                    self.lastRenamedFileURL = dirUrl
+                    print("Start to updateSelectedItems")
+                    self.updateSelectedItems(withUrl: dirUrl)
                 } catch let error as NSError {
                     theError??.pointee = error
                     // handle the error
@@ -1056,11 +1076,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 try fileManager.moveItem(atPath: currentName!, toPath: newName!)
                 // Remember the path after rename
                 print("Rename done.")
+                // no need to update selectedItems, cause it's been done
+//                let encodedNewName = newName!.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                 
-                let encodedNewName = newName!.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                if let theEncodedNewName = encodedNewName {
-                    lastRenamedFileURL = URL(string: theEncodedNewName, relativeTo: curFsItem.fileURL as URL)!
-                }
+//                if let theEncodedNewName = encodedNewName {
+//                    updateSelectedItems(withUrl: URL(string: theEncodedNewName, relativeTo: curFsItem.fileURL as URL)!)
+//                }
             } catch let error as NSError {
                 print("Ooops! Something went wrong: \(error)")
             }
@@ -1141,16 +1162,18 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let proposedIndex = proposedSelectionIndexes.first
         let currentIndex = tableView.selectedRowIndexes.first
         
-        var myArrIndex: Int?
-        var myProposedIndex: Int?
-        
+        // should I accept the proposed index
         var isAccept = false
         
+        // type select array index
+        var myArrIndex: Int?
+        
+        var myProposedIndex: Int?
+        
+//        let selectedIndexes = NSMutableIndexSet()
         
         if let indices = typeSelectIndices {
-            
             print("typeSelectIndices is not nil, count: \(indices.count)")
-            
             myArrIndex = indices.index(of: currentIndex ?? -1)
             print("myArrIndex: \(myArrIndex)")
             if indices.count > 1 && myArrIndex != nil && proposedIndex != nil && currentIndex != nil {
@@ -1164,25 +1187,52 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 }
             }
             
-            // proposedIndex is in my array
+            // if proposedIndex is in my array, just accept it
             if indices.index(of: proposedIndex ?? -1) != nil {
                 isAccept = true
             }
-        } else {
+        } else if proposedIndex != nil {
             isAccept = true
         }
         
+        /*else {
+            if let url = lastRenamedFileURL {
+                lastRenamedFileIndex = curFsItem.children.index {fileItem in
+                    return fileItem.fileURL.path == url.path
+                }
+                
+                if let theIndex = lastRenamedFileIndex {
+                    selectedIndexes.add(theIndex)
+                    selectedItems.removeAll()
+                }
+                
+                print("lastRenamedFileURL: \(lastRenamedFileURL)")
+                print("lastRenamedFileIndex: \(lastRenamedFileIndex)")
+                lastRenamedFileURL = nil
+            }
+            
+            print("Start to reselect")
+            if selectedIndexes.count > 0 {
+                myProposedIndex = selectedIndexes.firstIndex
+                if myProposedIndex == proposedIndex {
+                    isAccept = true
+                }
+            } else {
+                isAccept = true
+            }
+        }*/
+        
         print("proposedIndex: \(proposedIndex)")
         print("currentIndex: \(currentIndex)")
+        
         if isAccept {
-            print("return proposedIndex: \(proposedIndex)")
-            rememberSelectedItems(proposedSelectionIndexes)
+            print("Accept proposedIndex, and remember it: \(proposedIndex)")
             return proposedSelectionIndexes
         } else {
-            if let mpIndex = myProposedIndex {
-                selectRow(mpIndex)
+            if let index = myProposedIndex {
+                print("Start to select myProposedIndex: \(index)")
+                selectRow(index)
             }
-            print("return currentIndex: \(currentIndex)")
             return IndexSet(integer: currentIndex ?? 0)
         }
     }
