@@ -2,49 +2,78 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="CommanderPanel" customModule="SimpleCommander" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="CommanderPanel" customModule="vCommander" customModuleProvider="target">
             <connections>
                 <outlet property="tabBar" destination="sdO-nP-7kp" id="zed-jU-aFZ"/>
                 <outlet property="tabView" destination="Wg5-CC-E0k" id="afq-yS-MBC"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+                <outlet property="visualEffectView" destination="tA1-iV-zmB" id="2uh-4T-kGZ"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY" customClass="FlippedView" customModule="SimpleCommander" customModuleProvider="target">
+        <customView wantsLayer="YES" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
             <rect key="frame" x="0.0" y="0.0" width="505" height="505"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="sdO-nP-7kp" customClass="MMTabBarView">
-                    <rect key="frame" x="0.0" y="479" width="505" height="26"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="26" id="GOg-S8-3a8"/>
-                    </constraints>
-                    <connections>
-                        <outlet property="delegate" destination="-2" id="usI-GR-Eco"/>
-                        <outlet property="partnerView" destination="Wg5-CC-E0k" id="7l2-BN-Y1U"/>
-                        <outlet property="tabView" destination="Wg5-CC-E0k" id="mN1-DQ-Xlr"/>
-                    </connections>
-                </customView>
-                <tabView focusRingType="exterior" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Wg5-CC-E0k">
-                    <rect key="frame" x="0.0" y="0.0" width="505" height="479"/>
-                    <font key="font" metaFont="system"/>
-                    <tabViewItems/>
-                    <connections>
-                        <outlet property="delegate" destination="sdO-nP-7kp" id="Izb-XS-tyd"/>
-                    </connections>
-                </tabView>
+                <box boxType="custom" borderType="bezel" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="6S9-1q-sQC">
+                    <rect key="frame" x="0.0" y="0.0" width="505" height="505"/>
+                    <view key="contentView" id="eRc-fD-0CB">
+                        <rect key="frame" x="1" y="1" width="503" height="503"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tabView wantsLayer="YES" focusRingType="exterior" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Wg5-CC-E0k">
+                                <rect key="frame" x="0.0" y="0.0" width="503" height="503"/>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems/>
+                                <connections>
+                                    <outlet property="delegate" destination="sdO-nP-7kp" id="Izb-XS-tyd"/>
+                                </connections>
+                            </tabView>
+                            <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="tA1-iV-zmB">
+                                <rect key="frame" x="0.0" y="478" width="503" height="25"/>
+                                <subviews>
+                                    <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sdO-nP-7kp" customClass="VCTabBarView" customModule="vCommander" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="503" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="Aa5-ih-2X8"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="-2" id="usI-GR-Eco"/>
+                                            <outlet property="partnerView" destination="Wg5-CC-E0k" id="7l2-BN-Y1U"/>
+                                            <outlet property="tabView" destination="Wg5-CC-E0k" id="mN1-DQ-Xlr"/>
+                                        </connections>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="sdO-nP-7kp" firstAttribute="top" secondItem="tA1-iV-zmB" secondAttribute="top" id="7h6-Pb-skA"/>
+                                    <constraint firstItem="sdO-nP-7kp" firstAttribute="leading" secondItem="tA1-iV-zmB" secondAttribute="leading" id="nhi-XZ-DKL"/>
+                                    <constraint firstAttribute="bottom" secondItem="sdO-nP-7kp" secondAttribute="bottom" id="o5l-LP-bjQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="sdO-nP-7kp" secondAttribute="trailing" id="qzu-7f-fUe"/>
+                                </constraints>
+                            </visualEffectView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="tA1-iV-zmB" firstAttribute="top" secondItem="eRc-fD-0CB" secondAttribute="top" id="7jR-6N-fwm"/>
+                            <constraint firstAttribute="trailing" secondItem="tA1-iV-zmB" secondAttribute="trailing" id="I1o-t1-1vr"/>
+                            <constraint firstItem="Wg5-CC-E0k" firstAttribute="top" secondItem="eRc-fD-0CB" secondAttribute="top" id="KYA-kE-3ma"/>
+                            <constraint firstAttribute="trailing" secondItem="Wg5-CC-E0k" secondAttribute="trailing" id="gWc-Pw-SCp"/>
+                            <constraint firstItem="Wg5-CC-E0k" firstAttribute="leading" secondItem="eRc-fD-0CB" secondAttribute="leading" id="oFG-6c-lwH"/>
+                            <constraint firstAttribute="bottom" secondItem="Wg5-CC-E0k" secondAttribute="bottom" id="ozg-9Q-Pbw"/>
+                            <constraint firstItem="tA1-iV-zmB" firstAttribute="leading" secondItem="eRc-fD-0CB" secondAttribute="leading" id="skC-SW-d3B"/>
+                        </constraints>
+                    </view>
+                    <color key="borderColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                </box>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="sdO-nP-7kp" secondAttribute="trailing" id="1gd-sL-jxJ"/>
-                <constraint firstItem="Wg5-CC-E0k" firstAttribute="top" secondItem="sdO-nP-7kp" secondAttribute="bottom" id="2PI-0O-hSF"/>
-                <constraint firstItem="sdO-nP-7kp" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="5bf-q0-5gg"/>
-                <constraint firstItem="Wg5-CC-E0k" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="cjK-NH-z18"/>
-                <constraint firstItem="sdO-nP-7kp" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="ggS-1A-hBe"/>
-                <constraint firstAttribute="trailing" secondItem="Wg5-CC-E0k" secondAttribute="trailing" id="jDJ-ga-fhj"/>
-                <constraint firstAttribute="bottom" secondItem="Wg5-CC-E0k" secondAttribute="bottom" id="vBj-A0-vJk"/>
+                <constraint firstItem="6S9-1q-sQC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="7lY-8q-xF1"/>
+                <constraint firstItem="6S9-1q-sQC" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="IaC-gQ-opR"/>
+                <constraint firstAttribute="trailing" secondItem="6S9-1q-sQC" secondAttribute="trailing" id="ecq-OR-qOf"/>
+                <constraint firstAttribute="bottom" secondItem="6S9-1q-sQC" secondAttribute="bottom" id="uLl-fW-8Vz"/>
             </constraints>
             <point key="canvasLocation" x="151.5" y="543.5"/>
         </customView>

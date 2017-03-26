@@ -16,6 +16,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     
     let preferenceController = SCPreferenceController()
     
+    var subWindowController: MainWindowController?
+    
     override var windowNibName: String {
         return "MainWindowController"
     }
@@ -38,6 +40,10 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         return isPrimaryActive ? leftPanel : rightPanel
     }
     
+    var activeTab: TabItemController {
+        return activePanel.tabView.selectedTabViewItem?.viewController as! TabItemController
+    }
+    
     var inactivePanel: CommanderPanel {
         return isPrimaryActive ? rightPanel : leftPanel
     }
@@ -45,6 +51,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     override func windowDidLoad() {
         super.windowDidLoad()
         
+//        self.window.allowsAutomaticWindowTabbing
         leftPanel.view.translatesAutoresizingMaskIntoConstraints = false
         rightPanel.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,15 +72,36 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
+        print("isPrimaryActive: \(isPrimaryActive)")
         
-        self.window?.makeFirstResponder((activePanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview)
+        print(activeTab.title ?? "no title")
+        if (activeTab.tableview == nil) {
+            print("tableview is nil")
+        }
+        self.window?.makeFirstResponder(activeTab.tableview)
         
-        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
+//        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
+        
+        self.window?.titleVisibility = .hidden
+//        self.window?.titlebarAppearsTransparent = true
+        self.window?.styleMask.insert(.fullSizeContentView)
     }
     
     override func keyDown(with theEvent: NSEvent) {
         interpretKeyEvents([theEvent])
     }
+    
+//    @IBAction override func newWindowForTab(_ sender: Any?) {
+//        let windowController = MainWindowController()
+//        if #available(OSX 10.12, *) {
+//            self.window?.addTabbedWindow(windowController.window!, ordered: .above)
+//            self.subWindowController = windowController
+//            windowController.window?.orderFront(self.window)
+//            windowController.window?.makeKey()
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//    }
     
     override func insertTab(_ sender: Any?) {
         print("inserttab in mainwindowcontroller")
@@ -84,6 +112,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         let tableview = (inactivePanel.tabView.selectedTabViewItem?.viewController as! TabItemController).tableview
         self.window?.makeFirstResponder(tableview)
         isPrimaryActive = !isPrimaryActive
+        invalidateRestorableState()
     }
     
     func getTargetTabItem() -> TabItemController {
@@ -99,12 +128,24 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         preferenceController.window?.makeKeyAndOrderFront(self)
     }
     
+//    override var acceptsFirstResponder: Bool {
+//        return true
+//    }
+    
+    override func mouseDown(with event: NSEvent) {
+        print("mouseDown in mainWindowController called.")
+    }
+    
     override func encodeRestorableState(with coder: NSCoder) {
         print("encodeRestorableState in MainWindowController called.")
+        super.encodeRestorableState(with: coder)
+        coder.encode(isPrimaryActive, forKey: "isPrimaryActive")
     }
     
     override func restoreState(with coder: NSCoder) {
         print("restoreState in MainWindowController called.")
+        super.restoreState(with: coder)
+        isPrimaryActive = coder.decodeBool(forKey: "isPrimaryActive")
     }
     
     func window(_ window: NSWindow, willEncodeRestorableState state: NSCoder) {

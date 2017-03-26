@@ -41,6 +41,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
         storeTabsData()
     }
     
+//    @IBAction func newWindowForTab(_ sender: Any?) {
+//        
+//    }
+    
     func storeTabsData() {
         print("start to store tabs data")
         if let mainController = _mainWindowController {
@@ -56,16 +60,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
             window = appDelegate.mainWindowController()?.window
         }
         
-        print("restoreWindow in AppDelegate calle.")
+        print("restoreWindow in AppDelegate called.")
         completionHandler(window, nil)
     }
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-        if let mainController = _mainWindowController {
-            return mainController.openFile(for: filename)
-        }
-        
-        return false
+        return (mainWindowController()?.openFile(for: filename)) ?? false
     }
 
 }

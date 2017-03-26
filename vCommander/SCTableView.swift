@@ -144,8 +144,10 @@ class SCTableView: NSTableView {
     }
     
     func unmarkAll() {
-        markedRows.removeAllIndexes()
-        notifyDelegate()
+        if markedRows.count > 0 {
+            markedRows.removeAllIndexes()
+            notifyDelegate()
+        }
     }
     
 //    override func rightMouseDown(theEvent: NSEvent) {
@@ -163,7 +165,7 @@ class SCTableView: NSTableView {
         super.mouseDown(with: theEvent)
         
         let clickedRow = self.row(at: self.convert(theEvent.locationInWindow, from: nil))
-        if isRowMarked(clickedRow) {
+        if isRowMarked(clickedRow) && markedRows.count > 1 {
             markRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
         } else {
             unmarkAll()

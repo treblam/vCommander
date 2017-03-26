@@ -26,10 +26,10 @@ class SCTableRowView: NSTableRowView {
             }
             
             let selectionPath = NSBezierPath(rect: dirtyRect)
-            selectionPath.lineWidth = 4.0
+//            let selectionPath = NSBezierPath.init(roundedRect: dirtyRect, xRadius: 6, yRadius: 6)
+            selectionPath.lineWidth = 3.0
             
             //        var lineDash: [CGFloat] = [2.0, 2.0]
-            //
             //        selectionPath.setLineDash(lineDash, count: 2, phase: 0.0)
             
 //            selectionPath.fill()

@@ -8,11 +8,13 @@
 
 import Cocoa
 
-class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelegate, MMTabBarViewDelegate {
+class CommanderPanel: NSViewController, MMTabBarViewDelegate {
 
     @IBOutlet weak var tabView: NSTabView!
     
     @IBOutlet weak var tabBar: MMTabBarView!
+    
+    @IBOutlet weak var visualEffectView: NSVisualEffectView!
     
     var panelName: String?
     
@@ -27,11 +29,22 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         fatalError("init(coder:) has not been implemented")
     }
     
+    // todo: is this useful?
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        self.nextResponder = self.view
+//        for subview in self.view.subviews {
+//            subview.nextResponder = self
+//        }
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBar.showAddTabButton = true
         tabBar.onlyShowCloseOnHover = true
+        tabBar.automaticallyAnimates = true
+        tabBar.useOverflowMenu = false
         tabBar.setStyleNamed("Yosemite")
         
         restoreTabs()
@@ -39,6 +52,20 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
             self.handleKeyDown(with: $0)
         }
 //        listenForDirChanges()
+        
+//        let box = self.view as! NSBox
+//        box.sizeToFit()
+//        box.boxType = .custom
+//        box.borderType = .lineBorder
+//        box.borderColor = NSColor.blue
+//        box.borderWidth = 2
+    }
+    
+    override func viewWillLayout() {
+        if let window = view.window {
+            let topConstraint = NSLayoutConstraint(item: visualEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
+            topConstraint.isActive = true
+        }
     }
     
 //    func listenForDirChanges() {
@@ -51,6 +78,7 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
         let url = curViewController?.curFsItem.fileURL
         
         addNewTab(withUrl: url, andSelectIt: true)
+        makeKeyResponder()
     }
     
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
@@ -209,7 +237,7 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     
     @IBAction func addNewTab(_ sender: NSMenuItem) {
-        print("add new tab")
+        print("add new tab hehehe")
         self.addNewTab(to: tabView)
     }
 
@@ -260,6 +288,32 @@ class CommanderPanel: NSViewController, NSTableViewDataSource, NSTableViewDelega
             
         default:
             return theEvent
+        }
+    }
+    
+//    override func mouseDown(with event: NSEvent) {
+//        print("mouseDown called.")
+//        super.mouseDown(with: event)
+//        if !isActive() {
+//            (self.view.window?.windowController as? MainWindowController)?.switchFocus()
+//        }
+//    }
+
+//    Can I add new tab inside of nsview?
+//    override func newWindowForTab(_ sender: Any?) {
+//        
+//    }
+    
+    // MMTabBarView doesn't pop up mouseDown events, use this method to observe mouseDown events
+    func tabView(_ aTabView: NSTabView, shouldDrag tabViewItem: NSTabViewItem, in tabBarView: MMTabBarView) -> Bool {
+        makeKeyResponder()
+        return true
+    }
+    
+    func makeKeyResponder() {
+        print("makeKeyResponder called.")
+        if !isActive() {
+            (self.view.window?.windowController as? MainWindowController)?.switchFocus()
         }
     }
     

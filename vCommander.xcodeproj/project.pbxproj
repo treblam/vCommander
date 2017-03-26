@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D0378651E85ED0F005A1F95 /* VCTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0378641E85ED0F005A1F95 /* VCTabBarView.swift */; };
+		7D0378671E8753A4005A1F95 /* VCLayerBackedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0378661E8753A4005A1F95 /* VCLayerBackedView.swift */; };
+		7D0378691E87928D005A1F95 /* VCTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0378681E87928D005A1F95 /* VCTableHeaderView.swift */; };
+		7D03786B1E87A279005A1F95 /* VCPathControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D03786A1E87A279005A1F95 /* VCPathControl.swift */; };
 		7D131BAD1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */; };
 		7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D48A0031B209A400043933D /* CommanderPanel.swift */; };
 		7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D48A0041B209A400043933D /* CommanderPanel.xib */; };
@@ -59,6 +63,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7D0378641E85ED0F005A1F95 /* VCTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCTabBarView.swift; sourceTree = "<group>"; };
+		7D0378661E8753A4005A1F95 /* VCLayerBackedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCLayerBackedView.swift; sourceTree = "<group>"; };
+		7D0378681E87928D005A1F95 /* VCTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCTableHeaderView.swift; sourceTree = "<group>"; };
+		7D03786A1E87A279005A1F95 /* VCPathControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCPathControl.swift; sourceTree = "<group>"; };
 		7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticallyCenteredTextField.swift; sourceTree = "<group>"; };
 		7D42EF5B1BBE3515003383C0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vCommander-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -169,6 +177,10 @@
 				7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */,
 				7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */,
 				7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */,
+				7D0378641E85ED0F005A1F95 /* VCTabBarView.swift */,
+				7D0378661E8753A4005A1F95 /* VCLayerBackedView.swift */,
+				7D0378681E87928D005A1F95 /* VCTableHeaderView.swift */,
+				7D03786A1E87A279005A1F95 /* VCPathControl.swift */,
 			);
 			path = vCommander;
 			sourceTree = "<group>";
@@ -312,14 +324,18 @@
 				7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */,
 				7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */,
 				7D131BAD1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift in Sources */,
+				7D0378671E8753A4005A1F95 /* VCLayerBackedView.swift in Sources */,
 				7D8455631BEF8B7D009999F0 /* PreferenceManager.swift in Sources */,
 				7D9422601B024480008429D5 /* MainWindowController.swift in Sources */,
+				7D03786B1E87A279005A1F95 /* VCPathControl.swift in Sources */,
 				7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */,
 				7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */,
 				7D7B0F391E639DFB0052DB63 /* String+transformToPinyin.swift in Sources */,
+				7D0378691E87928D005A1F95 /* VCTableHeaderView.swift in Sources */,
 				7DA874291B22E5C10004185C /* FlippedView.swift in Sources */,
 				7D9422441B024441008429D5 /* AppDelegate.swift in Sources */,
 				7DC2AC511B4935CE006BA33A /* SCTableRowView.swift in Sources */,
+				7D0378651E85ED0F005A1F95 /* VCTabBarView.swift in Sources */,
 				7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */,
 				7DD4CDBA1E5E5985001A6560 /* NSViewWithRectInset.swift in Sources */,
 			);

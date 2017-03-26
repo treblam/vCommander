@@ -14,6 +14,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 {
 
     @IBOutlet weak var tableview: SCTableView!
+    @IBOutlet weak var scrollview: NSScrollView!
+    @IBOutlet weak var pathControlEffectView: NSVisualEffectView!
+    @IBOutlet weak var pathControlView: NSPathControl!
     
     var curFsItem: FileSystemItem!
     
@@ -63,6 +66,19 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.register(forDraggedTypes: [NSFilenamesPboardType])
         //tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
         tableview.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: false)
+    }
+    
+    override func viewWillLayout() {
+        scrollview.automaticallyAdjustsContentInsets = false
+        if let window = view.window {
+            let contentLayoutRect = window.contentLayoutRect
+//            let topInset = (window.contentView?.frame.size.height)! - (contentLayoutRect.height) + 26
+            let topInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + 25 + 19
+            scrollview.contentInsets = EdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)
+            
+            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 25.0)
+            topConstraint.isActive = true
+        }
     }
     
     override func viewWillDisappear() {
@@ -167,7 +183,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                                         text.textColor = NSColor.disabledControlTextColor
                                     }
                                 }
-                                
                             }
                         }
                     }
@@ -270,7 +285,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func getIndexesForItems(_ items: [URL]) -> NSMutableIndexSet {
         let result = NSMutableIndexSet()
-        let index = curFsItem.children.index {
+        let index = curFsItem?.children?.index {
             items.contains(($0.fileURL as NSURL).fileReferenceURL()!)
         }
         
@@ -418,6 +433,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     override func resignFirstResponder() -> Bool {
         return true
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        print("mouseDown in TabItemController called.")
     }
     
     func convertToInt(_ str: String) -> Int {
