@@ -27,7 +27,7 @@ class FileSystemItem: NSObject {
     
     lazy var localizedName: String! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.localizedNameKey])
-        return resourceValues![URLResourceKey.localizedNameKey] as? String
+        return resourceValues?[URLResourceKey.localizedNameKey] as? String ?? ""
     }()
     
     lazy var localizedType: String! = { [unowned self] in
@@ -57,17 +57,28 @@ class FileSystemItem: NSObject {
     
     lazy var isDirectory: Bool = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.isDirectoryKey])
-        let number = resourceValues![URLResourceKey.isDirectoryKey] as? NSNumber
+        let isDir = resourceValues?[URLResourceKey.isDirectoryKey] as? Bool
         
-        if let isDir = number {
-            return isDir.boolValue && !self.isPackage
-        } else {
-            return false
-        }
+        return isDir != nil && isDir! && !self.isPackage
     }()
     
     lazy var isPackage: Bool = { [unowned self] in
         return self.workspace.isFilePackage(atPath: self.fileURL.path)
+    }()
+    
+    lazy var isSymbolicLink: Bool = { [unowned self] in
+        let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [.isSymbolicLinkKey])
+        return resourceValues![URLResourceKey.isSymbolicLinkKey] as? Bool ?? false
+    }()
+    
+    lazy var destinationItem: FileSystemItem? = { [unowned self] in
+        let path = try? FileManager.default.destinationOfSymbolicLink(atPath: self.fileURL.path)
+        return path != nil ? FileSystemItem(fileURL: URL(fileURLWithPath: path!))  : nil
+    }()
+    
+    lazy var isReadable: Bool = { [unowned self] in
+        let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [.isReadableKey])
+        return resourceValues?[URLResourceKey.isReadableKey] as? Bool ?? false
     }()
     
     lazy var size: NSNumber! = { [unowned self] in
@@ -99,18 +110,14 @@ class FileSystemItem: NSObject {
         let fileManager = FileManager.default
         
         if fileManager.fileExists(atPath: self.fileURL.relativePath) {
-            
             if let itemURLs = try? fileManager.contentsOfDirectory(at: self.fileURL, includingPropertiesForKeys: self.propertyKeys, options:.skipsHiddenFiles) {
-                
                 for fsItemURL in itemURLs {
-                    
                     if fileManager.fileExists(atPath: fsItemURL.relativePath, isDirectory: &isDirectory) {
                         //if(isDirectory.boolValue) {
                             let checkItem = FileSystemItem(fileURL: fsItemURL)
                             childs.append(checkItem)
                         //}
                     }
-                    
                 }
             }
         }

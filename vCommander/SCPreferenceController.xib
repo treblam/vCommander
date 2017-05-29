@@ -1,15 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="SCPreferenceController" customModule="SimpleCommander" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="SCPreferenceController" customModule="vCommander" customModuleProvider="target">
             <connections>
-                <outlet property="chooseDiffBtn" destination="qhe-QA-vyk" id="3BV-qN-7HG"/>
-                <outlet property="chooseEditorBtn" destination="AUo-Ko-llO" id="aOI-aM-Fwc"/>
-                <outlet property="diffToolField" destination="VK9-2B-Mgj" id="Ali-IF-Xih"/>
-                <outlet property="textEditorField" destination="G0X-OS-YnP" id="u0m-nG-O0j"/>
+                <outlet property="chooseDiffBtn" destination="NY5-mq-dDS" id="ug5-hR-dxv"/>
+                <outlet property="chooseEditorBtn" destination="vM3-9u-JPo" id="dyQ-RH-HU0"/>
+                <outlet property="commonModeRadio" destination="1uq-cb-Htm" id="c6c-lX-hsv"/>
+                <outlet property="diffToolField" destination="QQS-m6-m4C" id="CS4-Pc-r5P"/>
+                <outlet property="firstToolbar" destination="0HP-HX-JnQ" id="P91-XG-YfC"/>
+                <outlet property="tabView" destination="uDI-Ru-rhJ" id="6oy-ad-TT7"/>
+                <outlet property="textEditorField" destination="uDk-Lh-oky" id="JVS-DU-BDC"/>
+                <outlet property="toolbar" destination="w5p-1d-vNR" id="eHc-0e-loL"/>
+                <outlet property="vimModeRadio" destination="Z4m-gu-6iM" id="2o4-Mv-gYI"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -19,68 +25,148 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PgF-32-Jix">
-                        <rect key="frame" x="64" y="168" width="56" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="编辑器：" id="nd2-1W-bxz">
-                            <font key="font" size="13" name=".PingFangSC-Regular"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oi-lU-FSY">
-                        <rect key="frame" x="51" y="126" width="69" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="对比工具：" id="kCE-oP-5sc">
-                            <font key="font" size="13" name=".PingFangSC-Regular"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G0X-OS-YnP">
-                        <rect key="frame" x="121" y="165" width="233" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="rDu-mY-6SI">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VK9-2B-Mgj">
-                        <rect key="frame" x="121" y="122" width="233" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="yRI-4Z-Elm">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AUo-Ko-llO">
-                        <rect key="frame" x="364" y="158" width="66" height="32"/>
-                        <buttonCell key="cell" type="push" title="选择" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dIc-z3-YTm">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name=".PingFangSC-Regular"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="chooseEditor:" target="-2" id="U9o-2N-h1c"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qhe-QA-vyk">
-                        <rect key="frame" x="364" y="115" width="66" height="32"/>
-                        <buttonCell key="cell" type="push" title="选择" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yXu-FS-af3">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" size="13" name=".PingFangSC-Regular"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="chooseDiffTool:" target="-2" id="2RI-R5-1ne"/>
-                        </connections>
-                    </button>
+                    <tabView type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="uDI-Ru-rhJ">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="Tab" identifier="1" id="5De-fw-hmW">
+                                <view key="view" id="hfw-kX-IkH">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Z4m-gu-6iM">
+                                            <rect key="frame" x="185" y="131" width="85" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="Vim mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="CLy-7f-66s">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="chooseMode:" target="-2" id="Wy9-DL-Jey"/>
+                                            </connections>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1uq-cb-Htm">
+                                            <rect key="frame" x="185" y="166" width="115" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="Common mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="loz-YY-uTX">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="chooseMode:" target="-2" id="lc3-3i-Vfm"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="View" identifier="2" id="fkg-bY-pGw">
+                                <view key="view" id="o4y-6E-c4V">
+                                    <rect key="frame" x="10" y="33" width="474" height="240"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWw-Z2-JLI">
+                                            <rect key="frame" x="60" y="145" width="56" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="编辑器：" id="Isn-y5-dPK">
+                                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cik-nn-ck5">
+                                            <rect key="frame" x="47" y="92" width="69" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="对比工具：" id="XC4-jb-WAl">
+                                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDk-Lh-oky">
+                                            <rect key="frame" x="122" y="143" width="233" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="tRT-bS-h3g">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQS-m6-m4C">
+                                            <rect key="frame" x="122" y="90" width="233" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="oHO-sg-qB1">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NY5-mq-dDS">
+                                            <rect key="frame" x="364" y="83" width="66" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="选择" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BhE-y6-MYg">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="chooseDiffTool:" target="-2" id="ZHo-Px-9Al"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vM3-9u-JPo">
+                                            <rect key="frame" x="364" y="136" width="66" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="选择" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WIy-vL-vBy">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="chooseEditor:" target="-2" id="BO6-uT-GUB"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="uDI-Ru-rhJ" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="Ayx-D7-iEM"/>
+                    <constraint firstAttribute="bottom" secondItem="uDI-Ru-rhJ" secondAttribute="bottom" id="Fe3-Ly-mzs"/>
+                    <constraint firstItem="uDI-Ru-rhJ" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="okL-pv-o74"/>
+                    <constraint firstAttribute="trailing" secondItem="uDI-Ru-rhJ" secondAttribute="trailing" id="xf7-S2-pTe"/>
+                </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="4D1423CA-D8CC-460F-9E30-DB50C6B6486C" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="w5p-1d-vNR">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="fV7-Jn-LIP"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="O7D-6d-0bt"/>
+                    <toolbarItem implicitItemIdentifier="424E4293-92FF-4F98-B866-BB217CF1D6C0" explicitItemIdentifier="general" label="General" paletteLabel="General" image="NSPreferencesGeneral" selectable="YES" id="0HP-HX-JnQ">
+                        <connections>
+                            <action selector="setSelectedTab:" target="-2" id="Y0J-aZ-jL1"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="0CCB0248-365D-40A7-BC1F-BEAAB6631FDC" explicitItemIdentifier="tools" label="Tools" paletteLabel="Tools" tag="1" image="NSApplicationIcon" selectable="YES" id="Ac8-cJ-iSd">
+                        <connections>
+                            <action selector="setSelectedTab:" target="-2" id="5u5-HF-H4P"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="0HP-HX-JnQ"/>
+                    <toolbarItem reference="Ac8-cJ-iSd"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
         </window>
     </objects>
+    <resources>
+        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
+    </resources>
 </document>

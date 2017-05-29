@@ -10,13 +10,20 @@ import Cocoa
 
 import Quartz
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate
-{
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
     @IBOutlet weak var scrollview: NSScrollView!
     @IBOutlet weak var pathControlEffectView: NSVisualEffectView!
     @IBOutlet weak var pathControlView: NSPathControl!
+    
+    var isPrimary: Bool = true {
+        didSet {
+            if isPrimary != oldValue {
+                updatePathControlBackground()
+            }
+        }
+    }
     
     var curFsItem: FileSystemItem!
     
@@ -53,9 +60,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var markedItems = [URL]()
     var needToRestoreSelected = false
     
-    var isLeft: Bool {
-        let windowController = self.view.window!.windowController as! MainWindowController
-        return self === windowController.leftTab
+    var initUrl: URL?
+    
+    var isActive: Bool {
+        if let windowController = self.view.window?.windowController as? MainWindowController {
+            return isPrimary == windowController.isPrimaryActive
+        }
+        
+        return false
     }
     
     override func viewDidLoad() {
@@ -66,6 +78,19 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         tableview.register(forDraggedTypes: [NSFilenamesPboardType])
         //tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
         tableview.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: false)
+        
+        pathControlView.target = self
+        pathControlView.doubleAction = #selector(TabItemController.onPathControlClicked)
+        pathControlView.action = #selector(TabItemController.onPathControlClicked)
+        goToDirectory(withUrl: initUrl!)
+        
+        print("viewDidLoad called \(String(describing: self.title))")
+        
+    }
+    
+    override func viewWillAppear() {
+        print("viewWillAppear called \(String(describing: self.title))")
+        observeFocusChange()
     }
     
     override func viewWillLayout() {
@@ -78,11 +103,39 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
             let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 25.0)
             topConstraint.isActive = true
+            
+            updatePathControlBackground()
         }
     }
     
     override func viewWillDisappear() {
 //        directoryMonitor.stopMonitoring()
+        stopObserveForFocusChange()
+        print("viewWillDisappear called.")
+    }
+    
+    func onPathControlClicked() {
+        print("onPathControlClicked called.")
+        if !isActive {
+            switchFocus()
+        }
+        
+        if let clickedPathItem = pathControlView.clickedPathItem {
+            let pathItems = pathControlView.pathItems
+            if let index = pathItems.index(where: {
+                $0.url == clickedPathItem.url
+            }) {
+//            if let index = pathItems.index(of: clickedPathItem) {
+                if index == pathItems.count - 1 {
+                    return
+                }
+                
+                let childURL = pathItems[index + 1].url
+                if let url = clickedPathItem.url {
+                    goToDirectory(withUrl: url, andNoReload: false, fromChild: childURL)
+                }
+            }
+        }
     }
     
     func getSelectedItem() -> FileSystemItem? {
@@ -123,6 +176,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func onRowClicked(_ sender:AnyObject) {
         print("row was clicked, \(tableview.clickedRow)")
+        if !isActive {
+            switchFocus()
+        }
         
         if typeSelectIndices != nil && typeSelectIndices!.count > 0 {
             clearTypeSelect()
@@ -135,19 +191,59 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func openFileOrDirectory(byMouseClick isMouseClick: Bool = false) {
         let item = getSelectedItem()
-        
         if isMouseClick && tableview.clickedRow == -1 {
             return
         }
+        if item != nil {
+            openFileOrDirectory(withItem: item!)
+        }
+    }
+    
+    func openFileOrDirectory(withItem item: FileSystemItem) {
+        print("fileURL: " + item.fileURL.path)
         
-        if let fsItem = item {
-            print("fileURL: " + fsItem.fileURL.path)
-            if (fsItem.isDirectory) {
-                goToDirectory(withUrl: fsItem.fileURL as URL)
+        // If it's not readable, give an alert and return
+        if !item.isReadable {
+            let errorAlert = NSAlert()
+            if item.localizedName != "" {
+                errorAlert.messageText = "不能打开文件\(item.isDirectory ? "夹" : "")“\(item.localizedName ?? "")”，因为您没有权限查看其内容。"
             } else {
-                print("It's not directory, can't step into")
-                workspace.openFile(fsItem.fileURL.path)
+                errorAlert.messageText = "不能打开该文件\(item.isDirectory ? "夹" : "")，因为您没有权限查看其内容。"
             }
+            
+            errorAlert.addButton(withTitle: "确定")
+            errorAlert.runModal()
+            return
+        }
+        
+        if item.isDirectory {
+            goToDirectory(withUrl: item.fileURL as URL)
+        } else if item.isSymbolicLink {
+            openFileOrDirectory(withItem: item.destinationItem!)
+        } else {
+            print("It's not directory, can't step into")
+            let defaultApp = workspace.urlForApplication(toOpen: item.fileURL)
+            if defaultApp == nil {
+                let alert = NSAlert()
+                alert.messageText = "未设定用来打开文稿“\(item.localizedName)”的应用程序"
+                alert.informativeText = "请选取应用程序"
+                alert.addButton(withTitle: "选取应用程序")
+                alert.addButton(withTitle: "取消")
+                alert.alertStyle = .warning
+                alert.window.initialFirstResponder = alert.buttons[0]
+                
+                alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
+                    switch responseCode {
+                    case NSAlertFirstButtonReturn:
+                        self.view.window?.endSheet(alert.window)
+                        self.openWith(nil)
+                    default:
+                        break
+                    }
+                })
+                return
+            }
+            workspace.openFile(item.fileURL.path)
         }
     }
     
@@ -184,6 +280,54 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateSelectedRowsApperance() {
+        print("Start to updateSelectedRowsApperance")
+        tableview.enumerateAvailableRowViews { rowView, rowIndex in
+            for column in 0 ..< rowView.numberOfColumns {
+                let cellView: AnyObject? = rowView.view(atColumn: column) as AnyObject?
+                
+                if let tableCellView = cellView as? NSTableCellView {
+                    let textField = tableCellView.textField
+                    if let _ = rowView as? SCTableRowView {
+                        if let text = textField {
+                            let isSelected = self.tableview.isRowSelected(rowIndex)
+                            print("rowIndex: \(rowIndex)")
+                            print("isSelected: \(isSelected)")
+                            
+                            if let str = tableCellView.identifier {
+                                switch str {
+                                case "localizedName":
+//                                    text.textColor = NSColor.controlTextColor
+                                    let fontSize = text.font?.pointSize
+                                    text.textColor = NSColor.black
+                                    text.font = NSFont.systemFont(ofSize: fontSize!)
+                                    print("start to change text color for row \(rowIndex)")
+                                default:
+                                    let fontSize = text.font?.pointSize
+                                    text.textColor = NSColor.darkGray
+                                    text.font = NSFont.systemFont(ofSize: fontSize!)
+                                }
+                            }
+                            
+//                            if isSelected {
+//                                text.textColor = NSColor(calibratedRed: 26.0/255.0, green: 154.0/255.0, blue: 252.0/255.0, alpha: 1)
+//                            } else {
+//                                if let str = tableCellView.identifier {
+//                                    switch str {
+//                                    case "localizedName":
+//                                        text.textColor = NSColor.controlTextColor
+//                                    default:
+//                                        text.textColor = NSColor.disabledControlTextColor
+//                                    }
+//                                }
+//                            }
                         }
                     }
                 }
@@ -251,7 +395,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             tableRowView?.identifier = cellId
         }
         
-        tableRowView?.marked = tableView.isRowSelected(row)
+//        tableRowView?.marked = tableView.isRowSelected(row)
         
         return tableRowView
     }
@@ -304,7 +448,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 return
             }
             let fileRefURL = (self.curFsItem.children[index].fileURL as NSURL).fileReferenceURL()
-            print("add \(fileRefURL) to markedItems")
+            print("add \(String(describing: fileRefURL)) to markedItems")
             self.markedItems.append(fileRefURL!)
         })
     }
@@ -349,8 +493,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        print("tableViewSelectionDigChange called. index: \(tableview.selectedRowIndexes.first)")
+        print("tableViewSelectionDigChange called. index: \(String(describing: tableview.selectedRowIndexes.first))")
         updateSelectedItems(withIndexes: tableview.selectedRowIndexes)
+        
+//        updateSelectedRowsApperance()
         
         if isQLMode {
             QLPreviewPanel.shared().reloadData()
@@ -365,7 +511,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
-    func goToDirectory(withUrl url: URL, andNoReload noReload: Bool = false, fromChild isFromChild: Bool = false) {
+    func goToDirectory(withUrl url: URL, andNoReload noReload: Bool = false, fromChild childURL: URL? = nil) {
         if !fileManager.fileExists(atPath: url.relativePath) {
             backToParentDirectory()
             return
@@ -379,7 +525,19 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         //
         //        print(fileManager.currentDirectoryPath)
         
-        curFsItem = FileSystemItem(fileURL: url)
+        if initUrl != nil {
+            initUrl = nil
+        } else {
+            curFsItem = FileSystemItem(fileURL: url)
+        }
+        
+        pathControlView.url = url
+        
+        var isFromChild = false
+        if let child = childURL {
+            updateSelectedItems(withUrl: child)
+            isFromChild = true
+        }
         
         // Clean the data for last directory
         if (tableview !== nil) {
@@ -427,6 +585,28 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationKey), object: self)
     }
     
+    func observeFocusChange() {
+        let notificationKey = "FocusChanged"
+        print("Start to observe for focus change notification")
+        NotificationCenter.default.addObserver(self, selector: #selector(TabItemController.updatePathControlBackground), name: NSNotification.Name(rawValue: notificationKey), object: nil)
+    }
+    
+    func stopObserveForFocusChange() {
+        let notificationKey = "FocusChanged"
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: notificationKey), object: nil)
+    }
+    
+    func updatePathControlBackground() {
+        print("Got focus change notification")
+        if isActive {
+            print("start to change pathControl background color to light blue \(String(describing: self.title))")
+            pathControlView.backgroundColor = NSColor(calibratedRed: 229.0/255.0, green: 236.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+            // NSColor(calibratedRed: 254.0/255.0, green: 205.0/255.0, blue: 82.0/255.0, alpha: 1.0)
+        } else {
+            pathControlView.backgroundColor = NSColor.white
+        }
+    }
+    
     override func becomeFirstResponder() -> Bool {
         return true
     }
@@ -447,14 +627,23 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func backToParentDirectory() {
-        var parentUrl = curFsItem.fileURL.deletingLastPathComponent()
-        while !fileManager.fileExists(atPath: parentUrl.relativePath) {
-            parentUrl = parentUrl.deletingLastPathComponent()
+        var parentUrl: URL
+        // At the root directory already
+        if curFsItem.fileURL.relativePath == "/" {
+            parentUrl = URL(fileURLWithPath: "/Volumes")
+        } else if curFsItem.fileURL.relativePath == "/Volumes" {
+            return
+        } else {
+            parentUrl = curFsItem.fileURL.deletingLastPathComponent()
+            while !fileManager.fileExists(atPath: parentUrl.relativePath) {
+                parentUrl = parentUrl.deletingLastPathComponent()
+            }
         }
         
         // Remember last directory, this dir should be selected when backed to parent dir
-        updateSelectedItems(withUrl: curFsItem.fileURL as URL)
-        goToDirectory(withUrl: parentUrl, andNoReload: false, fromChild: true)
+        // updateSelectedItems(withUrl: curFsItem.fileURL as URL)
+        print("start goToParent withUrl: \(parentUrl)")
+        goToDirectory(withUrl: parentUrl, andNoReload: false, fromChild: curFsItem.fileURL as URL)
     }
     
     override func keyDown(with theEvent: NSEvent) {
@@ -481,6 +670,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         let NSBackspaceFunctionKey = 127
         let NSEnterFunctionKey = 13
+        let TabKey_KeyCode = 9
         
         switch char {
         case NSBackspaceFunctionKey where noneModifiers,
@@ -559,6 +749,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //            let count = numberOfRowsInTableView(tableview)
 //            selectRow(count - 1)
 //            return
+            
+        case TabKey_KeyCode where (noneModifiers || hasShift && !hasCommand && !hasAlt && !hasControl):
+            switchFocus()
+            return
             
         default:
             break
@@ -750,16 +944,16 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     // tab键按下
-    override func insertTab(_ sender: Any?) {
-        print("Tab pressed")
-        switchFocus()
-    }
+//    override func insertTab(_ sender: Any?) {
+//        print("Tab pressed")
+//        switchFocus()
+//    }
     
     // shift + tab键按下
-    override func insertBacktab(_ sender: Any?) {
-        print("Back tab pressed")
-        switchFocus()
-    }
+//    override func insertBacktab(_ sender: Any?) {
+//        print("Back tab pressed")
+//        switchFocus()
+//    }
     
     func switchFocus() {
         let windowController = self.view.window!.windowController as! MainWindowController
@@ -832,15 +1026,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         typeSelectIndex = nil
     }
     
-    convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil, withSelected: nil)
+//    convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil, isPrimary: true, withSelected: nil)
+//    }
+    
+    convenience init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, isPrimary: Bool) {
+        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: url, isPrimary: isPrimary, withSelected: nil)
     }
     
-    convenience init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?) {
-        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: url, withSelected: nil)
-    }
-    
-    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, withSelected itemUrl: URL?) {
+    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, isPrimary: Bool, withSelected itemUrl: URL?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         dateFormatter.dateStyle = .medium
@@ -849,8 +1043,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if itemUrl != nil {
             updateSelectedItems(withUrl: itemUrl!)
         }
-        let dirUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
-        goToDirectory(withUrl: dirUrl, andNoReload: true)
+        
+        initUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        curFsItem = FileSystemItem(fileURL: initUrl!)
+        self.title = curFsItem.localizedName
+        self.isPrimary = isPrimary
     }
 
     required init?(coder: NSCoder) {
@@ -947,7 +1144,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if curItems.count >= 2 {
             _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
-            if isLeft {
+            if isPrimary {
                 _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
             } else {
                 _ = execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
@@ -1087,8 +1284,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return
         }
         
-        print("currentName: \(currentName)")
-        print("newName: \(newName)")
+        print("currentName: \(String(describing: currentName))")
+        print("newName: \(String(describing: newName))")
         
         if textField!.tag == 1 {
             do {
@@ -1195,7 +1392,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if let indices = typeSelectIndices {
             print("typeSelectIndices is not nil, count: \(indices.count)")
             myArrIndex = indices.index(of: currentIndex ?? -1)
-            print("myArrIndex: \(myArrIndex)")
+            print("myArrIndex: \(String(describing: myArrIndex))")
             if indices.count > 1 && myArrIndex != nil && proposedIndex != nil && currentIndex != nil {
                 // Already at the upper bounds, and user pressed up arrow
                 if myArrIndex! == 0 && proposedIndex! < currentIndex! {
@@ -1242,11 +1439,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
         }*/
         
-        print("proposedIndex: \(proposedIndex)")
-        print("currentIndex: \(currentIndex)")
+        print("proposedIndex: \(String(describing: proposedIndex))")
+        print("currentIndex: \(String(describing: currentIndex))")
         
         if isAccept {
-            print("Accept proposedIndex, and remember it: \(proposedIndex)")
+            print("Accept proposedIndex, and remember it: \(String(describing: proposedIndex))")
             return proposedSelectionIndexes
         } else {
             if let index = myProposedIndex {

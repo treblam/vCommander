@@ -11,6 +11,7 @@ import Cocoa
 class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDelegate {
     
     @IBOutlet weak var splitView: NSSplitView!
+    @IBOutlet weak var toolbar: NSToolbar!
     
     let preferenceManager = PreferenceManager()
     
@@ -22,9 +23,9 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         return "MainWindowController"
     }
     
-    let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, panelName: "leftPanel")!
+    let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, isPrimary: true)!
     
-    let rightPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, panelName: "rightPanel")!
+    let rightPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, isPrimary: false)!
     
     var leftTab: TabItemController! {
         return (leftPanel.tabView.selectedTabViewItem?.viewController as! TabItemController)
@@ -62,6 +63,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         leftView.addSubview(leftPanel.view)
         rightView.addSubview(rightPanel.view)
         
+        
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
         leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
@@ -79,11 +81,9 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
             print("tableview is nil")
         }
         self.window?.makeFirstResponder(activeTab.tableview)
-        
-//        self.window?.backgroundColor = NSColor(calibratedWhite: 236.0/255.0, alpha: 1)
+//        window?.initialFirstResponder = activeTab.tableview
         
         self.window?.titleVisibility = .hidden
-//        self.window?.titlebarAppearsTransparent = true
         self.window?.styleMask.insert(.fullSizeContentView)
     }
     
@@ -105,6 +105,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     
     override func insertTab(_ sender: Any?) {
         print("inserttab in mainwindowcontroller")
+        
+//        switchFocus()
     }
     
     func switchFocus() {
@@ -113,6 +115,14 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         self.window?.makeFirstResponder(tableview)
         isPrimaryActive = !isPrimaryActive
         invalidateRestorableState()
+        
+        notifyFocusChanged()
+    }
+    
+    func notifyFocusChanged() {
+        let notificationKey = "FocusChanged"
+        print("Start to notify for key \(notificationKey)")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationKey), object: self)
     }
     
     func getTargetTabItem() -> TabItemController {

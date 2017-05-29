@@ -26,7 +26,7 @@ class DirectoryMonitor {
     let directoryMonitorQueue = DispatchQueue(label: "com.example.apple-samplecode.lister.directorymonitor", attributes: DispatchQueue.Attributes.concurrent)
     
     /// A dispatch source to monitor a file descriptor created from the directory.
-    var directoryMonitorSource: DispatchSource?
+    var directoryMonitorSource: DispatchSourceFileSystemObject?
     
     /// URL for the directory being monitored.
     var URL: Foundation.URL
@@ -45,7 +45,7 @@ class DirectoryMonitor {
             monitoredDirectoryFileDescriptor = open(URL.path, O_EVTONLY)
             
             // Define a dispatch source monitoring the directory for additions, deletions, and renamings.
-            directoryMonitorSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: monitoredDirectoryFileDescriptor, eventMask: DispatchSource.FileSystemEvent.write, queue: directoryMonitorQueue) /*Migrator FIXME: Use DispatchSourceFileSystemObject to avoid the cast*/ as? DispatchSource
+            directoryMonitorSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: monitoredDirectoryFileDescriptor, eventMask: DispatchSource.FileSystemEvent.write, queue: directoryMonitorQueue)
             
             // Define the block to call when a file change is detected.
             directoryMonitorSource!.setEventHandler {

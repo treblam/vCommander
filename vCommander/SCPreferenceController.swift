@@ -16,6 +16,12 @@ class SCPreferenceController: NSWindowController {
     @IBOutlet weak var diffToolField: NSTextField!
     @IBOutlet weak var chooseDiffBtn: NSButton!
     
+    @IBOutlet weak var commonModeRadio: NSButton!
+    @IBOutlet weak var vimModeRadio: NSButton!
+    
+    @IBOutlet weak var toolbar: NSToolbar!
+    
+    @IBOutlet weak var tabView: NSTabView!
     
     let preferenceManager = PreferenceManager()
     
@@ -29,14 +35,20 @@ class SCPreferenceController: NSWindowController {
         textEditorField.stringValue = preferenceManager.textEditor!
         
         diffToolField.stringValue = preferenceManager.diffTool!
-
-        // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        
+        if preferenceManager.mode == 1 {
+            vimModeRadio.state = 1
+        } else {
+            commonModeRadio.state = 1
+        }
+        
+        toolbar.selectedItemIdentifier = "general"
     }
     
     @IBAction func chooseEditor(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
-        panel.canChooseDirectories = true
+//        panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
         
         let clicked = panel.runModal()
@@ -53,7 +65,7 @@ class SCPreferenceController: NSWindowController {
     @IBAction func chooseDiffTool(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
-        panel.canChooseDirectories = true
+//        panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
         
         let clicked = panel.runModal()
@@ -67,4 +79,12 @@ class SCPreferenceController: NSWindowController {
         }
     }
     
+    @IBAction func chooseMode(_ sender: AnyObject) {
+        preferenceManager.mode = (sender as! NSButton).tag as NSNumber
+    }
+    
+    @IBAction func setSelectedTab(_ sender: Any) {
+        let toolbarItem = sender as! NSToolbarItem
+        tabView.selectTabViewItem(at: toolbarItem.tag)
+    }
 }

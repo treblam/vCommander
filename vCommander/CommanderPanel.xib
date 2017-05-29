@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -57,7 +57,7 @@
                             </visualEffectView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="tA1-iV-zmB" firstAttribute="top" secondItem="eRc-fD-0CB" secondAttribute="top" id="7jR-6N-fwm"/>
+                            <constraint firstItem="tA1-iV-zmB" firstAttribute="top" secondItem="eRc-fD-0CB" secondAttribute="top" placeholder="YES" id="DUN-QY-IhB"/>
                             <constraint firstAttribute="trailing" secondItem="tA1-iV-zmB" secondAttribute="trailing" id="I1o-t1-1vr"/>
                             <constraint firstItem="Wg5-CC-E0k" firstAttribute="top" secondItem="eRc-fD-0CB" secondAttribute="top" id="KYA-kE-3ma"/>
                             <constraint firstAttribute="trailing" secondItem="Wg5-CC-E0k" secondAttribute="trailing" id="gWc-Pw-SCp"/>

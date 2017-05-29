@@ -16,13 +16,13 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     
     @IBOutlet weak var visualEffectView: NSVisualEffectView!
     
-    var panelName: String?
+    var isPrimary: Bool!
     
     let preferenceManager = PreferenceManager()
     
-    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, panelName: String) {
+    init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, isPrimary: Bool) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)!
-        self.panelName = panelName
+        self.isPrimary = isPrimary
     }
     
     required init?(coder: NSCoder) {
@@ -83,12 +83,13 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
         let newModel = TabBarModel()
-        let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, withSelected: item)
+        let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, isPrimary: isPrimary, withSelected: item)
         newModel.title = newItemController?.title ?? "Untitled"
         
         let newItem = NSTabViewItem(identifier: newModel)
         newItem.viewController = newItemController!
         newItem.identifier = newModel
+        newItem.initialFirstResponder = newItemController?.tableview  
         print("add new tab")
         tabView.addTabViewItem(newItem)
         
@@ -136,10 +137,10 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         
         let panelData = ["bookmarks": bookmarks, "selected": selectedIndex] as [String : Any]
         
-        if panelName == "leftPanel" {
+        if isPrimary {
             print("start to store leftPanel")
             preferenceManager.leftPanelData = panelData
-        } else if panelName == "rightPanel" {
+        } else {
             print("start to store right panel")
             preferenceManager.rightPanelData = panelData
         }
@@ -147,9 +148,9 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     
     func restoreTabs() {
         var panelData: [String : Any]?
-        if panelName == "leftPanel" {
+        if isPrimary {
             panelData = preferenceManager.leftPanelData
-        } else if panelName == "rightPanel" {
+        } else {
             panelData = preferenceManager.rightPanelData
         }
         
@@ -287,6 +288,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
             return nil
             
         default:
+            print("return the event")
             return theEvent
         }
     }

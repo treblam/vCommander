@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,147 +18,152 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="1131" height="616"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO" customClass="NSVisualEffectView">
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="1131" height="616"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <splitView vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnM-HQ-MfU">
-                        <rect key="frame" x="0.0" y="33" width="1131" height="583"/>
+                    <visualEffectView appearanceType="vibrantLight" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="e7S-HW-m84">
+                        <rect key="frame" x="0.0" y="0.0" width="1131" height="616"/>
                         <subviews>
-                            <customView fixedFrame="YES" id="BJd-zv-cLD">
-                                <rect key="frame" x="0.0" y="0.0" width="561" height="583"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </customView>
-                            <customView fixedFrame="YES" id="9Zd-jo-Pg7">
-                                <rect key="frame" x="570" y="0.0" width="561" height="583"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </customView>
-                        </subviews>
-                        <holdingPriorities>
-                            <real value="250"/>
-                            <real value="250"/>
-                        </holdingPriorities>
-                    </splitView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="nnf-2H-Hmv">
-                        <rect key="frame" x="0.0" y="0.0" width="1131" height="33"/>
-                        <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-Ja-adT">
-                                <rect key="frame" x="12" y="4" width="175" height="24"/>
+                            <splitView appearanceType="aqua" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GnM-HQ-MfU">
+                                <rect key="frame" x="0.0" y="33" width="1131" height="583"/>
+                                <subviews>
+                                    <customView fixedFrame="YES" id="BJd-zv-cLD">
+                                        <rect key="frame" x="0.0" y="0.0" width="561" height="583"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </customView>
+                                    <customView fixedFrame="YES" id="9Zd-jo-Pg7">
+                                        <rect key="frame" x="570" y="0.0" width="561" height="583"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </customView>
+                                </subviews>
+                                <holdingPriorities>
+                                    <real value="250"/>
+                                    <real value="250"/>
+                                </holdingPriorities>
+                            </splitView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="nnf-2H-Hmv">
+                                <rect key="frame" x="0.0" y="0.0" width="1131" height="33"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ybg-Ja-adT">
+                                        <rect key="frame" x="12" y="4" width="175" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="b7z-co-Aht"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="roundTextured" title="预览 (F3)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="showQuickLookPanel:" target="-1" id="PqJ-ME-CHu"/>
+                                        </connections>
+                                    </button>
+                                    <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
+                                        <rect key="frame" x="199" y="4" width="174" height="24"/>
+                                        <buttonCell key="cell" type="roundTextured" title="编辑 (F4)" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="editSelectedFile:" target="-1" id="igG-g8-FSe"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
+                                        <rect key="frame" x="572" y="4" width="174" height="24"/>
+                                        <buttonCell key="cell" type="roundTextured" title="移动 (F6)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="moveSelectedFiles:" target="-1" id="76J-p6-gfB"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pEP-bh-Z6V">
+                                        <rect key="frame" x="758" y="4" width="175" height="24"/>
+                                        <buttonCell key="cell" type="roundTextured" title="新建文件夹 (F7)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="newDirectory:" target="-1" id="Au8-TR-dkX"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
+                                        <rect key="frame" x="945" y="4" width="174" height="24"/>
+                                        <buttonCell key="cell" type="roundTextured" title="删除 (F8)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="deleteSelectedFiles:" target="-1" id="rUc-tV-KVZ"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ieu-hS-cXg">
+                                        <rect key="frame" x="385" y="4" width="175" height="24"/>
+                                        <buttonCell key="cell" type="roundTextured" title="复制 (F5)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="copySelectedFiles:" target="-1" id="85o-42-oof"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="b7z-co-Aht"/>
+                                    <constraint firstItem="1Vh-jl-co6" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="143-mU-VcZ"/>
+                                    <constraint firstItem="5Gh-2X-EES" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="3Sa-Ir-gcR"/>
+                                    <constraint firstItem="1Vh-jl-co6" firstAttribute="leading" secondItem="pEP-bh-Z6V" secondAttribute="trailing" constant="12" id="4XI-M7-ZtR"/>
+                                    <constraint firstItem="ieu-hS-cXg" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="7Nf-Vw-5eI"/>
+                                    <constraint firstItem="5Gh-2X-EES" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="BAI-lR-Uim"/>
+                                    <constraint firstItem="5Gh-2X-EES" firstAttribute="leading" secondItem="ieu-hS-cXg" secondAttribute="trailing" constant="12" id="JCP-Qe-RsW"/>
+                                    <constraint firstItem="pEP-bh-Z6V" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="MPZ-CW-2p5"/>
+                                    <constraint firstItem="ieu-hS-cXg" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="R51-76-ZNq"/>
+                                    <constraint firstItem="ybg-Ja-adT" firstAttribute="leading" secondItem="nnf-2H-Hmv" secondAttribute="leading" constant="12" id="SSX-NV-dIC"/>
+                                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="UJm-t6-RX6"/>
+                                    <constraint firstItem="pEP-bh-Z6V" firstAttribute="leading" secondItem="5Gh-2X-EES" secondAttribute="trailing" constant="12" id="WNa-yr-KtI"/>
+                                    <constraint firstAttribute="height" constant="33" id="X8F-GU-ig4"/>
+                                    <constraint firstItem="ieu-hS-cXg" firstAttribute="leading" secondItem="JJw-8C-Xa4" secondAttribute="trailing" constant="12" id="ZAb-hb-jD5"/>
+                                    <constraint firstItem="pEP-bh-Z6V" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="bHb-WU-qwU"/>
+                                    <constraint firstItem="pEP-bh-Z6V" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="bSU-dk-ff2"/>
+                                    <constraint firstAttribute="trailing" secondItem="1Vh-jl-co6" secondAttribute="trailing" constant="12" id="dtd-Md-wXj"/>
+                                    <constraint firstItem="ieu-hS-cXg" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="ebt-pA-lYd"/>
+                                    <constraint firstItem="1Vh-jl-co6" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="f77-pp-zi6"/>
+                                    <constraint firstItem="1Vh-jl-co6" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="gRR-5T-P71"/>
+                                    <constraint firstItem="ybg-Ja-adT" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="jxf-WR-pZs"/>
+                                    <constraint firstItem="5Gh-2X-EES" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="mYB-uR-DJm"/>
+                                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="leading" secondItem="ybg-Ja-adT" secondAttribute="trailing" constant="12" id="naV-tG-W5l"/>
+                                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="sfW-hd-OKn"/>
+                                    <constraint firstItem="JJw-8C-Xa4" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="tpk-WC-Qfz"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundTextured" title="预览 (F3)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RDO-q8-Opt">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="showQuickLookPanel:" target="-1" id="PqJ-ME-CHu"/>
-                                </connections>
-                            </button>
-                            <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JJw-8C-Xa4">
-                                <rect key="frame" x="199" y="4" width="174" height="24"/>
-                                <buttonCell key="cell" type="roundTextured" title="编辑 (F4)" bezelStyle="texturedRounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eNn-dV-ZhJ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="editSelectedFile:" target="-1" id="igG-g8-FSe"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Gh-2X-EES">
-                                <rect key="frame" x="572" y="4" width="174" height="24"/>
-                                <buttonCell key="cell" type="roundTextured" title="移动 (F6)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5Jh-sA-3yb">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="moveSelectedFiles:" target="-1" id="76J-p6-gfB"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pEP-bh-Z6V">
-                                <rect key="frame" x="758" y="4" width="175" height="24"/>
-                                <buttonCell key="cell" type="roundTextured" title="新建文件夹 (F7)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WXa-hY-xxU">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="newDirectory:" target="-1" id="Au8-TR-dkX"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
-                                <rect key="frame" x="945" y="4" width="174" height="24"/>
-                                <buttonCell key="cell" type="roundTextured" title="删除 (F8)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="deleteSelectedFiles:" target="-1" id="rUc-tV-KVZ"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ieu-hS-cXg">
-                                <rect key="frame" x="385" y="4" width="175" height="24"/>
-                                <buttonCell key="cell" type="roundTextured" title="复制 (F5)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1Gg-OF-AcI">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="copySelectedFiles:" target="-1" id="85o-42-oof"/>
-                                </connections>
-                            </button>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="1Vh-jl-co6" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="143-mU-VcZ"/>
-                            <constraint firstItem="5Gh-2X-EES" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="3Sa-Ir-gcR"/>
-                            <constraint firstItem="1Vh-jl-co6" firstAttribute="leading" secondItem="pEP-bh-Z6V" secondAttribute="trailing" constant="12" id="4XI-M7-ZtR"/>
-                            <constraint firstItem="ieu-hS-cXg" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="7Nf-Vw-5eI"/>
-                            <constraint firstItem="5Gh-2X-EES" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="BAI-lR-Uim"/>
-                            <constraint firstItem="5Gh-2X-EES" firstAttribute="leading" secondItem="ieu-hS-cXg" secondAttribute="trailing" constant="12" id="JCP-Qe-RsW"/>
-                            <constraint firstItem="pEP-bh-Z6V" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="MPZ-CW-2p5"/>
-                            <constraint firstItem="ieu-hS-cXg" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="R51-76-ZNq"/>
-                            <constraint firstItem="ybg-Ja-adT" firstAttribute="leading" secondItem="nnf-2H-Hmv" secondAttribute="leading" constant="12" id="SSX-NV-dIC"/>
-                            <constraint firstItem="JJw-8C-Xa4" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="UJm-t6-RX6"/>
-                            <constraint firstItem="pEP-bh-Z6V" firstAttribute="leading" secondItem="5Gh-2X-EES" secondAttribute="trailing" constant="12" id="WNa-yr-KtI"/>
-                            <constraint firstAttribute="height" constant="33" id="X8F-GU-ig4"/>
-                            <constraint firstItem="ieu-hS-cXg" firstAttribute="leading" secondItem="JJw-8C-Xa4" secondAttribute="trailing" constant="12" id="ZAb-hb-jD5"/>
-                            <constraint firstItem="pEP-bh-Z6V" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="bHb-WU-qwU"/>
-                            <constraint firstItem="pEP-bh-Z6V" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="bSU-dk-ff2"/>
-                            <constraint firstAttribute="trailing" secondItem="1Vh-jl-co6" secondAttribute="trailing" constant="12" id="dtd-Md-wXj"/>
-                            <constraint firstItem="ieu-hS-cXg" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="ebt-pA-lYd"/>
-                            <constraint firstItem="1Vh-jl-co6" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="f77-pp-zi6"/>
-                            <constraint firstItem="1Vh-jl-co6" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="gRR-5T-P71"/>
-                            <constraint firstItem="ybg-Ja-adT" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="jxf-WR-pZs"/>
-                            <constraint firstItem="5Gh-2X-EES" firstAttribute="centerY" secondItem="nnf-2H-Hmv" secondAttribute="centerY" id="mYB-uR-DJm"/>
-                            <constraint firstItem="JJw-8C-Xa4" firstAttribute="leading" secondItem="ybg-Ja-adT" secondAttribute="trailing" constant="12" id="naV-tG-W5l"/>
-                            <constraint firstItem="JJw-8C-Xa4" firstAttribute="width" secondItem="ybg-Ja-adT" secondAttribute="width" id="sfW-hd-OKn"/>
-                            <constraint firstItem="JJw-8C-Xa4" firstAttribute="height" secondItem="ybg-Ja-adT" secondAttribute="height" id="tpk-WC-Qfz"/>
+                            <constraint firstItem="GnM-HQ-MfU" firstAttribute="top" secondItem="e7S-HW-m84" secondAttribute="top" id="6f8-NU-ned"/>
+                            <constraint firstAttribute="bottom" secondItem="nnf-2H-Hmv" secondAttribute="bottom" id="D0d-ai-4hF"/>
+                            <constraint firstItem="nnf-2H-Hmv" firstAttribute="top" secondItem="GnM-HQ-MfU" secondAttribute="bottom" id="Ra9-1P-XEh"/>
+                            <constraint firstItem="nnf-2H-Hmv" firstAttribute="leading" secondItem="e7S-HW-m84" secondAttribute="leading" id="Tme-Xx-GcR"/>
+                            <constraint firstAttribute="trailing" secondItem="nnf-2H-Hmv" secondAttribute="trailing" id="VdZ-Xe-VRq"/>
+                            <constraint firstItem="GnM-HQ-MfU" firstAttribute="leading" secondItem="e7S-HW-m84" secondAttribute="leading" id="mue-uT-y8Y"/>
+                            <constraint firstAttribute="trailing" secondItem="GnM-HQ-MfU" secondAttribute="trailing" id="zSL-So-FXB"/>
                         </constraints>
-                    </customView>
+                    </visualEffectView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="GnM-HQ-MfU" secondAttribute="trailing" id="1vh-2D-85N"/>
-                    <constraint firstItem="GnM-HQ-MfU" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="D5B-2q-ePW"/>
-                    <constraint firstItem="nnf-2H-Hmv" firstAttribute="top" secondItem="GnM-HQ-MfU" secondAttribute="bottom" id="LVA-Cm-c3h"/>
-                    <constraint firstAttribute="bottom" secondItem="nnf-2H-Hmv" secondAttribute="bottom" id="QDO-b9-CHX"/>
-                    <constraint firstItem="nnf-2H-Hmv" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="X7b-mj-nxu"/>
-                    <constraint firstAttribute="trailing" secondItem="nnf-2H-Hmv" secondAttribute="trailing" id="gXE-tl-Htb"/>
-                    <constraint firstItem="GnM-HQ-MfU" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="pfg-f6-i2l"/>
+                    <constraint firstItem="e7S-HW-m84" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="0Ts-Qj-GAc"/>
+                    <constraint firstAttribute="trailing" secondItem="e7S-HW-m84" secondAttribute="trailing" id="Ivh-VU-EAI"/>
+                    <constraint firstAttribute="bottom" secondItem="e7S-HW-m84" secondAttribute="bottom" id="LY6-q3-QHu"/>
+                    <constraint firstItem="e7S-HW-m84" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="mCY-3b-U7X"/>
                 </constraints>
             </view>
             <toolbar key="toolbar" implicitIdentifier="C1DFA10E-08D8-4932-A457-C930E1CB95FC" autosavesConfiguration="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="Pcj-AY-gbi">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="pn2-ng-Sht"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="eKY-vS-P4b"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="XSR-fh-Qyk"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="qzO-yE-Scc"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Vtr-SP-ghO"/>
                 </allowedToolbarItems>
-                <defaultToolbarItems>
-                    <toolbarItem reference="pn2-ng-Sht"/>
-                    <toolbarItem reference="eKY-vS-P4b"/>
-                    <toolbarItem reference="Vtr-SP-ghO"/>
-                    <toolbarItem reference="XSR-fh-Qyk"/>
-                </defaultToolbarItems>
+                <defaultToolbarItems/>
                 <connections>
                     <outlet property="delegate" destination="F0z-JX-Cv5" id="e6M-dv-g2k"/>
                 </connections>

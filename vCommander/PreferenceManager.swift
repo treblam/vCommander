@@ -16,6 +16,8 @@ private let leftPanelKey = "leftPanel"
 
 private let rightPanelKey = "rightPanel"
 
+private let modeKey = "mode"
+
 class PreferenceManager {
     fileprivate let userDefaults = UserDefaults.standard
     
@@ -24,10 +26,16 @@ class PreferenceManager {
     }
     
     func registerDefaultPreferences() {
-        let defaults = [ textEditorKey: "/Applications/textEdit.app", diffToolKey: "/usr/local/bin/bcompare" ]
+        let defaults = [
+            textEditorKey: "/Applications/textEdit.app",
+            diffToolKey: "/usr/local/bin/bcompare",
+            modeKey: 0
+        ] as [String : Any]
         
         userDefaults.register(defaults: defaults)
     }
+    
+//    var mode: 
     
     var textEditor: String? {
         set (newTextEditor) {
@@ -44,6 +52,15 @@ class PreferenceManager {
         }
         get {
             return userDefaults.object(forKey: diffToolKey) as? String
+        }
+    }
+    
+    var mode: NSNumber? {
+        set (newMode) {
+            userDefaults.set(newMode, forKey: modeKey)
+        }
+        get {
+            return userDefaults.object(forKey: modeKey) as? NSNumber
         }
     }
     
