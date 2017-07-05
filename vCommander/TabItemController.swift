@@ -48,6 +48,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var typeSelectTextField: NSTextField?
     var typeSelectIndices: [Int]?
     var typeSelectIndex: Int?
+    var isTypeSelectMode: Bool {
+        if let field = typeSelectTextField {
+            return !field.isHidden
+        } else {
+            return false
+        }
+    }
     
     var lastRenamedFileURL: URL?
     
@@ -59,6 +66,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var selectedIndexes: IndexSet?
     var markedItems = [URL]()
     var needToRestoreSelected = false
+    
+    var isVimMode: Bool {
+        return preferenceManager.mode == 1
+    }
     
     var initUrl: URL?
     
@@ -650,8 +661,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("keyCode: " + String(theEvent.keyCode))
         
         let flags = theEvent.modifierFlags
-        let s = theEvent.charactersIgnoringModifiers!
+        let s = theEvent.characters!
         let char = convertToInt(s)
+        print("s: \(s)")
         print("char:" + String(char))
         
         let hasCommand = flags.contains(.command)
@@ -674,7 +686,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         switch char {
         case NSBackspaceFunctionKey where noneModifiers,
-//            convertToInt("h") where noneModifiers,
+            convertToInt("h") where noneModifiers && isVimMode && !isTypeSelectMode,
             NSLeftArrowFunctionKey where noneModifiers:
             // delete or h or left arrow
             // h was used to emulate vim hotkeys
@@ -701,24 +713,34 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return
             
         case NSEnterFunctionKey where noneModifiers,
-//            convertToInt("l") where noneModifiers,
+            convertToInt("l") where noneModifiers && isVimMode && !isTypeSelectMode,
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
             openFileOrDirectory()
             return
             
-//        case convertToInt("h") where hasControl:
-//            if !isLeft {
+        case convertToInt("h") where hasControl && isVimMode:
+//            if !isPrimary {
 //                insertTab(nil)
 //            }
-//            return
-//            
-//        case convertToInt("l") where hasControl:
-//            if isLeft {
+            switchFocus()
+            return
+            
+        case convertToInt("l") where hasControl && isVimMode:
+//            if isPrimary {
 //                insertTab(nil)
 //            }
-//            return
+            switchFocus()
+            return
+        
+        case convertToInt("j") where isVimMode && !isTypeSelectMode:
+            selectNextRow()
+            return
+            
+        case convertToInt("k") where isVimMode && !isTypeSelectMode:
+            selectPrevRow()
+            return
             
         case NSF5FunctionKey where noneModifiers:
             copySelectedFiles(nil)
@@ -736,19 +758,34 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             deleteSelectedFiles(nil)
             return
             
-//        case convertToInt("g") where noneModifiers:
-//            if isGpressed {
-//                selectRow(0)
-//            } else {
-//                isGpressed = true
-//                NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "clearGPressed", userInfo: nil, repeats: false)
-//            }
-//            return
-//            
-//        case convertToInt("G") where hasShift:
-//            let count = numberOfRowsInTableView(tableview)
-//            selectRow(count - 1)
-//            return
+        case convertToInt("g") where noneModifiers && isVimMode && !isTypeSelectMode:
+            if isGpressed {
+                selectRow(0)
+            } else {
+                isGpressed = true
+                Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(TabItemController.clearGPressed), userInfo: nil, repeats: false)
+            }
+            return
+            
+        case convertToInt("G") where isVimMode && !isTypeSelectMode:
+            print("Start to call selectLastRow")
+            selectLastRow()
+            return
+            
+        case convertToInt("H") where isVimMode && !isTypeSelectMode:
+            print("Start to call selectFirstVisibleRow")
+            selectFirstVisibleRow()
+            return
+            
+        case convertToInt("L") where isVimMode && !isTypeSelectMode:
+            print("Start to call selectFirstVisibleRow")
+            selectLastVisibleRow()
+            return
+            
+        case convertToInt("M") where isVimMode && !isTypeSelectMode:
+            print("Start to call selectMiddleVisibleRow")
+            selectMiddleVisibleRow()
+            return
             
         case TabKey_KeyCode where (noneModifiers || hasShift && !hasCommand && !hasAlt && !hasControl):
             switchFocus()
@@ -766,19 +803,68 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
         }
         
-        interpretKeyEvents([theEvent])
-        super.keyDown(with: theEvent)
+//        interpretKeyEvents([theEvent])
+        // super.keyDown(with: theEvent)
+    }
+    
+    func selectNextRow() {
+        let curIndex = tableview.selectedRowIndexes.first
+        
+        if let index = curIndex {
+            if index < numberOfRows(in: tableview) - 1 {
+                selectRow(index + 1)
+            }
+        }
+        
+    }
+    
+    func selectPrevRow() {
+        let curIndex = tableview.selectedRowIndexes.first
+        
+        if let index = curIndex {
+            if index > 0 {
+                selectRow(index - 1)
+            }
+        }
     }
     
     func selectLastRow() {
-        let indexSet = IndexSet(integer: numberOfRows(in: tableview))
-        tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
+        let lastRowIndex = numberOfRows(in: tableview) - 1
+        selectRow(lastRowIndex)
     }
     
-    func selectRow(_ row: Int) {
-        let indexSet = IndexSet(integer: row)
-        tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
-        tableview.scrollRowToVisible(row)
+    func selectRow(_ rowIndex: Int?, isScroll: Bool = true) {
+        if let row = rowIndex {
+            let indexSet = IndexSet(integer: row)
+            tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
+            
+            if isScroll {
+                tableview.scrollRowToVisible(row)
+            }
+        }
+    }
+    
+    func visibleRows() -> NSIndexSet {
+        let rect = tableview.visibleRect
+        let range = tableview.rows(in: rect)
+        print("firstIndex in range: \(range.location)")
+        return NSIndexSet(indexesIn: range)
+    }
+    
+    func selectFirstVisibleRow() {
+        let indexes = visibleRows()
+        selectRow(indexes.firstIndex, isScroll: false)
+    }
+    
+    func selectLastVisibleRow() {
+        let indexes = visibleRows()
+        selectRow(indexes.lastIndex, isScroll: false)
+    }
+    
+    func selectMiddleVisibleRow() {
+        let indexes = visibleRows()
+        let middleRow = indexes.firstIndex + indexes.count/2
+        selectRow(middleRow, isScroll: false)
     }
     
     func reselectIfNecessary() {
@@ -967,6 +1053,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         var stringValue: String
         
+        if isVimMode && insertString as! String != "/" && !isTypeSelectMode {
+            return false
+        }
+        
         // If the textfield already exists
         if let field = typeSelectTextField {
             if field.isHidden {
@@ -989,8 +1079,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             let widthConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 150)
             let heightConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20)
             self.view.addConstraints([widthConstraint, heightConstraint, trailingConstraint, bottomConstraint])
-//            self.view.window!.makeFirstResponder(typeSelectTextField!)
+            //            self.view.window!.makeFirstResponder(typeSelectTextField!)
         }
+        
         
         updateTypeSelectMatches(byString: stringValue)
         
@@ -1008,8 +1099,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func updateTypeSelectMatches(byString string: String) {
         typeSelectIndices = curFsItem.children.enumerated().filter {
             $0.element.localizedName.transformToPinYin().range(of: string, options: .caseInsensitive, range: nil, locale: nil) != nil
-            }.map {
-                $0.offset
+        }.map {
+            $0.offset
         }
     }
     
