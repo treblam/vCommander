@@ -10,7 +10,7 @@ import Cocoa
 
 import Quartz
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate {
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate, NSTextFieldDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
     @IBOutlet weak var scrollview: NSScrollView!
@@ -42,8 +42,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var isQLMode = false
     
-    var isGpressed = false
-    
     // Variables for type select
     var typeSelectTextField: NSTextField?
     var typeSelectIndices: [Int]?
@@ -72,6 +70,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     var initUrl: URL?
+    
+    var scrollViewTopInset: CGFloat = 0
+    
+    let TABLEVIEW_HEADER_HEIGHT: CGFloat = 23
+    let TABBAR_HEIGHT: CGFloat = 25
+    let PATHCONTROL_HEIGHT: CGFloat = 19
+    
+    var inputString = ""
     
     var isActive: Bool {
         if let windowController = self.view.window?.windowController as? MainWindowController {
@@ -105,18 +111,27 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func viewWillLayout() {
+        print("viewWillLayout called.")
         scrollview.automaticallyAdjustsContentInsets = false
         if let window = view.window {
             let contentLayoutRect = window.contentLayoutRect
-//            let topInset = (window.contentView?.frame.size.height)! - (contentLayoutRect.height) + 26
-            let topInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + 25 + 19
-            scrollview.contentInsets = EdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)
+            scrollViewTopInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + TABBAR_HEIGHT + PATHCONTROL_HEIGHT
+            scrollview.contentInsets = EdgeInsets(top: scrollViewTopInset, left: 0, bottom: 0, right: 0)
             
-            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 25.0)
+            print("NSHeight(window.frame): \(NSHeight(window.frame))")
+            print("NSMaxY(contentLayoutRect): \(NSMaxY(contentLayoutRect))")
+            print("scrollViewTopInset: \(scrollViewTopInset)")
+            
+            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: TABBAR_HEIGHT)
             topConstraint.isActive = true
             
             updatePathControlBackground()
         }
+    }
+    
+    override func viewDidLayout() {
+        print("viewDidLayout called.")
+        tableview.scrollRowToVisible(tableview.selectedRow)
     }
     
     override func viewWillDisappear() {
@@ -527,14 +542,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             backToParentDirectory()
             return
         }
-        
-        //        todo: review whether should I use fileManager.changeCurrentDirectoryPath here
-        //        let suc = fileManager.changeCurrentDirectoryPath(url.path)
-        //        if (!suc) {
-        //            print("change directory fail")
-        //        }
-        //
-        //        print(fileManager.currentDirectoryPath)
+
+        // The fileManager's current directory is used when rename a file
+        let suc = fileManager.changeCurrentDirectoryPath(url.path)
+        if (!suc) {
+            print("change directory fail")
+        }
+
+        print(fileManager.currentDirectoryPath)
         
         if initUrl != nil {
             initUrl = nil
@@ -663,7 +678,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let flags = theEvent.modifierFlags
         let s = theEvent.characters!
         let char = convertToInt(s)
-        print("s: \(s)")
+        print("s: \"\(s)\"")
         print("char:" + String(char))
         
         let hasCommand = flags.contains(.command)
@@ -674,6 +689,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("hasShift: " + String(hasShift))
         print("hasAlt: " + String(hasAlt))
         print("hasControl: " + String(hasControl))
+        print("isVimMode: \(isVimMode)")
         
         let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
         print("noneModifiers: " + String(noneModifiers))
@@ -683,6 +699,23 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let NSBackspaceFunctionKey = 127
         let NSEnterFunctionKey = 13
         let TabKey_KeyCode = 9
+        
+        print("convertToInt(\"h\"): \(convertToInt("h"))")
+        print("convertToInt(\"j\"): \(convertToInt("j"))")
+        print("convertToInt(\"\"): \(convertToInt(" "))")
+        
+        if hasControl {
+            if let chars = theEvent.charactersIgnoringModifiers {
+                print("chars: \(chars)")
+                switch chars  {
+                case "l" where isVimMode, "h" where isVimMode:
+                    switchFocus()
+                    return
+                default:
+                    break
+                }
+            }
+        }
         
         switch char {
         case NSBackspaceFunctionKey where noneModifiers,
@@ -720,28 +753,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             openFileOrDirectory()
             return
             
-        case convertToInt("h") where hasControl && isVimMode:
-//            if !isPrimary {
-//                insertTab(nil)
-//            }
-            switchFocus()
-            return
-            
-        case convertToInt("l") where hasControl && isVimMode:
-//            if isPrimary {
-//                insertTab(nil)
-//            }
-            switchFocus()
-            return
-        
-        case convertToInt("j") where isVimMode && !isTypeSelectMode:
-            selectNextRow()
-            return
-            
-        case convertToInt("k") where isVimMode && !isTypeSelectMode:
-            selectPrevRow()
-            return
-            
         case NSF5FunctionKey where noneModifiers:
             copySelectedFiles(nil)
             return
@@ -756,20 +767,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
         case NSF8FunctionKey where noneModifiers:
             deleteSelectedFiles(nil)
-            return
-            
-        case convertToInt("g") where noneModifiers && isVimMode && !isTypeSelectMode:
-            if isGpressed {
-                selectRow(0)
-            } else {
-                isGpressed = true
-                Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(TabItemController.clearGPressed), userInfo: nil, repeats: false)
-            }
-            return
-            
-        case convertToInt("G") where isVimMode && !isTypeSelectMode:
-            print("Start to call selectLastRow")
-            selectLastRow()
             return
             
         case convertToInt("H") where isVimMode && !isTypeSelectMode:
@@ -803,29 +800,26 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
         }
         
-//        interpretKeyEvents([theEvent])
-        // super.keyDown(with: theEvent)
+        interpretKeyEvents([theEvent])
+        super.keyDown(with: theEvent)
     }
     
-    func selectNextRow() {
+    func selectNextRow(withCount count: Int? = 1) {
         let curIndex = tableview.selectedRowIndexes.first
-        
-        if let index = curIndex {
-            if index < numberOfRows(in: tableview) - 1 {
-                selectRow(index + 1)
-            }
-        }
-        
+        let countInner = count == nil || count == 0 ? 1 : count!
+        let targetIndex = min(numberOfRows(in: tableview) - 1, curIndex! + countInner)
+        selectRow(targetIndex)
     }
     
-    func selectPrevRow() {
+    func selectPrevRow(withCount count: Int? = 1) {
         let curIndex = tableview.selectedRowIndexes.first
-        
-        if let index = curIndex {
-            if index > 0 {
-                selectRow(index - 1)
-            }
-        }
+        let countInner = count == nil || count == 0 ? 1 : count!
+        let targetIndex = max(0, curIndex! - countInner)
+        selectRow(targetIndex)
+    }
+    
+    func selectFirstRow() {
+        selectRow(0)
     }
     
     func selectLastRow() {
@@ -833,12 +827,26 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         selectRow(lastRowIndex)
     }
     
+    func selectRow(withNum num: Int?, isDefaultTop: Bool) {
+        if let numInner = num {
+            selectRow(numInner)
+        } else {
+            if isDefaultTop {
+                selectFirstRow()
+            } else {
+                selectLastRow()
+            }
+        }
+    }
+    
     func selectRow(_ rowIndex: Int?, isScroll: Bool = true) {
         if let row = rowIndex {
             let indexSet = IndexSet(integer: row)
             tableview.selectRowIndexes(indexSet, byExtendingSelection: false)
             
+            print("Select row \(row)")
             if isScroll {
+                print("Slect row to visible \(row)")
                 tableview.scrollRowToVisible(row)
             }
         }
@@ -846,8 +854,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func visibleRows() -> NSIndexSet {
         let rect = tableview.visibleRect
-        let range = tableview.rows(in: rect)
-        print("firstIndex in range: \(range.location)")
+        let contentHeight = (tableview.enclosingScrollView?.contentSize.height)! - scrollViewTopInset - TABLEVIEW_HEADER_HEIGHT
+        print("contentHeight: \(contentHeight)")
+        print("rect.origin.x: \(rect.origin.x), rect.origin.y: \(rect.origin.y)")
+        
+        let realVisibleRect = NSMakeRect(rect.origin.x, rect.origin.y + rect.height - contentHeight, rect.width, contentHeight)
+        let range = tableview.rows(in: realVisibleRect)
+        print("location in range: \(range.location)")
+        print("length in range: \(range.length)")
         return NSIndexSet(indexesIn: range)
     }
     
@@ -901,17 +915,21 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //        }
     }
     
-    func clearGPressed() {
-        isGpressed = false
-    }
-    
     @IBAction func showQuickLookPanel(_ sender: AnyObject?) {
         QLPreviewPanel.shared().makeKeyAndOrderFront(self)
     }
     
     @IBAction func copySelectedFiles(_ sender: AnyObject?) {
         let items = getMarkedItems()
-        
+        copyFiles(items)
+    }
+    
+    func copyMarkedFiles() {
+        let items = getMarkedItems(false)
+        copyFiles(items)
+    }
+    
+    func copyFiles(_ items: [FileSystemItem]) {
         if items.count > 0 {
             let windowController = self.view.window!.windowController as! MainWindowController
             let targetViewController = windowController.getTargetTabItem()
@@ -921,12 +939,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 let toUrl = URL(string: item.fileURL.lastPathComponent, relativeTo: destination)
                 
                 do {
-                   try fileManager.copyItem(at: item.fileURL, to: toUrl!)
+                    try fileManager.copyItem(at: item.fileURL, to: toUrl!)
                 } catch let error as NSError {
                     print("Ooops! Something went wrong: \(error)")
                 }
             }
         }
+    }
+    
+    func copyFiles(withCount count: Int?) {
+        let items = getItems(withCount: count)
+        copyFiles(items)
     }
     
     @IBAction func moveSelectedFiles(_ sender: AnyObject?) {
@@ -954,7 +977,30 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func deleteSelectedFiles(_ sender: AnyObject?) {
         let items = getMarkedItems()
+        deleteFiles(items)
+    }
+    
+    func deleteMarkedFiles() {
+        let items = getMarkedItems(false)
+        deleteFiles(items)
+    }
+    
+    func getItems(withCount count: Int?) -> [FileSystemItem] {
+        // 0 count doesn't make sense
+        let countInner = (count == nil || count == 0) ? 1 : count!
         
+        let startIndex = Int(tableview.selectedRowIndexes.first!)
+        let endIndex = min(startIndex + countInner - 1, numberOfRows(in: tableview) - 1)
+        return Array(curFsItem.children[startIndex...endIndex])
+    }
+    
+    func deleteFiles(withCount count: Int?) {
+        let items = getItems(withCount: count)
+        print("items.count: \(items.count)")
+        deleteFiles(items)
+    }
+    
+    func deleteFiles(_ items: [FileSystemItem]) {
         if items.count == 0 {
             return
         }
@@ -1082,6 +1128,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             //            self.view.window!.makeFirstResponder(typeSelectTextField!)
         }
         
+        if insertString as! String == "/" {
+            return true
+        }
         
         updateTypeSelectMatches(byString: stringValue)
         
@@ -1094,6 +1143,101 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return true
         }
         return false
+    }
+    
+    override func insertText(_ insertString: Any) {
+        print("insertString: \(insertString)")
+        
+        if !isVimMode {
+            return
+        }
+        
+        if let char = insertString as? String {
+            inputString += char
+            print("inputString: \(inputString)")
+            
+            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT)$", in: inputString)
+            if textMatches.count > 0 {
+                let match = textMatches[textMatches.count - 1]
+                
+                print("match[0]: \(match[0])")
+                print("match[1]: \(match[1])")
+                print("match[2]: \(match[2])")
+                
+                let handled = exec(command: match[2], withRepetition: Int(match[1]))
+                if handled {
+                    inputString = ""
+                }
+            }
+        }
+    }
+    
+    func exec(command: String, withRepetition repetition: Int?) -> Bool {
+        switch command {
+        case "dd":
+            deleteFiles(withCount: repetition)
+            return true
+        case "d":
+            let hasMarkedFiles = getMarkedItems(false).count > 0
+            if hasMarkedFiles {
+                deleteMarkedFiles()
+                return true
+            }
+            return false
+        case "j":
+            selectNextRow(withCount: repetition)
+            return true
+        case "k":
+            selectPrevRow(withCount: repetition)
+            return true
+        case "gg":
+            selectRow(withNum: repetition, isDefaultTop: true)
+            return true
+        case "G":
+            selectRow(withNum: repetition, isDefaultTop: false)
+            return true
+        case "yy":
+            copyToClipboard(withCount: repetition)
+            return true
+        case "y":
+            let hasMarkedFiles = getMarkedItems(false).count > 0
+            if hasMarkedFiles {
+                copyMarkedItemsToClipboard()
+                return true
+            }
+            return false
+        case "S", "cc":
+            renameRow()
+            return true
+        case "i", "a", "A":
+            renameRow(withCursorPosition: "right")
+            return true
+        case "I":
+            renameRow(withCursorPosition: "left")
+            return true
+        case "gt":
+            (parent as? CommanderPanel)?.nextTabWithCount(repetition)
+            return true
+        case "gT":
+            (parent as? CommanderPanel)?.previousTabWithCount(repetition)
+            return true
+        default:
+            break
+        }
+        
+        return false
+    }
+    
+    func matches(for regex: String, in text: String) -> [[String]] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let nsString = text as NSString
+            let results = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length))
+            return results.map { [nsString.substring(with: $0.range), nsString.substring(with: $0.rangeAt(1)), nsString.substring(with: $0.rangeAt(2))] }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return [[]]
+        }
     }
     
     func updateTypeSelectMatches(byString string: String) {
@@ -1116,7 +1260,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         typeSelectIndices = nil
         typeSelectIndex = nil
     }
-    
+        
 //    convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 //        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, url: nil, isPrimary: true, withSelected: nil)
 //    }
@@ -1283,6 +1427,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     @IBAction func rename(_ sender: AnyObject?) {
+        renameRow()
+    }
+    
+    func renameRow(withCursorPosition cursorPosition: String = "select") {
         let row = tableview.selectedRow
         let selected = getSelectedItem()
         print("path:" + (selected?.path)!)
@@ -1290,7 +1438,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         let cellview = tableview.view(atColumn: 0, row: row, makeIfNecessary: false) as! NSTableCellView
         cellview.textField?.isEditable = true
+        
         tableview.editColumn(0, row: row, with: nil, select: true)
+        if cursorPosition == "left" {
+            cellview.textField?.currentEditor()?.moveToBeginningOfLine(nil)
+        } else if cursorPosition == "right" {
+            cellview.textField?.currentEditor()?.moveToEndOfLine(nil)
+        }
     }
     
     @IBAction func paste(_ sender: AnyObject?) {
@@ -1322,12 +1476,26 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     @IBAction func copy(_ sender: AnyObject?) {
-        let files = getMarkedItems()
+        let items = getMarkedItems()
+        copyToClipboard(items)
+    }
+    
+    func copyToClipboard(withCount count: Int?) {
+        let items = getItems(withCount: count)
+        copyToClipboard(items)
+    }
+    
+    func copyMarkedItemsToClipboard() {
+        let items = getMarkedItems(false)
+        copyToClipboard(items)
+    }
+    
+    func copyToClipboard(_ items: [FileSystemItem]) {
         let objectsToCopy: Array<URL>
         
-        if files.count > 0 {
+        if items.count > 0 {
             pasteboard.clearContents()
-            objectsToCopy = files.map {
+            objectsToCopy = items.map {
                 return ($0.fileURL as URL)
             }
             pasteboard.writeObjects(objectsToCopy as [NSPasteboardWriting])
@@ -1364,6 +1532,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let selected = getSelectedItem()
         let currentName = selected?.fileURL.lastPathComponent
         
+        textField?.isEditable = false
+        
         if newName == nil || newName == "" {
             print("New name is empty, restore to old name.")
             textField?.stringValue = currentName!
@@ -1394,8 +1564,16 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 print("Ooops! Something went wrong: \(error)")
             }
         }
-        
-        textField?.isEditable = false
+    }
+    
+    // Make the NSTextField not editable when escape key is pressed
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        if commandSelector == #selector(cancelOperation(_:)) {
+            if let textField = control as? NSTextField {
+                textField.isEditable = false
+            }
+        }
+        return false
     }
     
     func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {

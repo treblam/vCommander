@@ -264,6 +264,32 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         }
     }
     
+    func previousTabWithCount(_ count: Int?) {
+        let index = tabView.indexOfTabViewItem(tabView.selectedTabViewItem!)
+        
+        var targetIndex = 0
+        if count == nil {
+            targetIndex = max(0, index - 1)
+        } else if count! > 0 {
+            targetIndex = min(tabView.numberOfTabViewItems - 1, count! - 1)
+        }
+        
+        tabView.selectTabViewItem(at: targetIndex)
+    }
+    
+    func nextTabWithCount(_ count: Int?) {
+        let index = tabView.indexOfTabViewItem(tabView.selectedTabViewItem!)
+        
+        var targetIndex = 0
+        if count == nil {
+            targetIndex = min(tabView.numberOfTabViewItems - 1, index + 1)
+        } else if count! > 0 {
+            targetIndex = min(tabView.numberOfTabViewItems - 1, count! - 1)
+        }
+        
+        tabView.selectTabViewItem(at: targetIndex)
+    }
+    
     func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
         if !isActive() {
             return theEvent
