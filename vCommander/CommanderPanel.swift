@@ -84,6 +84,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
         let newModel = TabBarModel()
         let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, isPrimary: isPrimary, withSelected: item)
+        newItemController?.delegate = self
         newModel.title = newItemController?.title ?? "Untitled"
         
         let newItem = NSTabViewItem(identifier: newModel)
@@ -269,9 +270,13 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         
         var targetIndex = 0
         if count == nil {
-            targetIndex = max(0, index - 1)
+            targetIndex = (index - 1) % tabView.numberOfTabViewItems
         } else if count! > 0 {
-            targetIndex = min(tabView.numberOfTabViewItems - 1, count! - 1)
+            targetIndex = (index - count!) % tabView.numberOfTabViewItems
+        }
+        
+        if targetIndex < 0 {
+            targetIndex += tabView.numberOfTabViewItems
         }
         
         tabView.selectTabViewItem(at: targetIndex)
@@ -282,9 +287,9 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         
         var targetIndex = 0
         if count == nil {
-            targetIndex = min(tabView.numberOfTabViewItems - 1, index + 1)
+            targetIndex = (index + 1) % tabView.numberOfTabViewItems
         } else if count! > 0 {
-            targetIndex = min(tabView.numberOfTabViewItems - 1, count! - 1)
+            targetIndex = (index + count!) % tabView.numberOfTabViewItems
         }
         
         tabView.selectTabViewItem(at: targetIndex)

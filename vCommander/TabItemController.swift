@@ -25,6 +25,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
+    weak var delegate: CommanderPanel!
+    
     var curFsItem: FileSystemItem!
     
     let fileManager = FileManager()
@@ -1216,10 +1218,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             renameRow(withCursorPosition: "left")
             return true
         case "gt":
-            (parent as? CommanderPanel)?.nextTabWithCount(repetition)
+            delegate.nextTabWithCount(repetition)
             return true
         case "gT":
-            (parent as? CommanderPanel)?.previousTabWithCount(repetition)
+            delegate.previousTabWithCount(repetition)
             return true
         default:
             break
