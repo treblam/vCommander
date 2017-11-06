@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
             _mainWindowController = MainWindowController()
             _mainWindowController?.window?.isRestorable = true
             _mainWindowController?.window?.restorationClass = type(of: self)
-            _mainWindowController?.window?.identifier = "mainWindow"
+            _mainWindowController?.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "mainWindow")
         }
         
         return _mainWindowController
@@ -53,9 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
         }
     }
     
-    public static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {
+    public static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {
         var window: NSWindow? = nil
-        if identifier == "mainWindow" {
+        if identifier.rawValue == "mainWindow" {
             let appDelegate = NSApp.delegate as! AppDelegate
             window = appDelegate.mainWindowController()?.window
         }

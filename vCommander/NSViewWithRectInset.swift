@@ -16,8 +16,8 @@ class NSViewWithRectInset: NSView {
         // Drawing code here.
     }
     
-    override var alignmentRectInsets: EdgeInsets {
-        return EdgeInsets(top: 0, left: 0, bottom: 50.0, right: 0)
+    override var alignmentRectInsets: NSEdgeInsets {
+        return NSEdgeInsets(top: 0, left: 0, bottom: 50.0, right: 0)
     }
     
 }

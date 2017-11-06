@@ -19,8 +19,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     
     var subWindowController: MainWindowController?
     
-    override var windowNibName: String {
-        return "MainWindowController"
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name(rawValue: "MainWindowController")
     }
     
     let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, isPrimary: true)!
@@ -66,11 +66,11 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         let views = ["leftPanel": leftPanel.view, "rightPanel": rightPanel.view]
         
-        leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
+        leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftPanel(>=400)]-0-|", options: [NSLayoutConstraint.FormatOptions.alignAllTop, NSLayoutConstraint.FormatOptions.alignAllBottom], metrics: nil, views: views))
         
         leftView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[leftPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
-        rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[rightPanel(>=400)]-0-|", options: [NSLayoutFormatOptions.alignAllTop, NSLayoutFormatOptions.alignAllBottom], metrics: nil, views: views))
+        rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[rightPanel(>=400)]-0-|", options: [NSLayoutConstraint.FormatOptions.alignAllTop, NSLayoutConstraint.FormatOptions.alignAllBottom], metrics: nil, views: views))
         
         rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
@@ -84,7 +84,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
 //        window?.initialFirstResponder = activeTab.tableview
         
         self.window?.titleVisibility = .hidden
-        self.window?.styleMask.insert(.fullSizeContentView)
+        self.window?.styleMask.insert(NSWindow.StyleMask.fullSizeContentView)
     }
     
     override func keyDown(with theEvent: NSEvent) {

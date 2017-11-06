@@ -12,7 +12,7 @@ class TabBarModel: NSObject, MMTabBarItem {
     
     var title: String
     
-    var length = 10
+    @objc var length = 10
     
     var hasCloseButton = true
     
