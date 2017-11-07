@@ -675,6 +675,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func keyDown(with theEvent: NSEvent) {
+        print("TabItemController keydown called.")
         print("keyCode: " + String(theEvent.keyCode))
         
         let flags = theEvent.modifierFlags
@@ -909,6 +910,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func selectNextRow(withCount count: Int? = 1) {
         let curIndex = tableview.selectedRowIndexes.first
+        if curIndex == nil {
+            return
+        }
         let countInner = count == nil || count == 0 ? 1 : count!
         let targetIndex = min(numberOfRows(in: tableview) - 1, curIndex! + countInner)
         selectRow(targetIndex)
@@ -916,6 +920,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func selectPrevRow(withCount count: Int? = 1) {
         let curIndex = tableview.selectedRowIndexes.first
+        if curIndex == nil {
+            return
+        }
         let countInner = count == nil || count == 0 ? 1 : count!
         let targetIndex = max(0, curIndex! - countInner)
         selectRow(targetIndex)
