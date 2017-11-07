@@ -11,7 +11,7 @@ import Cocoa
 class SCTableRowView: NSTableRowView {
     
     override func drawSelection(in dirtyRect: NSRect) {
-        if (self.selectionHighlightStyle != NSTableViewSelectionHighlightStyle.none) {
+        if (self.selectionHighlightStyle != NSTableView.SelectionHighlightStyle.none) {
             if self.isEmphasized {
                 NSColor(calibratedRed: 26.0/255.0, green: 154.0/255.0, blue: 252.0/255.0, alpha: 1.0).setStroke()
             } else {
@@ -44,8 +44,8 @@ class SCTableRowView: NSTableRowView {
 //        }
 //    }
     
-    override var interiorBackgroundStyle: NSBackgroundStyle {
-        return NSBackgroundStyle.light
+    override var interiorBackgroundStyle: NSView.BackgroundStyle {
+        return NSView.BackgroundStyle.light
     }
     
 //    override var isSelected: Bool {

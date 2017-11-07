@@ -21,7 +21,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     let preferenceManager = PreferenceManager()
     
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, isPrimary: Bool) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)!
+        super.init(nibName: nibNameOrNil.map { NSNib.Name(rawValue: $0) }, bundle: nibBundleOrNil)
         self.isPrimary = isPrimary
     }
     
@@ -48,7 +48,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         tabBar.setStyleNamed("Yosemite")
         
         restoreTabs()
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.handleKeyDown(with: $0)
         }
 //        listenForDirChanges()
@@ -302,8 +302,8 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         
         print("keyCode: " + String(theEvent.keyCode))
         let flags = theEvent.modifierFlags
-        let hasShift = flags.contains(.shift)
-        let hasControl = flags.contains(.control)
+        let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
+        let hasControl = flags.contains(NSEvent.ModifierFlags.control)
         print("hasShift: " + String(hasShift))
         print("hasControl: " + String(hasControl))
         
@@ -351,6 +351,6 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     }
     
     func isActive() -> Bool {
-        return self == (self.view.window?.windowController as! MainWindowController).activePanel
+        return self == (self.view.window?.windowController as? MainWindowController)?.activePanel
     }
 }

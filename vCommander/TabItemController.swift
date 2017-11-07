@@ -33,7 +33,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     let dateFormatter = DateFormatter()
     
-    let workspace = NSWorkspace.shared()
+    let workspace = NSWorkspace.shared
     
     let preferenceManager = PreferenceManager()
     
@@ -60,7 +60,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var lastRenamedFileIndex: Int?
     
-    let pasteboard = NSPasteboard.general()
+    let pasteboard = NSPasteboard.general
     
     var selectedItems = [URL]()
     var selectedIndexes: IndexSet?
@@ -94,7 +94,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         // Do view setup here.
 //        tableview.target = self
-        tableview.register(forDraggedTypes: [NSFilenamesPboardType])
+        let NSFilenamesPboardTypeTemp = NSPasteboard.PasteboardType("NSFilenamesPboardType")
+        tableview.registerForDraggedTypes([NSFilenamesPboardTypeTemp])
         //tableview.selectionHighlightStyle = NSTableViewSelectionHighlightStyle.None
         tableview.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: false)
         
@@ -118,7 +119,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if let window = view.window {
             let contentLayoutRect = window.contentLayoutRect
             scrollViewTopInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + TABBAR_HEIGHT + PATHCONTROL_HEIGHT
-            scrollview.contentInsets = EdgeInsets(top: scrollViewTopInset, left: 0, bottom: 0, right: 0)
+            scrollview.contentInsets = NSEdgeInsets(top: scrollViewTopInset, left: 0, bottom: 0, right: 0)
             
             print("NSHeight(window.frame): \(NSHeight(window.frame))")
             print("NSMaxY(contentLayoutRect): \(NSMaxY(contentLayoutRect))")
@@ -142,7 +143,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("viewWillDisappear called.")
     }
     
-    func onPathControlClicked() {
+    @objc func onPathControlClicked() {
         print("onPathControlClicked called.")
         if !isActive {
             switchFocus()
@@ -262,7 +263,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
                     switch responseCode {
-                    case NSAlertFirstButtonReturn:
+                    case NSApplication.ModalResponse.alertFirstButtonReturn:
                         self.view.window?.endSheet(alert.window)
                         self.openWith(nil)
                     default:
@@ -301,7 +302,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                             } else {
                                 if let str = tableCellView.identifier {
                                     switch str {
-                                    case "localizedName":
+                                    case NSUserInterfaceItemIdentifier(rawValue: "localizedName"):
                                         text.textColor = NSColor.controlTextColor
                                     default:
                                         text.textColor = NSColor.disabledControlTextColor
@@ -331,7 +332,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                             
                             if let str = tableCellView.identifier {
                                 switch str {
-                                case "localizedName":
+                                case NSUserInterfaceItemIdentifier(rawValue: "localizedName"):
 //                                    text.textColor = NSColor.controlTextColor
                                     let fontSize = text.font?.pointSize
                                     text.textColor = NSColor.black
@@ -365,9 +366,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
-        let colIdentifier: String = tableColumn!.identifier
+        let colIdentifier: String = tableColumn!.identifier.rawValue
         
-        let tableCellView = tableView.make(withIdentifier: colIdentifier, owner: self) as! NSTableCellView
+        let tableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: colIdentifier), owner: self) as! NSTableCellView
         
         let item = self.curFsItem.children[row]
         
@@ -380,7 +381,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             } else {
                 if let identifier = tableCellView.identifier {
                     switch identifier {
-                    case "localizedName":
+                    case NSUserInterfaceItemIdentifier(rawValue: "localizedName"):
                         textField.textColor = NSColor.controlTextColor
                     default:
                         textField.textColor = NSColor.disabledControlTextColor
@@ -416,11 +417,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         let cellId = "cell_identifier"
         
-        var tableRowView = tableView.make(withIdentifier: cellId, owner: self) as? SCTableRowView
+        var tableRowView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellId), owner: self) as? SCTableRowView
         
         if tableRowView == nil {
             tableRowView = SCTableRowView(frame: NSMakeRect(0, 0, tableview.frame.size.width, 80))
-            tableRowView?.identifier = cellId
+            tableRowView?.identifier = NSUserInterfaceItemIdentifier(rawValue: cellId)
         }
         
 //        tableRowView?.marked = tableView.isRowSelected(row)
@@ -624,7 +625,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: notificationKey), object: nil)
     }
     
-    func updatePathControlBackground() {
+    @objc func updatePathControlBackground() {
         print("Got focus change notification")
         if isActive {
             print("start to change pathControl background color to light blue \(String(describing: self.title))")
@@ -684,10 +685,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("s: \"\(s)\"")
         print("char:" + String(char))
         
-        let hasCommand = flags.contains(.command)
-        let hasShift = flags.contains(.shift)
-        let hasAlt = flags.contains(.option)
-        let hasControl = flags.contains(.control)
+        let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
+        let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
+        let hasAlt = flags.contains(NSEvent.ModifierFlags.option)
+        let hasControl = flags.contains(NSEvent.ModifierFlags.control)
         print("hasCommand: " + String(hasCommand))
         print("hasShift: " + String(hasShift))
         print("hasAlt: " + String(hasAlt))
@@ -699,10 +700,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         let isInputText = !hasCommand && !hasAlt && !hasControl
         
-        let NSBackspaceFunctionKey = 127
-        let NSEnterFunctionKey = 13
-        let TabKey_KeyCode = 9
-        let Escape_Keycode = 27
+        let KEYCODE_BACKSPACE = 127
+        let KEYCODE_ENTER = 13
+        let KEYCODE_TAB = 9
+        let KEYCODE_ESCAPE = 27
         
         print("convertToInt(\"h\"): \(convertToInt("h"))")
         print("convertToInt(\"j\"): \(convertToInt("j"))")
@@ -722,21 +723,26 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
         
         switch char {
-        case NSBackspaceFunctionKey where noneModifiers,
+        case KEYCODE_ESCAPE:
+            clearTypeSelect()
+            return
+            
+        case KEYCODE_BACKSPACE where noneModifiers,
             convertToInt("h") where noneModifiers && isVimMode && !isTypeSelectMode,
             NSLeftArrowFunctionKey where noneModifiers:
             // delete or h or left arrow
             // h was used to emulate vim hotkeys
             // 127 is backspace key
             
-            if char == NSBackspaceFunctionKey && noneModifiers {
+            if char == KEYCODE_BACKSPACE && noneModifiers {
                 if let field = typeSelectTextField {
                     if !field.isHidden {
                         let stringValue = field.stringValue
-                        let len = stringValue.characters.count
+                        let len = stringValue.count
                         
                         if len > 0 {
-                            let filterString = stringValue.substring(to: stringValue.characters.index(before: stringValue.endIndex))
+                            let index = stringValue.index(stringValue.endIndex, offsetBy: -1)
+                            let filterString = "\(stringValue[..<index])"
                             field.stringValue = filterString
                             updateTypeSelectMatches(byString: filterString)
                         }
@@ -749,7 +755,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             backToParentDirectory()
             return
             
-        case NSEnterFunctionKey where noneModifiers,
+        case KEYCODE_ENTER where noneModifiers,
             convertToInt("l") where noneModifiers && isVimMode && !isTypeSelectMode,
             NSRightArrowFunctionKey where noneModifiers:
             // enter or l or right arrow
@@ -788,7 +794,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             selectMiddleVisibleRow()
             return
             
-        case TabKey_KeyCode where (noneModifiers || hasShift && !hasCommand && !hasAlt && !hasControl):
+        case KEYCODE_TAB where (noneModifiers || hasShift && !hasCommand && !hasAlt && !hasControl):
             switchFocus()
             return
             
@@ -804,6 +810,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             if isInputText && !insertString.isEmpty {
                 if handleInsertText(insertString) {
                     print("handleInsertText return true, just return")
+                    return
+                } else if isVimMode && !isTypeSelectMode {
+                    customInsertText(insertString)
+                }
+                
+                // 非搜索模式下一律不发声
+                if !isTypeSelectMode {
                     return
                 }
             }
@@ -1143,7 +1156,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
             
             switch responseCode {
-            case NSAlertFirstButtonReturn:
+            case NSApplication.ModalResponse.alertFirstButtonReturn:
                 self.workspace.recycle(fileUrls, completionHandler: {(newUrls, error) in
                     if error != nil {
                         let errorAlert = NSAlert()
@@ -1203,12 +1216,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         windowController.switchFocus()
     }
     
-    // Temporarily remove this feature.
     func handleInsertText(_ insertString: Any) -> Bool {
         print(insertString)
         
         var stringValue: String
         
+        // Vim 模式下输入非斜杠，直接返回
         if isVimMode && insertString as! String != "/" && !isTypeSelectMode {
             return false
         }
@@ -1250,9 +1263,101 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             typeSelectIndex = 0;
             
             selectRow(typeSelectIndices![typeSelectIndex!])
+            return true
         }
         
-        return isTypeSelectMode
+        return false
+    }
+    
+    func customInsertText(_ insertString: Any) {
+        print("insertString: \(insertString)")
+        
+        if let char = insertString as? String {
+            inputString += char
+            print("inputString: \(inputString)")
+            
+            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT)$", in: inputString)
+            if textMatches.count > 0 {
+                let match = textMatches[textMatches.count - 1]
+                
+                print("match[0]: \(match[0])")
+                print("match[1]: \(match[1])")
+                print("match[2]: \(match[2])")
+                
+                let handled = exec(command: match[2], withRepetition: Int(match[1]))
+                if handled {
+                    inputString = ""
+                }
+            }
+        }
+    }
+    
+    func exec(command: String, withRepetition repetition: Int?) -> Bool {
+        switch command {
+        case "dd":
+            deleteFiles(withCount: repetition)
+            return true
+        case "d":
+            let hasMarkedFiles = getMarkedItems(false).count > 0
+            if hasMarkedFiles {
+                deleteMarkedFiles()
+                return true
+            }
+            return false
+        case "j":
+            selectNextRow(withCount: repetition)
+            return true
+        case "k":
+            selectPrevRow(withCount: repetition)
+            return true
+        case "gg":
+            selectRow(withNum: repetition, isDefaultTop: true)
+            return true
+        case "G":
+            selectRow(withNum: repetition, isDefaultTop: false)
+            return true
+        case "yy":
+            copyToClipboard(withCount: repetition)
+            return true
+        case "y":
+            let hasMarkedFiles = getMarkedItems(false).count > 0
+            if hasMarkedFiles {
+                copyMarkedItemsToClipboard()
+                return true
+            }
+            return false
+        case "S", "cc":
+            renameRow()
+            return true
+        case "i", "a", "A":
+            renameRow(withCursorPosition: "right")
+            return true
+        case "I":
+            renameRow(withCursorPosition: "left")
+            return true
+        case "gt":
+            delegate.nextTabWithCount(repetition)
+            return true
+        case "gT":
+            delegate.previousTabWithCount(repetition)
+            return true
+        default:
+            break
+        }
+        
+        return false
+    }
+    
+    func matches(for regex: String, in text: String) -> [[String]] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let nsString = text as NSString
+            let results = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length))
+            return results.map { [nsString.substring(with: $0.range), nsString.substring(with: $0.range(at: 1)), nsString.substring(with: $0.range(at: 2))] }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return [[]]
+        }
     }
     
     func updateTypeSelectMatches(byString string: String) {
@@ -1262,7 +1367,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             $0.offset
         }
     }
-    
+
     func clearTypeSelect() {
         print("Start to clear type select")
         typeSelectTextField?.stringValue = ""
@@ -1280,7 +1385,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, isPrimary: Bool, withSelected itemUrl: URL?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        super.init(nibName: nibNameOrNil.map { NSNib.Name(rawValue: $0) }, bundle: nibBundleOrNil)
         
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
@@ -1332,7 +1437,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
             switch responseCode {
-            case NSAlertFirstButtonReturn:
+            case NSApplication.ModalResponse.alertFirstButtonReturn:
                 let dirName = textField.stringValue
                 let dirUrl = self.curFsItem.fileURL.appendingPathComponent(dirName)
                 
@@ -1416,7 +1521,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             chooseAppDialog.canChooseFiles = true
             chooseAppDialog.allowedFileTypes = ["app"]
             chooseAppDialog.begin { (result) -> Void in
-                if result == NSFileHandlingPanelOKButton {
+                if result.rawValue == NSFileHandlingPanelOKButton {
                     let appPath = chooseAppDialog.url?.path
                     if appPath != nil && filePath != nil {
                         self.workspace.openFile(filePath!, withApplication: appPath)
@@ -1520,9 +1625,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             filesToGetInfo.add(file.fileURL.path)
         }
         let pasteboard = NSPasteboard.withUniqueName()
-        pasteboard.declareTypes([NSStringPboardType], owner: nil)
+        pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
         print("filesToGetInfo: \(filesToGetInfo)")
-        pasteboard.setPropertyList(filesToGetInfo, forType: NSFilenamesPboardType)
+        
+        let NSFilenamesPboardTypeTemp = NSPasteboard.PasteboardType("NSFilenamesPboardType")
+        pasteboard.setPropertyList(filesToGetInfo, forType: NSFilenamesPboardTypeTemp)
         NSPerformService("Finder/Show Info", pasteboard);
     }
     
@@ -1629,8 +1736,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
-        pboard.declareTypes([NSFilenamesPboardType], owner: self)
-        pboard.setData(data, forType: NSFilenamesPboardType)
+        let NSFilenamesPboardTypeTemp = NSPasteboard.PasteboardType("NSFilenamesPboardType")
+        pboard.declareTypes([NSFilenamesPboardTypeTemp], owner: self)
+        pboard.setData(data, forType: NSFilenamesPboardTypeTemp)
         return true
     }
     
@@ -1733,9 +1841,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
 
-    func pasteboardReadingOptions() -> [String: AnyObject] {
+    func pasteboardReadingOptions() -> [NSPasteboard.ReadingOptionKey : Any]? {
         return [
-            NSPasteboardURLReadingFileURLsOnlyKey: true as AnyObject
+            NSPasteboard.ReadingOptionKey.urlReadingFileURLsOnly: true as AnyObject
         ]
     }
     
@@ -1743,9 +1851,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return pasteboard.canReadObject(forClasses: [NSURL.self], options: self.pasteboardReadingOptions())
     }
     
-    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         
-        if dropOperation == NSTableViewDropOperation.above {
+        if dropOperation == NSTableView.DropOperation.above {
             if info.draggingSource() as? NSTableView == tableView {
                 // Reorder, implement later.
             } else {
@@ -1762,10 +1870,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func tableView(_ tableView: NSTableView, updateDraggingItemsForDrag draggingInfo: NSDraggingInfo) {
         if (draggingInfo.draggingSource() as? NSTableView != tableView) {
-            let tableCellView = tableView.make(withIdentifier: "localizedName", owner: self) as! NSTableCellView
+            let tableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "localizedName"), owner: self) as! NSTableCellView
             var validCount = 0
             
-            draggingInfo.enumerateDraggingItems(options: NSDraggingItemEnumerationOptions.init(rawValue: 0), for: tableView, classes: [NSURL.self, NSPasteboardItem.self], searchOptions: self.pasteboardReadingOptions(), using: { (draggingItem: NSDraggingItem, idx: Int, stop:UnsafeMutablePointer<ObjCBool>) in
+            draggingInfo.enumerateDraggingItems(options: NSDraggingItemEnumerationOptions.init(rawValue: 0), for: tableView, classes: [NSURL.self, NSPasteboardItem.self], searchOptions: self.pasteboardReadingOptions()!, using: { (draggingItem: NSDraggingItem, idx: Int, stop:UnsafeMutablePointer<ObjCBool>) in
                 
                 if draggingItem.item is URL {
                     let fileURL = draggingItem.item as! URL
@@ -1789,13 +1897,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
     
-    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableView.DropOperation) -> Bool {
         self.performInsertWithDragInfo(info, row: row)
         return true
     }
     
     func performInsertWithDragInfo(_ info: NSDraggingInfo, row: Int) {
-        info.enumerateDraggingItems(options: NSDraggingItemEnumerationOptions.init(rawValue: 0), for: tableview, classes: [NSURL.self], searchOptions: self.pasteboardReadingOptions(), using: { (draggingItem: NSDraggingItem, idx: Int, stop:UnsafeMutablePointer<ObjCBool>) in
+        info.enumerateDraggingItems(options: NSDraggingItemEnumerationOptions.init(rawValue: 0), for: tableview, classes: [NSURL.self], searchOptions: self.pasteboardReadingOptions()!, using: { (draggingItem: NSDraggingItem, idx: Int, stop:UnsafeMutablePointer<ObjCBool>) in
             
             let fileURL = draggingItem.item as! URL
             let fileName: String! = fileURL.lastPathComponent

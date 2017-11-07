@@ -44,13 +44,13 @@ class SCTableView: NSTableView {
         
         Swift.print("char:" + String(char))
         
-        let hasCommand = flags.contains(.command)
+        let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
         
-        let hasShift = flags.contains(.shift)
+        let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
         
-        let hasAlt = flags.contains(.option)
+        let hasAlt = flags.contains(NSEvent.ModifierFlags.option)
         
-        let hasControl = flags.contains(.control)
+        let hasControl = flags.contains(NSEvent.ModifierFlags.control)
         
         Swift.print("hasCommand: " + String(hasCommand))
         Swift.print("hasShift: " + String(hasShift))

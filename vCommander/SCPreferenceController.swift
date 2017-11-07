@@ -25,8 +25,8 @@ class SCPreferenceController: NSWindowController {
     
     let preferenceManager = PreferenceManager()
     
-    override var windowNibName: String {
-        return "SCPreferenceController"
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name(rawValue: "SCPreferenceController")
     }
 
     override func windowDidLoad() {
@@ -37,12 +37,12 @@ class SCPreferenceController: NSWindowController {
         diffToolField.stringValue = preferenceManager.diffTool!
         
         if preferenceManager.mode == 1 {
-            vimModeRadio.state = 1
+            vimModeRadio.state = NSControl.StateValue(rawValue: 1)
         } else {
-            commonModeRadio.state = 1
+            commonModeRadio.state = NSControl.StateValue(rawValue: 1)
         }
         
-        toolbar.selectedItemIdentifier = "general"
+        toolbar.selectedItemIdentifier = NSToolbarItem.Identifier(rawValue: "general")
     }
     
     @IBAction func chooseEditor(_ sender: AnyObject) {
@@ -53,7 +53,7 @@ class SCPreferenceController: NSWindowController {
         
         let clicked = panel.runModal()
         
-        if clicked == NSFileHandlingPanelOKButton {
+        if clicked.rawValue == NSFileHandlingPanelOKButton {
             if panel.urls.count == 1 {
                 let editor = panel.urls[0].path
                 textEditorField.stringValue = editor
@@ -70,7 +70,7 @@ class SCPreferenceController: NSWindowController {
         
         let clicked = panel.runModal()
         
-        if clicked == NSFileHandlingPanelOKButton {
+        if clicked.rawValue == NSFileHandlingPanelOKButton {
             if panel.urls.count == 1 {
                 let diffTool = panel.urls[0].path
                 diffToolField.stringValue = diffTool

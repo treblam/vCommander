@@ -14,7 +14,6 @@
 		7D131BAD1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */; };
 		7D48A0051B209A400043933D /* CommanderPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D48A0031B209A400043933D /* CommanderPanel.swift */; };
 		7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D48A0041B209A400043933D /* CommanderPanel.xib */; };
-		7D4F2E311DE1AFC1004D16DC /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 7D4F2E301DE1AFC1004D16DC /* Cartfile */; };
 		7D5252E71BA3D66A006243F1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5252E61BA3D66A006243F1 /* QuartzCore.framework */; };
 		7D552D4B1B1DE5A400031203 /* TabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552D4A1B1DE5A400031203 /* TabBarModel.swift */; };
 		7D552D4F1B1DFE4100031203 /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; };
@@ -72,7 +71,6 @@
 		7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vCommander-Bridging-Header.h"; sourceTree = "<group>"; };
 		7D48A0031B209A400043933D /* CommanderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommanderPanel.swift; sourceTree = "<group>"; };
 		7D48A0041B209A400043933D /* CommanderPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommanderPanel.xib; sourceTree = "<group>"; };
-		7D4F2E301DE1AFC1004D16DC /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		7D50C4CE1B07A3B4001A7E1C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		7D5252E61BA3D66A006243F1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7D552D4A1B1DE5A400031203 /* TabBarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 		7D9422351B024441008429D5 = {
 			isa = PBXGroup;
 			children = (
-				7D4F2E301DE1AFC1004D16DC /* Cartfile */,
 				7D42EF5B1BBE3515003383C0 /* QuickLook.framework */,
 				7D5252E61BA3D66A006243F1 /* QuartzCore.framework */,
 				7D9422401B024441008429D5 /* vCommander */,
@@ -257,16 +254,16 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Jamie;
 				TargetAttributes = {
 					7D94223D1B024441008429D5 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 					};
 					7D94224D1B024442008429D5 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						TestTargetID = 7D94223D1B024441008429D5;
 					};
 				};
@@ -295,7 +292,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D4F2E311DE1AFC1004D16DC /* Cartfile in Resources */,
 				7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */,
 				7D9422461B024441008429D5 /* Images.xcassets in Resources */,
 				7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */,
@@ -381,14 +377,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -434,14 +436,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -479,7 +487,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/vCommander",
-					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -491,7 +498,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "vCommander/vCommander-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -504,7 +512,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/vCommander",
-					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -515,7 +522,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "vCommander/vCommander-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -536,7 +544,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vCommander.app/Contents/MacOS/vCommander";
 			};
 			name = Debug;
@@ -554,7 +563,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.jamiexie.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/vCommander.app/Contents/MacOS/vCommander";
 			};
 			name = Release;
