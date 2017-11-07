@@ -798,10 +798,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             switchFocus()
             return
             
-        case Escape_Keycode where noneModifiers:
-            clearTypeSelect()
-            return
-            
         default:
             break
         }
@@ -914,7 +910,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             let regex = try NSRegularExpression(pattern: regex)
             let nsString = text as NSString
             let results = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length))
-            return results.map { [nsString.substring(with: $0.range), nsString.substring(with: $0.rangeAt(1)), nsString.substring(with: $0.rangeAt(2))] }
+            return results.map { [nsString.substring(with: $0.range), nsString.substring(with: $0.range(at: 1)), nsString.substring(with: $0.range(at: 2))] }
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
             return [[]]
@@ -1289,74 +1285,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     inputString = ""
                 }
             }
-        }
-    }
-    
-    func exec(command: String, withRepetition repetition: Int?) -> Bool {
-        switch command {
-        case "dd":
-            deleteFiles(withCount: repetition)
-            return true
-        case "d":
-            let hasMarkedFiles = getMarkedItems(false).count > 0
-            if hasMarkedFiles {
-                deleteMarkedFiles()
-                return true
-            }
-            return false
-        case "j":
-            selectNextRow(withCount: repetition)
-            return true
-        case "k":
-            selectPrevRow(withCount: repetition)
-            return true
-        case "gg":
-            selectRow(withNum: repetition, isDefaultTop: true)
-            return true
-        case "G":
-            selectRow(withNum: repetition, isDefaultTop: false)
-            return true
-        case "yy":
-            copyToClipboard(withCount: repetition)
-            return true
-        case "y":
-            let hasMarkedFiles = getMarkedItems(false).count > 0
-            if hasMarkedFiles {
-                copyMarkedItemsToClipboard()
-                return true
-            }
-            return false
-        case "S", "cc":
-            renameRow()
-            return true
-        case "i", "a", "A":
-            renameRow(withCursorPosition: "right")
-            return true
-        case "I":
-            renameRow(withCursorPosition: "left")
-            return true
-        case "gt":
-            delegate.nextTabWithCount(repetition)
-            return true
-        case "gT":
-            delegate.previousTabWithCount(repetition)
-            return true
-        default:
-            break
-        }
-        
-        return false
-    }
-    
-    func matches(for regex: String, in text: String) -> [[String]] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let nsString = text as NSString
-            let results = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length))
-            return results.map { [nsString.substring(with: $0.range), nsString.substring(with: $0.range(at: 1)), nsString.substring(with: $0.range(at: 2))] }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return [[]]
         }
     }
     
