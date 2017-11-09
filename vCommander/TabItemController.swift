@@ -819,34 +819,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
         
         interpretKeyEvents([theEvent])
-//        super.keyDown(with: theEvent)  remove beep sound
-    }
-    
-    override func insertText(_ insertString: Any) {
-        print("insertString: \(insertString)")
-        
-        if !isVimMode {
-            return
-        }
-        
-        if let char = insertString as? String {
-            inputString += char
-            print("inputString: \(inputString)")
-            
-            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT)$", in: inputString)
-            if textMatches.count > 0 {
-                let match = textMatches[textMatches.count - 1]
-                
-                print("match[0]: \(match[0])")
-                print("match[1]: \(match[1])")
-                print("match[2]: \(match[2])")
-                
-                let handled = exec(command: match[2], withRepetition: Int(match[1]))
-                if handled {
-                    inputString = ""
-                }
-            }
-        }
+        super.keyDown(with: theEvent)
     }
     
     func exec(command: String, withRepetition repetition: Int?) -> Bool {
