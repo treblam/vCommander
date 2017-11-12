@@ -47,7 +47,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     // Variables for type select
     var typeSelectTextField: NSTextField?
     var typeSelectIndices: [Int]?
-    var typeSelectIndex: Int?
     var isTypeSelectMode: Bool {
         if let field = typeSelectTextField {
             return !field.isHidden
@@ -106,6 +105,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         print("viewDidLoad called \(String(describing: self.title))")
         
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
+            self.handleKeyDown(with: $0)
+        }
     }
     
     override func viewWillAppear() {
@@ -205,9 +207,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func onRowClicked(_ sender:AnyObject) {
         print("row was clicked, \(tableview.clickedRow)")
-        if !isActive {
-            switchFocus()
-        }
+        getFocus()
         
         if typeSelectIndices != nil && typeSelectIndices!.count > 0 {
             clearTypeSelect()
@@ -215,6 +215,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             if tableview.clickedRow >= 0 {
                 selectRow(tableview.clickedRow)
             }
+        }
+    }
+    
+    func getFocus() {
+        if !isActive {
+            switchFocus()
         }
     }
     
@@ -687,18 +693,18 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
         let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
-        let hasAlt = flags.contains(NSEvent.ModifierFlags.option)
+        let hasOption = flags.contains(NSEvent.ModifierFlags.option)
         let hasControl = flags.contains(NSEvent.ModifierFlags.control)
         print("hasCommand: " + String(hasCommand))
         print("hasShift: " + String(hasShift))
-        print("hasAlt: " + String(hasAlt))
+        print("hasAlt: " + String(hasOption))
         print("hasControl: " + String(hasControl))
         print("isVimMode: \(isVimMode)")
         
-        let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
+        let noneModifiers = !hasCommand && !hasShift && !hasOption && !hasControl
         print("noneModifiers: " + String(noneModifiers))
         
-        let isInputText = !hasCommand && !hasAlt && !hasControl
+        let isInputText = !hasCommand && !hasOption && !hasControl
         
         let KEYCODE_BACKSPACE = 127
         let KEYCODE_ENTER = 13
@@ -763,6 +769,34 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             openFileOrDirectory()
             return
             
+        case convertToInt("h") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            clearTypeSelect()
+            backToParentDirectory()
+            return
+        
+        case convertToInt("j") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            clearTypeSelect()
+            selectNextRow()
+            return
+            
+        case convertToInt("k") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            clearTypeSelect()
+            selectPrevRow()
+            return
+            
+        case convertToInt("l") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            clearTypeSelect()
+            openFileOrDirectory()
+            return
+        
+        case convertToInt("p") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            findPrevious()
+            return
+            
+        case convertToInt("n") where isVimMode && hasCommand && !hasOption && !hasShift && !hasControl:
+            findNext()
+            return
+            
         case NSF5FunctionKey where noneModifiers:
             copySelectedFiles(nil)
             return
@@ -794,7 +828,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             selectMiddleVisibleRow()
             return
             
-        case KEYCODE_TAB where (noneModifiers || hasShift && !hasCommand && !hasAlt && !hasControl):
+        case KEYCODE_TAB where (noneModifiers || hasShift && !hasCommand && !hasOption && !hasControl):
             switchFocus()
             return
             
@@ -820,6 +854,43 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         interpretKeyEvents([theEvent])
         super.keyDown(with: theEvent)
+    }
+    
+    func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
+        
+        
+        if !isActive {
+            return theEvent
+        }
+        
+        print("TabItemController handleKeydown")
+        
+        print("keyCode: " + String(theEvent.keyCode))
+        let flags = theEvent.modifierFlags
+        let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
+        let hasControl = flags.contains(NSEvent.ModifierFlags.control)
+        let hasOption = flags.contains(NSEvent.ModifierFlags.option)
+        let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
+        let noneModifiers = !hasShift && !hasCommand && !hasOption && !hasControl
+        print("hasShift: " + String(hasShift))
+        print("hasControl: " + String(hasControl))
+        
+        let KEYCODE_DOWN: UInt16 = 125
+        let KEYCODE_UP: UInt16 = 126
+        
+        switch theEvent.keyCode {
+        case KEYCODE_DOWN where noneModifiers && tableview.selectedRowIndexes.first == curFsItem.children.count - 1:
+            findNext()
+            return nil
+
+        case KEYCODE_UP where noneModifiers && tableview.selectedRowIndexes.first == 0:
+            findPrevious()
+            return nil
+
+        default:
+            print("return the event")
+            return theEvent
+        }
     }
     
     func exec(command: String, withRepetition repetition: Int?) -> Bool {
@@ -1229,9 +1300,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // If find at least one match
         if typeSelectIndices!.count > 0 {
             typeSelectTextField!.stringValue = stringValue
-            typeSelectIndex = 0;
-            
-            selectRow(typeSelectIndices![typeSelectIndex!])
+            selectRow(typeSelectIndices![0])
             return true
         }
         
@@ -1274,7 +1343,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         typeSelectTextField?.stringValue = ""
         typeSelectTextField?.isHidden = true
         typeSelectIndices = nil
-        typeSelectIndex = nil
     }
         
 //    convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -1631,8 +1699,52 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("end preview panel")
     }
     
-    func menuNeedsUpdate(_ menu: NSMenu) {
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        let selectedItem = getSelectedItem()
         
+        if selectedItem == nil {
+            if menuItem.action == #selector(TabItemController.openFile(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.openWith(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.revealInFinder(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.rename(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.showQuickLookPanel(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.editSelectedFile(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.deleteSelectedFiles(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.copy(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.copyFullPath(_:)) {
+                return false
+            }
+            
+            if menuItem.action == #selector(TabItemController.getInfo(_:)) {
+                return false
+            }
+        }
+        
+        return true
     }
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
@@ -1729,6 +1841,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         print("proposedIndex: \(String(describing: proposedIndex))")
         print("currentIndex: \(String(describing: currentIndex))")
+        print("myProposedIndex: \(String(describing: myProposedIndex))")
+        print("isAccept: \(String(describing: isAccept))")
         
         if isAccept {
             print("Accept proposedIndex, and remember it: \(String(describing: proposedIndex))")
@@ -1738,8 +1852,52 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 print("Start to select myProposedIndex: \(index)")
                 selectRow(index)
             }
+            print("Don't accept, just return the currentIndex: \(String(describing: currentIndex))")
             return IndexSet(integer: currentIndex ?? 0)
         }
+    }
+    
+    func nextMatchIndex(_ moveDown: Bool = true) -> IndexSet.Element? {
+        if !isTypeSelectMode {
+            return nil
+        }
+
+        if let indices = typeSelectIndices {
+            if indices.count == 0 {
+                return nil
+            }
+            
+            let currentIndex = tableview.selectedRowIndexes.first
+            
+            var typeSelectIndex = indices.index(of: currentIndex ?? -1)
+            
+            if moveDown {
+                //这是Fundation的bug？ indices.contains(indices[indices.endIndex] 竟然是false，最后一个index是endIndex的前面一个，是不是很奇怪？
+                if typeSelectIndex == indices.count - 1 {
+                    typeSelectIndex = 0
+                } else {
+                    typeSelectIndex = typeSelectIndex! + 1
+                }
+            } else {
+                if typeSelectIndex == 0 {
+                    typeSelectIndex = indices.count - 1
+                } else {
+                    typeSelectIndex = typeSelectIndex! - 1
+                }
+            }
+            
+            return indices[typeSelectIndex!]
+        }
+        
+        return nil
+    }
+    
+    func findNext() {
+        selectRow(nextMatchIndex())
+    }
+    
+    func findPrevious() {
+        selectRow(nextMatchIndex(false))
     }
 
     func pasteboardReadingOptions() -> [NSPasteboard.ReadingOptionKey : Any]? {

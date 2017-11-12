@@ -304,17 +304,23 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         let flags = theEvent.modifierFlags
         let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
         let hasControl = flags.contains(NSEvent.ModifierFlags.control)
+        let hasOption = flags.contains(NSEvent.ModifierFlags.option)
+        let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
         print("hasShift: " + String(hasShift))
         print("hasControl: " + String(hasControl))
         
-        let TabKey_KeyCode: UInt16 = 48
+        let KEYCODE_TAB: UInt16 = 48
+        let KEYCODE_H: UInt16 = 4
+        let KEYCODE_L: UInt16 = 37
         
         switch theEvent.keyCode {
-        case TabKey_KeyCode where hasControl && !hasShift:
+        case KEYCODE_TAB where hasControl && !hasShift,
+             KEYCODE_L where hasCommand && hasOption:
             nextTab(self.view)
             return nil
             
-        case TabKey_KeyCode where hasControl && hasShift:
+        case KEYCODE_TAB where hasControl && hasShift,
+             KEYCODE_H where hasCommand && hasOption:
             previousTab(self.view)
             return nil
             
