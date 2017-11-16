@@ -857,8 +857,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
-        
-        
         if !isActive {
             return theEvent
         }
@@ -890,6 +888,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         default:
             print("return the event")
             return theEvent
+        }
+    }
+    
+    // todo
+    override func flagsChanged(with event: NSEvent) {
+        if event.modifierFlags.contains(NSEvent.ModifierFlags.shift) {
+            print("shift pressed")
         }
     }
     
