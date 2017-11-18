@@ -74,15 +74,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         rightView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightPanel(>=400)]-3-|", options: [], metrics: nil, views: views))
         
-        print("isPrimaryActive: \(isPrimaryActive)")
-        
-        print(activeTab.title ?? "no title")
-        if (activeTab.tableview == nil) {
-            print("tableview is nil")
-        }
-        self.window?.makeFirstResponder(activeTab.tableview)
-//        window?.initialFirstResponder = activeTab.tableview
-        
         self.window?.titleVisibility = .hidden
         self.window?.styleMask.insert(NSWindow.StyleMask.fullSizeContentView)
     }
@@ -102,12 +93,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
 //            // Fallback on earlier versions
 //        }
 //    }
-    
-    override func insertTab(_ sender: Any?) {
-        print("inserttab in mainwindowcontroller")
-        
-//        switchFocus()
-    }
     
     func switchFocus() {
         print("start to switch focus")
@@ -138,9 +123,9 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         preferenceController.window?.makeKeyAndOrderFront(self)
     }
     
-//    override var acceptsFirstResponder: Bool {
-//        return true
-//    }
+    override var acceptsFirstResponder: Bool {
+        return true
+    }
     
     override func mouseDown(with event: NSEvent) {
         print("mouseDown in mainWindowController called.")
@@ -160,12 +145,10 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     
     func window(_ window: NSWindow, willEncodeRestorableState state: NSCoder) {
         print("willEncodeRestorableState in MainWindowController called")
-//        leftPanel.encodeRestorableState(with: state)
-//        rightPanel.encodeRestorableState(with: state)
     }
     
     func window(_ window: NSWindow, didDecodeRestorableState state: NSCoder) {
-//        leftPanel =
+        print("didDecodeRestorableState in MainWindowController called")
     }
     
 }

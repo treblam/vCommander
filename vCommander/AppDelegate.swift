@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
             _mainWindowController?.window?.isRestorable = true
             _mainWindowController?.window?.restorationClass = type(of: self)
             _mainWindowController?.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "mainWindow")
+            _mainWindowController?.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "mainWindow"))
         }
         
         return _mainWindowController
@@ -41,10 +42,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
         storeTabsData()
     }
     
-//    @IBAction func newWindowForTab(_ sender: Any?) {
-//        
-//    }
-    
     func storeTabsData() {
         print("start to store tabs data")
         if let mainController = _mainWindowController {
@@ -53,14 +50,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
         }
     }
     
+    
     public static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {
+        print("restoreWindow in AppDelegate called.")
         var window: NSWindow? = nil
         if identifier.rawValue == "mainWindow" {
             let appDelegate = NSApp.delegate as! AppDelegate
             window = appDelegate.mainWindowController()?.window
+            // The system should but doesn't call it, I have to do it myself
+            appDelegate.mainWindowController()?.restoreState(with: state)
         }
         
-        print("restoreWindow in AppDelegate called.")
         completionHandler(window, nil)
     }
     

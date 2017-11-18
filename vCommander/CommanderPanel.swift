@@ -48,6 +48,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         tabBar.setStyleNamed("Yosemite")
         
         restoreTabs()
+        
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.handleKeyDown(with: $0)
         }
@@ -68,6 +69,11 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         }
     }
     
+    override func viewDidAppear() {
+        print("CommanderPanel viewDidAppear")
+        makeKeyResponder()
+    }
+    
 //    func listenForDirChanges() {
 //        let notificationKey = "DirectoryChanged"
 //        NotificationCenter.default.addObserver(self, selector: #selector(CommanderPanel.storeTabsData), name: NSNotification.Name(rawValue: notificationKey), object: nil)
@@ -78,7 +84,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         let url = curViewController?.curFsItem.fileURL
         
         addNewTab(withUrl: url, andSelectIt: true)
-        makeKeyResponder()
+        makeMeActive()
     }
     
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
@@ -130,10 +136,10 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
             return bookmarkForURL(url: url) as NSData!
         }
         
-        let selectedIndex = 0
+        var selectedIndex = 0
         
         if let selectedTabItem = tabView.selectedTabViewItem {
-            tabView.indexOfTabViewItem(selectedTabItem)
+            selectedIndex = tabView.indexOfTabViewItem(selectedTabItem)
         }
         
         let panelData = ["bookmarks": bookmarks, "selected": selectedIndex] as [String : Any]
@@ -166,7 +172,8 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
                 }
                 
                 let selectedIndex = panelData?["selected"] as! NSInteger
-                tabView.selectTabViewItem(tabView.tabViewItems[selectedIndex])
+                let selectedTab = tabView.tabViewItems[selectedIndex]
+                tabView.selectTabViewItem(selectedTab)
             }
         }
         
@@ -174,6 +181,8 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
             print("numberOfTabViewItems is 0, start to add a Tab")
             self.addNewTab(to: tabView)
         }
+        
+        print("Tabs restored.")
     }
     
     func bookmarkForURL(url: URL) -> NSData? {
@@ -345,13 +354,21 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     
     // MMTabBarView doesn't pop up mouseDown events, use this method to observe mouseDown events
     func tabView(_ aTabView: NSTabView, shouldDrag tabViewItem: NSTabViewItem, in tabBarView: MMTabBarView) -> Bool {
-        makeKeyResponder()
+        makeMeActive()
         return true
     }
     
-    func makeKeyResponder() {
-        print("makeKeyResponder called.")
+    func makeMeActive() {
+        print("makeMeActive called.")
         if !isActive() {
+            (self.view.window?.windowController as? MainWindowController)?.switchFocus()
+        }
+    }
+    
+    func makeKeyResponder() {
+        // 修正一下选中状态
+        if isActive() {
+            (self.view.window?.windowController as? MainWindowController)?.switchFocus()
             (self.view.window?.windowController as? MainWindowController)?.switchFocus()
         }
     }
