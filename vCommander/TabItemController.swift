@@ -10,7 +10,7 @@ import Cocoa
 
 import Quartz
 
-class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate, NSTextFieldDelegate {
+class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate, NSTextFieldDelegate, NSTouchBarDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
     @IBOutlet weak var scrollview: NSScrollView!
@@ -730,7 +730,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         switch char {
         case KEYCODE_ESCAPE:
-            clearTypeSelect()
+            handleEscape()
             return
             
         case KEYCODE_BACKSPACE where noneModifiers,
@@ -809,6 +809,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             // create new directory
             return;
             
+        case NSF7FunctionKey where hasShift && !hasCommand && !hasOption && !hasControl:
+            newDocument(nil)
+            return
+            
         case NSF8FunctionKey where noneModifiers:
             deleteSelectedFiles(nil)
             return
@@ -838,12 +842,24 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         if let insertString = theEvent.characters {
             if isInputText && !insertString.isEmpty {
-                if handleInsertText(insertString) {
-                    print("handleInsertText return true, just return")
+                if isVimMode {
+                    if isTypeSelectMode {
+                        if handleInsertText(insertString) {
+                            return
+                        }
+                    } else {
+                        detectVimCommands(insertString)
+                        return
+                    }
+                } else if handleInsertText(insertString) {
                     return
-                } else if isVimMode && !isTypeSelectMode {
-                    customInsertText(insertString)
                 }
+//                if handleInsertText(insertString) {
+//                    print("handleInsertText return true, just return")
+//                    return
+//                } else if isVimMode && !isTypeSelectMode {
+//                    customInsertText(insertString)
+//                }
                 
                 // 非搜索模式下一律不发声
                 if !isTypeSelectMode {
@@ -946,6 +962,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             return true
         case "gT":
             delegate.previousTabWithCount(repetition)
+            return true
+        case "f", "F", "/":
+            startTypeSelectMode()
             return true
         default:
             break
@@ -1267,38 +1286,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         var stringValue: String
         
         // Vim 模式下输入非斜杠，直接返回
-        if isVimMode && insertString as! String != "/" && !isTypeSelectMode {
-            return false
-        }
+//        if isVimMode && insertString as! String != "/" && !isTypeSelectMode {
+//            return false
+//        }
         
-        // If the textfield already exists
-        if let field = typeSelectTextField {
-            if field.isHidden {
-                field.isHidden = false
-            }
-            
-            stringValue = field.stringValue + (insertString as! String)
-        } else {
-            // Create a new NSTextField
-            typeSelectTextField = NSTextField()
-            stringValue = insertString as! String
-            
-            typeSelectTextField!.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(typeSelectTextField!)
-            typeSelectTextField?.isEditable = false
-            typeSelectTextField?.drawsBackground = false
-            
-            let trailingConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -20)
-            let bottomConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -20)
-            let widthConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 150)
-            let heightConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20)
-            self.view.addConstraints([widthConstraint, heightConstraint, trailingConstraint, bottomConstraint])
-            //            self.view.window!.makeFirstResponder(typeSelectTextField!)
-        }
+        startTypeSelectMode()
         
-        if insertString as! String == "/" {
-            return true
-        }
+        stringValue = typeSelectTextField!.stringValue + (insertString as! String)
+        
+//        if insertString as! String == "/" {
+//            return true
+//        }
         
         updateTypeSelectMatches(byString: stringValue)
         
@@ -1312,14 +1310,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         return false
     }
     
-    func customInsertText(_ insertString: Any) {
+    func detectVimCommands(_ insertString: Any) {
         print("insertString: \(insertString)")
         
         if let char = insertString as? String {
             inputString += char
             print("inputString: \(inputString)")
             
-            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT)$", in: inputString)
+            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT|\\/|f|F)$", in: inputString)
             if textMatches.count > 0 {
                 let match = textMatches[textMatches.count - 1]
                 
@@ -1348,6 +1346,49 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         typeSelectTextField?.stringValue = ""
         typeSelectTextField?.isHidden = true
         typeSelectIndices = nil
+    }
+    
+    func startTypeSelectMode() {
+        
+        if isTypeSelectMode {
+            return
+        }
+        
+        print("start type select mode")
+        
+        // Clear vim inputs
+        inputString = ""
+        
+        // If the textfield already exists
+        if let field = typeSelectTextField {
+            if field.isHidden {
+                field.isHidden = false
+            }
+            
+        } else {
+            // Create a new NSTextField
+            typeSelectTextField = NSTextField()
+            
+            typeSelectTextField!.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(typeSelectTextField!)
+            typeSelectTextField?.isEditable = false
+            typeSelectTextField?.drawsBackground = false
+            
+            let trailingConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -20)
+            let bottomConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: -20)
+            let widthConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 150)
+            let heightConstraint = NSLayoutConstraint(item: typeSelectTextField!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20)
+            self.view.addConstraints([widthConstraint, heightConstraint, trailingConstraint, bottomConstraint])
+            //            self.view.window!.makeFirstResponder(typeSelectTextField!)
+        }
+    }
+    
+    func handleEscape() {
+        if typeSelectTextField != nil && !typeSelectTextField!.isHidden {
+            clearTypeSelect()
+        } else {
+            tableview.unmarkAll()
+        }
     }
         
 //    convenience override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -1422,11 +1463,58 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     self.updateSelectedItems(withUrl: dirUrl)
                 } catch let error as NSError {
                     theError??.pointee = error
+                    print("create directory error: \(String(describing: error))")
+                    if error.code == NSFileWriteFileExistsError {
+                        print("File exists")
+                        let alert = NSAlert()
+                        alert.messageText = "新建文件夹失败"
+                        alert.informativeText = "已存在同名文件夹"
+                        alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
+                        })
+                    }
                     // handle the error
-                    print("def");
                 } catch {
-                    print("ghi")
                     fatalError()
+                }
+            default:
+                break
+            }
+        })
+    }
+    
+    @IBAction func newDocument(_ sender: NSMenuItem?) {
+        let alert = NSAlert()
+        alert.addButton(withTitle: "确定")
+        alert.addButton(withTitle: "取消")
+        alert.messageText = "新建文件"
+        alert.informativeText = "请输入文件名"
+        
+        let textField = NSTextField(frame: NSMakeRect(0, 0, 200, 24))
+        textField.placeholderString = "文件名"
+        alert.accessoryView = textField
+        alert.window.initialFirstResponder = textField
+        
+        alert.beginSheetModal(for: self.view.window!, completionHandler: { responseCode in
+            switch responseCode {
+            case NSApplication.ModalResponse.alertFirstButtonReturn:
+                let fileName = textField.stringValue
+                let fileUrl = self.curFsItem.fileURL.appendingPathComponent(fileName)
+                
+                if self.fileManager.fileExists(atPath: fileUrl.path) {
+                    let alert = NSAlert()
+                    alert.messageText = "新建文件失败"
+                    alert.informativeText = "已存在同名文件"
+                    alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
+                    })
+                    return
+                }
+                
+                if !self.fileManager.createFile(atPath: fileUrl.path, contents: nil, attributes: nil) {
+                    let alert = NSAlert()
+                    alert.messageText = "新建文件失败"
+                    alert.informativeText = "无法创建该文件"
+                    alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
+                    })
                 }
             default:
                 break
@@ -1659,6 +1747,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     // Make the NSTextField not editable when escape key is pressed
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        print("control textView doCommandBy")
         if commandSelector == #selector(cancelOperation(_:)) {
             if let textField = control as? NSTextField {
                 textField.isEditable = false
@@ -1997,4 +2086,69 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
     }
     
+    @available(OSX 10.12.2, *)
+    override func makeTouchBar() -> NSTouchBar? {
+        let mainBar = NSTouchBar()
+        mainBar.delegate = self
+        mainBar.defaultItemIdentifiers = [.fixedSpaceLarge, .renameFile, .fixedSpaceSmall, .previewFiles, .fixedSpaceSmall, .editFile, .fixedSpaceSmall, .copyFiles, .fixedSpaceSmall, .moveFiles, .fixedSpaceSmall, .createDirectory, .fixedSpaceSmall, .deleteFiles]
+        return mainBar
+    }
+    
+    @available(OSX 10.12.2, *)
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+        switch identifier {
+        case NSTouchBarItem.Identifier.renameFile:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "重命名", target: self, action: #selector(rename(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.previewFiles:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "预览", target: self, action: #selector(showQuickLookPanel(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.editFile:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "编辑", target: self, action: #selector(editSelectedFile(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.copyFiles:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "复制", target: self, action: #selector(copySelectedFiles(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.moveFiles:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "移动", target: self, action: #selector(moveSelectedFiles(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.createDirectory:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "新建文件夹", target: self, action: #selector(newDirectory(_:)))
+            return customViewItem
+        case NSTouchBarItem.Identifier.deleteFiles:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = NSButton(title: "删除", target: self, action: #selector(deleteSelectedFiles(_:)))
+            return customViewItem
+//        case NSTouchBarItem.Identifier.groupBar:
+//            let groupBar = NSGroupTouchBarItem(identifier: .groupBar, items: [self.touchBar(touchBar, makeItemForIdentifier: .renameFile)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .previewFiles)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .editFile)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .copyFiles)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .moveFiles)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .createDirectory)!,
+//                                                                              self.touchBar(touchBar, makeItemForIdentifier: .deleteFiles)!])
+//            return groupBar
+        default:
+            return nil
+        }
+    }
+    
+}
+
+@available(OSX 10.12.2, *)
+extension NSTouchBarItem.Identifier {
+    static let renameFile = NSTouchBarItem.Identifier("renameFile")
+    static let previewFiles = NSTouchBarItem.Identifier("previewFiles")
+    static let editFile = NSTouchBarItem.Identifier("editFile")
+    static let copyFiles = NSTouchBarItem.Identifier("copyFiles")
+    static let moveFiles = NSTouchBarItem.Identifier("moveFiles")
+    static let createDirectory = NSTouchBarItem.Identifier("createDirectory")
+    static let deleteFiles = NSTouchBarItem.Identifier("deleteFiles")
+//    static let groupBar = NSTouchBarItem.Identifier("groupBar")
 }

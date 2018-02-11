@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDelegate {
+class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDelegate, NSTouchBarDelegate {
     
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var toolbar: NSToolbar!

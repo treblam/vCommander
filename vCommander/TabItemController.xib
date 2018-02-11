@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -118,7 +119,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="16" rowSizeStyle="automatic" headerView="alI-J9-66b" viewBased="YES" id="Yn1-De-ERY" customClass="SCTableView" customModule="vCommander" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="12" width="682" height="404"/>
+                                <rect key="frame" x="0.0" y="0.0" width="682" height="404"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -199,7 +200,7 @@ Gw
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="rc7-BS-vcl" customClass="VerticallyCenteredTextField" customModule="vCommander" customModuleProvider="target">
                                                             <font key="font" metaFont="cellTitle"/>
                                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
                                                 </subviews>
@@ -230,7 +231,7 @@ Gw
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="size" id="w5g-0W-rHT">
-                                                <rect key="frame" x="396.5" y="1" width="90" height="16"/>
+                                                <rect key="frame" x="397" y="1" width="90" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="08i-9l-KTI">
@@ -318,7 +319,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
-                <visualEffectView appearanceType="vibrantLight" horizontalCompressionResistancePriority="250" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="6k3-az-eZN">
+                <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" horizontalCompressionResistancePriority="250" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="6k3-az-eZN">
                     <rect key="frame" x="0.0" y="407" width="682" height="20"/>
                     <subviews>
                         <pathControl focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3hY-La-T02" customClass="VCPathControl" customModule="vCommander" customModuleProvider="target">
@@ -353,14 +354,14 @@ Gw
             <point key="canvasLocation" x="223" y="412"/>
         </customView>
         <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" id="GLO-fk-fnp">
-            <rect key="frame" x="0.0" y="0.0" width="200" height="20"/>
+            <rect key="frame" x="0.0" y="0.0" width="402" height="20"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="0jR-yC-E0e">
                 <font key="font" metaFont="smallSystem"/>
                 <url key="url" string="file://localhost/Applications/"/>
                 <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="1" colorSpace="deviceRGB"/>
             </pathCell>
-            <point key="canvasLocation" x="232" y="119"/>
+            <point key="canvasLocation" x="131" y="119"/>
         </pathControl>
     </objects>
     <resources>
