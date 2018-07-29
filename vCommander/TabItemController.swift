@@ -1240,7 +1240,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 self.workspace.recycle(fileUrls, completionHandler: {(newUrls, error) in
                     if error != nil {
                         let errorAlert = NSAlert()
-                        print("error")
+                        // print("error")
                         errorAlert.messageText = "删除失败"
                         errorAlert.addButton(withTitle: "确定")
                         errorAlert.runModal()
