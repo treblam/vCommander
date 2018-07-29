@@ -118,6 +118,22 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         return activePanel.openFile(for: fileName)
     }
     
+    @IBAction func swapTab(_ sender: AnyObject?) {
+        let tabViewOfActivePanel = activePanel.tabView.selectedTabViewItem!
+        let tabViewOfInactivePanel = inactivePanel.tabView.selectedTabViewItem!
+        
+        let indexOfActivePanel = activePanel.tabView.indexOfTabViewItem(tabViewOfActivePanel)
+        let indexOfInactivePanel = inactivePanel.tabView.indexOfTabViewItem(tabViewOfInactivePanel)
+        
+        replaceTabViewItem(activePanel.tabView, tabViewOfInactivePanel, indexOfActivePanel)
+        replaceTabViewItem(inactivePanel.tabView, tabViewOfActivePanel, indexOfInactivePanel)
+    }
+    
+    func replaceTabViewItem(_ tabView: NSTabView, _ newTabViewItem: NSTabViewItem, _ index: Int) {
+        tabView.insertTabViewItem(newTabViewItem, at: index)
+        tabView.selectTabViewItem(newTabViewItem)
+    }
+    
     @IBAction func openPreferencePanel(_ sender: AnyObject?) {
         print("openPreferencePanel called.")
         preferenceController.window?.makeKeyAndOrderFront(self)

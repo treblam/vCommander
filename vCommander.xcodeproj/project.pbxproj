@@ -36,6 +36,8 @@
 		7DD4CDBA1E5E5985001A6560 /* NSViewWithRectInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */; };
 		7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */; };
 		7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */; };
+		C4EBD5F6204A19ED00A9E845 /* HanziPinyin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; };
+		C4EBD5F8204A19F800A9E845 /* HanziPinyin.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C4EBD5F8204A19F800A9E845 /* HanziPinyin.framework in CopyFiles */,
 				7D552D501B1DFE5E00031203 /* MMTabBarView.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +100,8 @@
 		7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSViewWithRectInset.swift; sourceTree = "<group>"; };
 		7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPreferenceController.swift; sourceTree = "<group>"; };
 		7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCPreferenceController.xib; sourceTree = "<group>"; };
+		C48255D2210C4A7D00E3FF6E /* vCommander.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vCommander.entitlements; sourceTree = "<group>"; };
+		C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HanziPinyin.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D5252E71BA3D66A006243F1 /* QuartzCore.framework in Frameworks */,
+				C4EBD5F6204A19ED00A9E845 /* HanziPinyin.framework in Frameworks */,
 				7D552D4F1B1DFE4100031203 /* MMTabBarView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +156,8 @@
 		7D9422401B024441008429D5 /* vCommander */ = {
 			isa = PBXGroup;
 			children = (
+				C48255D2210C4A7D00E3FF6E /* vCommander.entitlements */,
+				C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */,
 				7D7B0F371E639D9D0052DB63 /* Extensions */,
 				7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */,
 				7D9422431B024441008429D5 /* AppDelegate.swift */,
@@ -254,12 +262,17 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Jamie;
 				TargetAttributes = {
 					7D94223D1B024441008429D5 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					7D94224D1B024442008429D5 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -381,12 +394,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -441,12 +456,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

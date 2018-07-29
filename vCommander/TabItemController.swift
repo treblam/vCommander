@@ -10,6 +10,8 @@ import Cocoa
 
 import Quartz
 
+import HanziPinyin
+
 class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, DirectoryMonitorDelegate, QLPreviewPanelDataSource, QLPreviewPanelDelegate, NSMenuDelegate, SCTableViewDelegate, NSTextFieldDelegate, NSTouchBarDelegate {
 
     @IBOutlet weak var tableview: SCTableView!
@@ -17,15 +19,31 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     @IBOutlet weak var pathControlEffectView: NSVisualEffectView!
     @IBOutlet weak var pathControlView: NSPathControl!
     
-    var isPrimary: Bool = true {
-        didSet {
-            if isPrimary != oldValue {
-                updatePathControlBackground()
-            }
+    var windowController: MainWindowController? {
+        get {
+            return self.view.window?.windowController as? MainWindowController
         }
     }
     
-    weak var delegate: CommanderPanel!
+    var isPrimary: Bool? {
+        get {
+            if let leftPanelView = windowController?.leftPanel.view {
+                return self.view.isDescendant(of: leftPanelView)
+            }
+            
+            return nil
+        }
+    }
+    
+    var panel: CommanderPanel? {
+        get {
+            if isPrimary != nil {
+                return isPrimary! ? windowController?.leftPanel : windowController?.rightPanel
+            }
+            
+            return nil
+        }
+    }
     
     var curFsItem: FileSystemItem!
     
@@ -81,8 +99,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     var inputString = ""
     
     var isActive: Bool {
-        if let windowController = self.view.window?.windowController as? MainWindowController {
-            return isPrimary == windowController.isPrimaryActive
+        if let activePanelView = windowController?.activePanel.view {
+            return self.view.isDescendant(of: activePanelView)
         }
         
         return false
@@ -140,7 +158,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     override func viewWillDisappear() {
-//        directoryMonitor.stopMonitoring()
         stopObserveForFocusChange()
         print("viewWillDisappear called.")
     }
@@ -603,14 +620,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func startMonitoring(directory url: URL) {
         // Start to monitor directory for changes
         if directoryMonitor != nil {
-//            directoryMonitor.stopMonitoring()
+            directoryMonitor.stopMonitoring()
             directoryMonitor.delegate = nil
             directoryMonitor = nil
         }
         
         directoryMonitor = DirectoryMonitor(URL: url)
         directoryMonitor.delegate = self
-        directoryMonitor.URL = url
         directoryMonitor.startMonitoring()
         print("start monitor \(curFsItem.fileURL.path)")
     }
@@ -958,10 +974,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             renameRow(withCursorPosition: "left")
             return true
         case "gt":
-            delegate.nextTabWithCount(repetition)
+            panel?.nextTabWithCount(repetition)
             return true
         case "gT":
-            delegate.previousTabWithCount(repetition)
+            panel?.previousTabWithCount(repetition)
             return true
         case "f", "F", "/":
             startTypeSelectMode()
@@ -1224,6 +1240,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 self.workspace.recycle(fileUrls, completionHandler: {(newUrls, error) in
                     if error != nil {
                         let errorAlert = NSAlert()
+                        print("error")
                         errorAlert.messageText = "删除失败"
                         errorAlert.addButton(withTitle: "确定")
                         errorAlert.runModal()
@@ -1335,7 +1352,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func updateTypeSelectMatches(byString string: String) {
         typeSelectIndices = curFsItem.children.enumerated().filter {
-            $0.element.localizedName.transformToPinYin().range(of: string, options: .caseInsensitive, range: nil, locale: nil) != nil
+            let outputFormat = PinyinOutputFormat(toneType: .none, vCharType: .vCharacter, caseType: .lowercased)
+            let pinyin = $0.element.localizedName.toPinyin(withFormat: outputFormat, separator: "").trimmingCharacters(in: .whitespaces)
+            print("HanziPinyin: \(pinyin)")
+            return pinyin.range(of: string, options: .caseInsensitive, range: nil, locale: nil) != nil
+            //            return $0.element.localizedName.transformToPinYin().range(of: string, options: .caseInsensitive, range: nil, locale: nil) != nil
         }.map {
             $0.offset
         }
@@ -1412,7 +1433,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         initUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
         curFsItem = FileSystemItem(fileURL: initUrl!)
         self.title = curFsItem.localizedName
-        self.isPrimary = isPrimary
+//        self.isPrimary = isPrimary
     }
 
     required init?(coder: NSCoder) {
@@ -1509,7 +1530,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     return
                 }
                 
-                if !self.fileManager.createFile(atPath: fileUrl.path, contents: nil, attributes: nil) {
+                if self.fileManager.createFile(atPath: fileUrl.path, contents: nil, attributes: nil) {
+                    print("Start to updateSelectedItems")
+                    self.updateSelectedItems(withUrl: fileUrl)
+                } else {
                     let alert = NSAlert()
                     alert.messageText = "新建文件失败"
                     alert.informativeText = "无法创建该文件"
@@ -1556,10 +1580,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if curItems.count >= 2 {
             _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
-            if isPrimary {
-                _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
-            } else {
-                _ = execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+            if isPrimary != nil {
+                if isPrimary! {
+                    _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
+                } else {
+                    _ = execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+                }
             }
         } else if curItems.count == 1 {
             _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\"")
@@ -1765,7 +1791,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("previewPanel previewItemAtIndex method called.")
         let items = getMarkedItems()
         let item = items[index]
-        return item.fileURL as QLPreviewItem!
+        return item.fileURL as QLPreviewItem?
     }
     
     func previewPanel(_ panel: QLPreviewPanel!, handle event: NSEvent!) -> Bool {

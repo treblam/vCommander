@@ -1,0 +1,4 @@
+framework module HanziPinyin {
+    header "HanziPinyin-Swift.h"
+    requires objc
+}

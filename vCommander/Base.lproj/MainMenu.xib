@@ -192,6 +192,11 @@
                                     <action selector="nextTab:" target="-1" id="Gqa-6Y-yPV"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Swap Tabs" keyEquivalent="u" id="TsT-jv-Axh">
+                                <connections>
+                                    <action selector="swapTab:" target="-1" id="qQq-eI-Zgq"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

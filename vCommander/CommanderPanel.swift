@@ -90,7 +90,6 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     func addNewTab(withUrl url: URL?, andSelectIt isSelect: Bool? = false, withSelected item: URL? = nil) {
         let newModel = TabBarModel()
         let newItemController = TabItemController(nibName: "TabItemController", bundle: nil, url: url, isPrimary: isPrimary, withSelected: item)
-        newItemController?.delegate = self
         newModel.title = newItemController?.title ?? "Untitled"
         
         let newItem = NSTabViewItem(identifier: newModel)
@@ -130,10 +129,10 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         print("store tabs data called.")
         
         let items = tabView.tabViewItems
-        let bookmarks = items.map { (item) -> NSData! in
+        let bookmarks = items.map { (item) -> NSData? in
             let controller = item.viewController as! TabItemController
             let url = controller.curFsItem.fileURL
-            return bookmarkForURL(url: url) as NSData!
+            return bookmarkForURL(url: url) as NSData?
         }
         
         var selectedIndex = 0
