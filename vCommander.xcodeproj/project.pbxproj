@@ -100,7 +100,6 @@
 		7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSViewWithRectInset.swift; sourceTree = "<group>"; };
 		7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPreferenceController.swift; sourceTree = "<group>"; };
 		7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCPreferenceController.xib; sourceTree = "<group>"; };
-		C48255D2210C4A7D00E3FF6E /* vCommander.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = vCommander.entitlements; sourceTree = "<group>"; };
 		C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HanziPinyin.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,7 +155,6 @@
 		7D9422401B024441008429D5 /* vCommander */ = {
 			isa = PBXGroup;
 			children = (
-				C48255D2210C4A7D00E3FF6E /* vCommander.entitlements */,
 				C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */,
 				7D7B0F371E639D9D0052DB63 /* Extensions */,
 				7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */,

@@ -79,6 +79,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     let pasteboard = NSPasteboard.general
     
+    // Must be file reference URLs
     var selectedItems = [URL]()
     var selectedIndexes: IndexSet?
     var markedItems = [URL]()
@@ -481,13 +482,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func getIndexesForItems(_ items: [URL]) -> NSMutableIndexSet {
         let result = NSMutableIndexSet()
-        let index = curFsItem?.children?.index {
-            items.contains(($0.fileURL as NSURL).fileReferenceURL()!)
+        if let children = curFsItem?.children {
+            for (index, element) in children.enumerated() {
+                if items.contains((element.fileURL as NSURL).fileReferenceURL()!) {
+                    result.add(index)
+                }
+            }
         }
         
-        if let i = index {
-            result.add(i)
-        }
         return result
     }
     
@@ -503,6 +505,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             print("add \(String(describing: fileRefURL)) to markedItems")
             self.markedItems.append(fileRefURL!)
         })
+    }
+    
+    func updateMarkedItems(withURLs URLs: [URL]) {
+        if URLs.count == 0 {
+            return
+        }
+        markedItems = URLs.map({
+            ($0 as NSURL).fileReferenceURL()!
+        })
+        
+        print("aaaaa")
     }
     
     func updateSelectedItems(withIndexes indexes: IndexSet) {
@@ -982,6 +995,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         case "f", "F", "/":
             startTypeSelectMode()
             return true
+        case "p", "P":
+            paste(nil)
+            return true
         default:
             break
         }
@@ -1053,6 +1069,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 tableview.scrollRowToVisible(row)
             }
         }
+    }
+    
+    func selectFile(_ url: URL, isScroll: Bool = true) {
+        let fileIndex = getIndexesForItems([url]).firstIndex
+        selectRow(fileIndex)
     }
     
     func visibleRows() -> NSIndexSet {
@@ -1334,7 +1355,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             inputString += char
             print("inputString: \(inputString)")
             
-            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT|\\/|f|F)$", in: inputString)
+            let textMatches = matches(for: "(\\d*)(dd|d|gg|G|yy|y|h|j|k|l|v|V|cc|S|i|I|a|A|gt|gT|\\/|f|F|p|P)$", in: inputString)
             if textMatches.count > 0 {
                 let match = textMatches[textMatches.count - 1]
                 
@@ -1652,6 +1673,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func paste(_ sender: AnyObject?) {
         let classArray : Array<AnyClass> = [NSURL.self]
+        var destinations = [URL]()
         
         let canReadData = self.containsAcceptableURLsFromPasteboard(pasteboard)
         if canReadData {
@@ -1671,10 +1693,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 do {
                     try fileManager.copyItem(at: url, to: toURL)
+                    destinations.append(toURL)
+                    updateSelectedItems(withUrl: toURL)
                 } catch let error as NSError {
                     print("Ooops! Something went wrong: \(error)")
                 }
             }
+            // Mark the pasted files
+            updateMarkedItems(withURLs: destinations)
         }
     }
     
