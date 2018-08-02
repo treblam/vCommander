@@ -1599,17 +1599,17 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let targetItems = targetViewController.getMarkedItems(false)
         
         if curItems.count >= 2 {
-            _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
+            _ = execcmd("\"" + preferenceManager.diffTool! + "\" \"" + curItems[0].path + "\" \"" + curItems[1].path + "\"")
         } else if curItems.count == 1 && targetItems.count >= 1 {
             if isPrimary != nil {
                 if isPrimary! {
-                    _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
+                    _ = execcmd("\"" + preferenceManager.diffTool! + "\" \"" + curItems[0].path + "\" \"" + targetItems[0].path + "\"")
                 } else {
-                    _ = execcmd(preferenceManager.diffTool! + " \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
+                    _ = execcmd("\"" + preferenceManager.diffTool! + "\" \"" + targetItems[0].path + "\" \"" + curItems[0].path + "\"")
                 }
             }
         } else if curItems.count == 1 {
-            _ = execcmd(preferenceManager.diffTool! + " \"" + curItems[0].path + "\"")
+            _ = execcmd("\"" + preferenceManager.diffTool! + "\" \"" + curItems[0].path + "\"")
         }
     }
     
