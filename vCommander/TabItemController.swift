@@ -453,27 +453,20 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        print("sortDescriptorsDidChange called.")
         refreshTableview()
     }
     
     func refreshTableview() {
-        print("refreshTableview called")
         sortData()
         tableview.reloadData()
-        
-        print("Start to reselect items")
         reselectIfNecessary()
         tableview.markRowIndexes(getIndexesForItems(markedItems) as IndexSet, byExtendingSelection: false)
     }
     
     func sortData() {
         let sortDescriptors = tableview.sortDescriptors
-        print("\(sortDescriptors)")
         let objectsArray = curFsItem.children as NSArray
-        print("\(objectsArray)")
         let sortedObjects = objectsArray.sortedArray(using: sortDescriptors)
-        print("Done sorting")
         curFsItem.children = sortedObjects as! [FileSystemItem]
     }
     
@@ -582,7 +575,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // The fileManager's current directory is used when rename a file
         let suc = fileManager.changeCurrentDirectoryPath(url.path)
         if (!suc) {
-            print("change directory fail")
+            print("Change directory failed")
         }
 
         print(fileManager.currentDirectoryPath)
@@ -678,7 +671,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
-        print("mouseDown in TabItemController called.")
     }
     
     func convertToInt(_ str: String) -> Int {
