@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  vCommander
+
+  Created by Jerry's Macbook on 2018/8/5.
+  Copyright © 2018年 Jamie. All rights reserved.
+*/
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Rename" = "Rename";
+"Quick Look" = "Quick Look";
+"Edit" = "Edit";
+"Copy" = "Copy";
+"Move" = "Move";
+"New Directory" = "New Directory";
+"New File" = "New File";
+"Delete" = "Delete";
+"Get Info" = "Get Info";
+"New Tab" = "New Tab";
+"Close Tab" = "Close Tab";
+"Previous Tab" = "Previous Tab";
+"Next Tab" = "Next Tab";
+"Swap Tabs" = "Swap Tabs";
+"Enter File Name" = "Please enter the file name";
+"File Name" = "File name";
+"Create New File Failed" = "Create new file failed";
+"FileWithSameNameExists" = "File with the same name already exists";
+"UnableToCreateFile" = "Can't create file";
+"EnterDirName" = "Please enter directory name";
+"DirName" = "Directory name";
+"CreateDirFailed" = "Create directory failed";
+"DirExists" = "Directory with the same name already exists";
+"UnsupportedFileType" = "Can't edit";
+"CannotEdit" = "Can't edit this type of file";
+"ConfirmDelete" = "Sure to delete these files/directories?";
+"SelectApp" = "Select application...";
+"PleaseSelectApp" = "Please select an application";
+"NoSpecifiedApp" = "There is no specified application to open \"%@\"";
+"CannotOpenFile" = "Can't open file \"%@\", because you don't have permission";

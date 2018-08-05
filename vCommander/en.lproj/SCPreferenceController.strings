@@ -1,0 +1,39 @@
+
+/* Class = "NSToolbarItem"; label = "General"; ObjectID = "0HP-HX-JnQ"; */
+"0HP-HX-JnQ.label" = "General";
+
+/* Class = "NSToolbarItem"; paletteLabel = "General"; ObjectID = "0HP-HX-JnQ"; */
+"0HP-HX-JnQ.paletteLabel" = "General";
+
+/* Class = "NSTabViewItem"; label = "Tab"; ObjectID = "5De-fw-hmW"; */
+"5De-fw-hmW.label" = "Tab";
+
+/* Class = "NSToolbarItem"; label = "Tools"; ObjectID = "Ac8-cJ-iSd"; */
+"Ac8-cJ-iSd.label" = "Tools";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Tools"; ObjectID = "Ac8-cJ-iSd"; */
+"Ac8-cJ-iSd.paletteLabel" = "Tools";
+
+/* Class = "NSButtonCell"; title = "Choose..."; ObjectID = "BhE-y6-MYg"; */
+"BhE-y6-MYg.title" = "Choose...";
+
+/* Class = "NSButtonCell"; title = "Vim mode"; ObjectID = "CLy-7f-66s"; */
+"CLy-7f-66s.title" = "Vim Mode";
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "Preferences";
+
+/* Class = "NSTextFieldCell"; title = "Editor："; ObjectID = "Isn-y5-dPK"; */
+"Isn-y5-dPK.title" = "Editor：";
+
+/* Class = "NSButtonCell"; title = "Choose..."; ObjectID = "WIy-vL-vBy"; */
+"WIy-vL-vBy.title" = "Choose...";
+
+/* Class = "NSTextFieldCell"; title = "Diff Tool："; ObjectID = "XC4-jb-WAl"; */
+"XC4-jb-WAl.title" = "Diff Tool：";
+
+/* Class = "NSTabViewItem"; label = "View"; ObjectID = "fkg-bY-pGw"; */
+"fkg-bY-pGw.label" = "View";
+
+/* Class = "NSButtonCell"; title = "Common mode"; ObjectID = "loz-YY-uTX"; */
+"loz-YY-uTX.title" = "Common Mode";

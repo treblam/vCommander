@@ -1,171 +1,171 @@
 
 /* Class = "NSMenuItem"; title = "Customize Toolbar…"; ObjectID = "1UK-8n-QPP"; */
-"1UK-8n-QPP.title" = "自定义工具栏…";
+"1UK-8n-QPP.title" = "Customize Toolbar…";
 
 /* Class = "NSMenuItem"; title = "vCommander"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "vCommander";
 
 /* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "2Tu-N0-Z10"; */
-"2Tu-N0-Z10.title" = "预览";
+"2Tu-N0-Z10.title" = "Quick Look";
 
 /* Class = "NSMenuItem"; title = "Quit vCommander"; ObjectID = "4sb-4s-VLi"; */
-"4sb-4s-VLi.title" = "退出 vCommander";
+"4sb-4s-VLi.title" = "Quit vCommander";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
-"5QF-Oa-p0T.title" = "编辑";
+"5QF-Oa-p0T.title" = "Edit";
 
 /* Class = "NSMenuItem"; title = "About vCommander"; ObjectID = "5kV-Vb-QxS"; */
-"5kV-Vb-QxS.title" = "关于 vCommander";
+"5kV-Vb-QxS.title" = "About vCommander";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
-"6dh-zS-Vam.title" = "重做";
+"6dh-zS-Vam.title" = "Redo";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "8fg-Ze-Gif"; */
-"8fg-Ze-Gif.title" = "编辑";
+"8fg-Ze-Gif.title" = "Edit";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
-"AYu-sK-qS6.title" = "主菜单";
+"AYu-sK-qS6.title" = "Main Menu";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
-"BOF-NM-1cW.title" = "偏好设置…";
+"BOF-NM-1cW.title" = "Preferences…";
 
 /* Class = "NSMenuItem"; title = "New Directory"; ObjectID = "Cym-NK-CYd"; */
-"Cym-NK-CYd.title" = "新建文件夹";
+"Cym-NK-CYd.title" = "New Directory";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
-"F2S-fz-NVQ.title" = "帮助";
+"F2S-fz-NVQ.title" = "Help";
 
 /* Class = "NSMenuItem"; title = "vCommander Help"; ObjectID = "FKE-Sm-Kum"; */
-"FKE-Sm-Kum.title" = "vCommander 帮助";
+"FKE-Sm-Kum.title" = "vCommander Help";
 
 /* Class = "NSMenuItem"; title = "Close Selected Tab"; ObjectID = "GfU-eZ-bdj"; */
-"GfU-eZ-bdj.title" = "关闭标签页";
+"GfU-eZ-bdj.title" = "Close Selected Tab";
 
 /* Class = "NSMenuItem"; title = "View"; ObjectID = "H8h-7b-M4v"; */
-"H8h-7b-M4v.title" = "显示";
+"H8h-7b-M4v.title" = "View";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
-"HyV-fh-RgO.title" = "显示";
+"HyV-fh-RgO.title" = "View";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "HzP-zo-lD5"; */
-"HzP-zo-lD5.title" = "删除";
+"HzP-zo-lD5.title" = "Delete";
 
 /* Class = "NSMenuItem"; title = "Open…"; ObjectID = "IAo-SY-fd9"; */
-"IAo-SY-fd9.title" = "打开…";
+"IAo-SY-fd9.title" = "Open…";
 
 /* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "JLV-Ui-PZ9"; */
-"JLV-Ui-PZ9.title" = "显示简介";
+"JLV-Ui-PZ9.title" = "Get Info";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
-"Kd2-mp-pUS.title" = "全部显示";
+"Kd2-mp-pUS.title" = "Show All";
 
 /* Class = "NSMenuItem"; title = "New Tab"; ObjectID = "LCo-8D-RuK"; */
-"LCo-8D-RuK.title" = "新建标签页";
+"LCo-8D-RuK.title" = "New Tab";
 
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "LE2-aR-0XJ"; */
-"LE2-aR-0XJ.title" = "前置全部窗口";
+"LE2-aR-0XJ.title" = "Bring All to Front";
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
-"NMo-om-nkz.title" = "服务";
+"NMo-om-nkz.title" = "Services";
 
 /* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "OY7-WF-poV"; */
-"OY7-WF-poV.title" = "最小化";
+"OY7-WF-poV.title" = "Minimize";
 
 /* Class = "NSMenuItem"; title = "Tabs"; ObjectID = "Oeo-O1-3gk"; */
-"Oeo-O1-3gk.title" = "标签页";
+"Oeo-O1-3gk.title" = "Tabs";
 
 /* Class = "NSMenuItem"; title = "Next Tab"; ObjectID = "Og8-LJ-fRK"; */
-"Og8-LJ-fRK.title" = "下一个标签页";
+"Og8-LJ-fRK.title" = "Next Tab";
 
 /* Class = "NSMenuItem"; title = "Hide vCommander"; ObjectID = "Olw-nP-bQN"; */
-"Olw-nP-bQN.title" = "隐藏 vCommander";
+"Olw-nP-bQN.title" = "Hide vCommander";
 
 /* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "R4o-n2-Eq4"; */
-"R4o-n2-Eq4.title" = "缩放";
+"R4o-n2-Eq4.title" = "Zoom";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
-"Ruw-6m-B2m.title" = "全选";
+"Ruw-6m-B2m.title" = "Select All";
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
-"Td7-aD-5lo.title" = "窗口";
+"Td7-aD-5lo.title" = "Window";
 
 /* Class = "NSMenuItem"; title = "Swap Tabs"; ObjectID = "TsT-jv-Axh"; */
-"TsT-jv-Axh.title" = "互换标签页";
+"TsT-jv-Axh.title" = "Swap Tabs";
 
 /* Class = "NSMenu"; title = "Tabs"; ObjectID = "VVk-g9-hiF"; */
-"VVk-g9-hiF.title" = "标签页";
+"VVk-g9-hiF.title" = "Tabs";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
-"Vdr-fp-XzO.title" = "隐藏其他";
+"Vdr-fp-XzO.title" = "Hide Others";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
-"W48-6f-4Dl.title" = "编辑";
+"W48-6f-4Dl.title" = "Edit";
 
 /* Class = "NSMenuItem"; title = "New Document"; ObjectID = "Was-JA-tGl"; */
-"Was-JA-tGl.title" = "新建文档";
+"Was-JA-tGl.title" = "New Document";
 
 /* Class = "NSMenuItem"; title = "Paste and Match Style"; ObjectID = "WeT-3V-zwk"; */
 "WeT-3V-zwk.title" = "Paste and Match Style";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "Wne-K5-aST"; */
-"Wne-K5-aST.title" = "编辑";
+"Wne-K5-aST.title" = "Edit";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
-"aUF-d1-5bR.title" = "窗口";
+"aUF-d1-5bR.title" = "Window";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "apF-S9-cqt"; */
-"apF-S9-cqt.title" = "重命名";
+"apF-S9-cqt.title" = "Rename";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "bib-Uj-vzu"; */
-"bib-Uj-vzu.title" = "文件";
+"bib-Uj-vzu.title" = "File";
 
 /* Class = "NSMenuItem"; title = "Move"; ObjectID = "caR-Y9-4rN"; */
-"caR-Y9-4rN.title" = "移动";
+"caR-Y9-4rN.title" = "Move";
 
 /* Class = "NSMenuItem"; title = "File"; ObjectID = "dMs-cI-mzQ"; */
-"dMs-cI-mzQ.title" = "文件";
+"dMs-cI-mzQ.title" = "File";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
-"dRJ-4n-Yzg.title" = "撤销";
+"dRJ-4n-Yzg.title" = "Undo";
 
 /* Class = "NSMenuItem"; title = "Paste"; ObjectID = "gVA-U4-sdL"; */
-"gVA-U4-sdL.title" = "粘贴";
+"gVA-U4-sdL.title" = "Paste";
 
 /* Class = "NSMenuItem"; title = "Get info"; ObjectID = "hQx-ux-Nmc"; */
-"hQx-ux-Nmc.title" = "显示简介";
+"hQx-ux-Nmc.title" = "Get info";
 
 /* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
-"hz9-B4-Xy5.title" = "服务";
+"hz9-B4-Xy5.title" = "Services";
 
 /* Class = "NSMenuItem"; title = "Previous Tab"; ObjectID = "kmd-LL-BPJ"; */
-"kmd-LL-BPJ.title" = "上一个标签页";
+"kmd-LL-BPJ.title" = "Previous Tab";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
-"pa3-QI-u2k.title" = "删除";
+"pa3-QI-u2k.title" = "Delete";
 
 /* Class = "NSMenuItem"; title = "Compare"; ObjectID = "pou-bl-pmU"; */
-"pou-bl-pmU.title" = "对比";
+"pou-bl-pmU.title" = "Compare";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "qTl-06-tnR"; */
-"qTl-06-tnR.title" = "复制";
+"qTl-06-tnR.title" = "Copy";
 
 /* Class = "NSMenuItem"; title = "Show Toolbar"; ObjectID = "snW-S8-Cw5"; */
-"snW-S8-Cw5.title" = "显示工具栏";
+"snW-S8-Cw5.title" = "Show Toolbar";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "t9i-L6-cm4"; */
-"t9i-L6-cm4.title" = "重命名";
+"t9i-L6-cm4.title" = "Rename";
 
 /* Class = "NSMenu"; title = "vCommander"; ObjectID = "uQy-DD-JDr"; */
 "uQy-DD-JDr.title" = "vCommander";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
-"uRl-iY-unG.title" = "剪切";
+"uRl-iY-unG.title" = "Cut";
 
 /* Class = "NSMenuItem"; title = "Quicklook"; ObjectID = "uxo-6H-XsK"; */
-"uxo-6H-XsK.title" = "预览";
+"uxo-6H-XsK.title" = "Quicklook";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
-"wpr-3q-Mcd.title" = "帮助";
+"wpr-3q-Mcd.title" = "Help";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
-"x3v-GG-iWU.title" = "复制";
+"x3v-GG-iWU.title" = "Copy";

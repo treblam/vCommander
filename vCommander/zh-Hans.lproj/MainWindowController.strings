@@ -1,0 +1,21 @@
+
+/* Class = "NSButtonCell"; title = "复制 (F5)"; ObjectID = "1Gg-OF-AcI"; */
+"1Gg-OF-AcI.title" = "复制 (F5)";
+
+/* Class = "NSButtonCell"; title = "移动 (F6)"; ObjectID = "5Jh-sA-3yb"; */
+"5Jh-sA-3yb.title" = "移动 (F6)";
+
+/* Class = "NSButtonCell"; title = "删除 (F8)"; ObjectID = "AJq-1R-uJg"; */
+"AJq-1R-uJg.title" = "删除 (F8)";
+
+/* Class = "NSWindow"; title = "vCommander"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "vCommander";
+
+/* Class = "NSButtonCell"; title = "预览 (F3)"; ObjectID = "RDO-q8-Opt"; */
+"RDO-q8-Opt.title" = "预览 (F3)";
+
+/* Class = "NSButtonCell"; title = "新建文件夹 (F7)"; ObjectID = "WXa-hY-xxU"; */
+"WXa-hY-xxU.title" = "新建文件夹 (F7)";
+
+/* Class = "NSButtonCell"; title = "编辑 (F4)"; ObjectID = "eNn-dV-ZhJ"; */
+"eNn-dV-ZhJ.title" = "编辑 (F4)";

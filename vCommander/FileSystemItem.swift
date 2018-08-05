@@ -20,17 +20,17 @@ class FileSystemItem: NSObject {
         return self.fileURL.path
     }()
     
-    lazy var name: String! = { [unowned self] in
+    @objc lazy dynamic var name: String! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.nameKey])
         return resourceValues![URLResourceKey.nameKey] as? String
     }()
     
-    lazy var localizedName: String! = { [unowned self] in
+    @objc lazy dynamic var localizedName: String! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.localizedNameKey])
         return resourceValues?[URLResourceKey.localizedNameKey] as? String ?? ""
     }()
     
-    lazy var localizedType: String! = { [unowned self] in
+    @objc lazy dynamic var localizedType: String! = { [unowned self] in
         let workspace = NSWorkspace()
         return workspace.localizedDescription(forType: self.typeIdentifier)
     }()
@@ -40,17 +40,17 @@ class FileSystemItem: NSObject {
         return resourceValues![URLResourceKey.effectiveIconKey] as? NSImage
     }()
     
-    lazy var dateOfCreation: Date! = { [unowned self] in
+    @objc lazy dynamic var dateOfCreation: Date! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.creationDateKey])
         return resourceValues![URLResourceKey.creationDateKey] as? Date
     }()
     
-    lazy var dateOfLastModification: Date! = { [unowned self] in
+    @objc lazy dynamic var dateOfLastModification: Date! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.contentModificationDateKey])
         return resourceValues![URLResourceKey.contentModificationDateKey] as? Date
     }()
     
-    lazy var typeIdentifier: String! = { [unowned self] in
+    @objc lazy dynamic var typeIdentifier: String! = { [unowned self] in
         let resourceValues = try? (self.fileURL as NSURL).resourceValues(forKeys: [URLResourceKey.typeIdentifierKey])
         return resourceValues![URLResourceKey.typeIdentifierKey] as? String
     }()
@@ -81,7 +81,7 @@ class FileSystemItem: NSObject {
         return resourceValues?[URLResourceKey.isReadableKey] as? Bool ?? false
     }()
     
-    lazy var size: NSNumber! = { [unowned self] in
+    @objc lazy dynamic var size: NSNumber! = { [unowned self] in
         if self.isDirectory {
             return -1
         }

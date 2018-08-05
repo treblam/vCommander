@@ -1,0 +1,21 @@
+
+/* Class = "NSButtonCell"; title = "Copy (F5)"; ObjectID = "1Gg-OF-AcI"; */
+"1Gg-OF-AcI.title" = "Copy (F5)";
+
+/* Class = "NSButtonCell"; title = "Move (F6)"; ObjectID = "5Jh-sA-3yb"; */
+"5Jh-sA-3yb.title" = "Move (F6)";
+
+/* Class = "NSButtonCell"; title = "Delete (F8)"; ObjectID = "AJq-1R-uJg"; */
+"AJq-1R-uJg.title" = "Delete (F8)";
+
+/* Class = "NSWindow"; title = "vCommander"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "vCommander";
+
+/* Class = "NSButtonCell"; title = "Quick Look (F3)"; ObjectID = "RDO-q8-Opt"; */
+"RDO-q8-Opt.title" = "Quick Look (F3)";
+
+/* Class = "NSButtonCell"; title = "New Directory (F7)"; ObjectID = "WXa-hY-xxU"; */
+"WXa-hY-xxU.title" = "New Directory (F7)";
+
+/* Class = "NSButtonCell"; title = "Edit (F4)"; ObjectID = "eNn-dV-ZhJ"; */
+"eNn-dV-ZhJ.title" = "Edit (F4)";

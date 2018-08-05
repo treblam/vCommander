@@ -1,0 +1,39 @@
+
+/* Class = "NSToolbarItem"; label = "General"; ObjectID = "0HP-HX-JnQ"; */
+"0HP-HX-JnQ.label" = "通用";
+
+/* Class = "NSToolbarItem"; paletteLabel = "General"; ObjectID = "0HP-HX-JnQ"; */
+"0HP-HX-JnQ.paletteLabel" = "通用";
+
+/* Class = "NSTabViewItem"; label = "Tab"; ObjectID = "5De-fw-hmW"; */
+"5De-fw-hmW.label" = "Tab";
+
+/* Class = "NSToolbarItem"; label = "Tools"; ObjectID = "Ac8-cJ-iSd"; */
+"Ac8-cJ-iSd.label" = "工具";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Tools"; ObjectID = "Ac8-cJ-iSd"; */
+"Ac8-cJ-iSd.paletteLabel" = "工具";
+
+/* Class = "NSButtonCell"; title = "Choose..."; ObjectID = "BhE-y6-MYg"; */
+"BhE-y6-MYg.title" = "选择...";
+
+/* Class = "NSButtonCell"; title = "Vim mode"; ObjectID = "CLy-7f-66s"; */
+"CLy-7f-66s.title" = "Vim 模式";
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "偏好设置";
+
+/* Class = "NSTextFieldCell"; title = "Editor："; ObjectID = "Isn-y5-dPK"; */
+"Isn-y5-dPK.title" = "编辑器：";
+
+/* Class = "NSButtonCell"; title = "Choose..."; ObjectID = "WIy-vL-vBy"; */
+"WIy-vL-vBy.title" = "选择...";
+
+/* Class = "NSTextFieldCell"; title = "Diff Tool："; ObjectID = "XC4-jb-WAl"; */
+"XC4-jb-WAl.title" = "对比工具：";
+
+/* Class = "NSTabViewItem"; label = "View"; ObjectID = "fkg-bY-pGw"; */
+"fkg-bY-pGw.label" = "View";
+
+/* Class = "NSButtonCell"; title = "Common mode"; ObjectID = "loz-YY-uTX"; */
+"loz-YY-uTX.title" = "普通模式";

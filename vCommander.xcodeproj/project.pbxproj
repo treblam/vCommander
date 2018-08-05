@@ -19,7 +19,6 @@
 		7D552D4F1B1DFE4100031203 /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; };
 		7D552D501B1DFE5E00031203 /* MMTabBarView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D552D511B1E09FC00031203 /* TabItemController.swift */; };
-		7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D552D521B1E09FC00031203 /* TabItemController.xib */; };
 		7D7B0F391E639DFB0052DB63 /* String+transformToPinyin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7B0F381E639DFB0052DB63 /* String+transformToPinyin.swift */; };
 		7D8455631BEF8B7D009999F0 /* PreferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */; };
 		7D9422441B024441008429D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9422431B024441008429D5 /* AppDelegate.swift */; };
@@ -27,7 +26,6 @@
 		7D9422491B024442008429D5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D9422471B024442008429D5 /* MainMenu.xib */; };
 		7D9422551B024442008429D5 /* SimpleCommanderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9422541B024442008429D5 /* SimpleCommanderTests.swift */; };
 		7D9422601B024480008429D5 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D94225E1B024480008429D5 /* MainWindowController.swift */; };
-		7D9422611B024480008429D5 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D94225F1B024480008429D5 /* MainWindowController.xib */; };
 		7DA874291B22E5C10004185C /* FlippedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA874281B22E5C10004185C /* FlippedView.swift */; };
 		7DA9FA781B0644A90092C971 /* FileSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA9FA771B0644A90092C971 /* FileSystemItem.swift */; };
 		7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */; };
@@ -35,7 +33,10 @@
 		7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD323721B2D5247006EF722 /* SCTableView.swift */; };
 		7DD4CDBA1E5E5985001A6560 /* NSViewWithRectInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */; };
 		7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */; };
-		7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */; };
+		C4484F8E2117013200D44F0F /* TabItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4484F902117013200D44F0F /* TabItemController.xib */; };
+		C4484F95211703F000D44F0F /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4484F97211703F000D44F0F /* SCPreferenceController.xib */; };
+		C45EEC0A2116D408004BBAE1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C45EEC0C2116D408004BBAE1 /* Localizable.strings */; };
+		C45EEC122116F552004BBAE1 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C45EEC142116F552004BBAE1 /* MainWindowController.xib */; };
 		C4EBD5F6204A19ED00A9E845 /* HanziPinyin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; };
 		C4EBD5F8204A19F800A9E845 /* HanziPinyin.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -74,12 +75,10 @@
 		7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vCommander-Bridging-Header.h"; sourceTree = "<group>"; };
 		7D48A0031B209A400043933D /* CommanderPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommanderPanel.swift; sourceTree = "<group>"; };
 		7D48A0041B209A400043933D /* CommanderPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommanderPanel.xib; sourceTree = "<group>"; };
-		7D50C4CE1B07A3B4001A7E1C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		7D5252E61BA3D66A006243F1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7D552D4A1B1DE5A400031203 /* TabBarModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
 		7D552D4E1B1DFE4100031203 /* MMTabBarView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MMTabBarView.framework; sourceTree = "<group>"; };
 		7D552D511B1E09FC00031203 /* TabItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabItemController.swift; sourceTree = "<group>"; };
-		7D552D521B1E09FC00031203 /* TabItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabItemController.xib; sourceTree = "<group>"; };
 		7D7B0F381E639DFB0052DB63 /* String+transformToPinyin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+transformToPinyin.swift"; sourceTree = "<group>"; };
 		7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceManager.swift; sourceTree = "<group>"; };
 		7D94223E1B024441008429D5 /* vCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,7 +90,6 @@
 		7D9422531B024442008429D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D9422541B024442008429D5 /* SimpleCommanderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCommanderTests.swift; sourceTree = "<group>"; };
 		7D94225E1B024480008429D5 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
-		7D94225F1B024480008429D5 /* MainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
 		7DA874281B22E5C10004185C /* FlippedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlippedView.swift; sourceTree = "<group>"; };
 		7DA9FA771B0644A90092C971 /* FileSystemItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemItem.swift; sourceTree = "<group>"; };
 		7DC2AC4E1B48E614006BA33A /* DirectoryMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryMonitor.swift; sourceTree = "<group>"; };
@@ -99,7 +97,20 @@
 		7DD323721B2D5247006EF722 /* SCTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTableView.swift; sourceTree = "<group>"; };
 		7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSViewWithRectInset.swift; sourceTree = "<group>"; };
 		7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPreferenceController.swift; sourceTree = "<group>"; };
-		7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCPreferenceController.xib; sourceTree = "<group>"; };
+		C4484F8F2117013200D44F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TabItemController.xib; sourceTree = "<group>"; };
+		C4484F922117013600D44F0F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TabItemController.strings"; sourceTree = "<group>"; };
+		C4484F942117013800D44F0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TabItemController.strings; sourceTree = "<group>"; };
+		C4484F96211703F000D44F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SCPreferenceController.xib; sourceTree = "<group>"; };
+		C4484F99211703F300D44F0F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SCPreferenceController.strings"; sourceTree = "<group>"; };
+		C4484F9B211703F500D44F0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SCPreferenceController.strings; sourceTree = "<group>"; };
+		C4484F9C211707B900D44F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C45EEC0B2116D408004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C45EEC0D2116D41A004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C45EEC0F2116F1F6004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		C45EEC112116F1FC004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		C45EEC192116F5A4004BBAE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindowController.xib; sourceTree = "<group>"; };
+		C45EEC212116F6ED004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainWindowController.strings; sourceTree = "<group>"; };
+		C45EEC222116F6FB004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainWindowController.strings"; sourceTree = "<group>"; };
 		C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HanziPinyin.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,12 +174,12 @@
 				7D9422471B024442008429D5 /* MainMenu.xib */,
 				7D9422411B024441008429D5 /* Supporting Files */,
 				7D94225E1B024480008429D5 /* MainWindowController.swift */,
-				7D94225F1B024480008429D5 /* MainWindowController.xib */,
+				C45EEC142116F552004BBAE1 /* MainWindowController.xib */,
 				7DA9FA771B0644A90092C971 /* FileSystemItem.swift */,
 				7D43B06D1B1CB53900E60257 /* vCommander-Bridging-Header.h */,
 				7D552D4A1B1DE5A400031203 /* TabBarModel.swift */,
 				7D552D511B1E09FC00031203 /* TabItemController.swift */,
-				7D552D521B1E09FC00031203 /* TabItemController.xib */,
+				C4484F902117013200D44F0F /* TabItemController.xib */,
 				7D48A0031B209A400043933D /* CommanderPanel.swift */,
 				7D48A0041B209A400043933D /* CommanderPanel.xib */,
 				7DA874281B22E5C10004185C /* FlippedView.swift */,
@@ -178,12 +189,13 @@
 				7D131BAC1B5B9575007BDBB6 /* VerticallyCenteredTextField.swift */,
 				7D8455621BEF8B7D009999F0 /* PreferenceManager.swift */,
 				7DDBFF0D1BF0E983006B906D /* SCPreferenceController.swift */,
-				7DDBFF0E1BF0E983006B906D /* SCPreferenceController.xib */,
+				C4484F97211703F000D44F0F /* SCPreferenceController.xib */,
 				7DD4CDB91E5E5985001A6560 /* NSViewWithRectInset.swift */,
 				7D0378641E85ED0F005A1F95 /* VCTabBarView.swift */,
 				7D0378661E8753A4005A1F95 /* VCLayerBackedView.swift */,
 				7D0378681E87928D005A1F95 /* VCTableHeaderView.swift */,
 				7D03786A1E87A279005A1F95 /* VCPathControl.swift */,
+				C45EEC0C2116D408004BBAE1 /* Localizable.strings */,
 			);
 			path = vCommander;
 			sourceTree = "<group>";
@@ -284,8 +296,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
+				en,
 			);
 			mainGroup = 7D9422351B024441008429D5;
 			productRefGroup = 7D94223F1B024441008429D5 /* Products */;
@@ -303,10 +316,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D552D541B1E09FC00031203 /* TabItemController.xib in Resources */,
 				7D9422461B024441008429D5 /* Images.xcassets in Resources */,
-				7DDBFF101BF0E983006B906D /* SCPreferenceController.xib in Resources */,
-				7D9422611B024480008429D5 /* MainWindowController.xib in Resources */,
+				C4484F95211703F000D44F0F /* SCPreferenceController.xib in Resources */,
+				C45EEC0A2116D408004BBAE1 /* Localizable.strings in Resources */,
+				C4484F8E2117013200D44F0F /* TabItemController.xib in Resources */,
+				C45EEC122116F552004BBAE1 /* MainWindowController.xib in Resources */,
 				7D48A0061B209A400043933D /* CommanderPanel.xib in Resources */,
 				7D9422491B024442008429D5 /* MainMenu.xib in Resources */,
 			);
@@ -371,9 +385,50 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D9422481B024442008429D5 /* Base */,
-				7D50C4CE1B07A3B4001A7E1C /* zh-Hans */,
+				C45EEC0F2116F1F6004BBAE1 /* en */,
+				C45EEC112116F1FC004BBAE1 /* zh-Hans */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		C4484F902117013200D44F0F /* TabItemController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4484F8F2117013200D44F0F /* Base */,
+				C4484F922117013600D44F0F /* zh-Hans */,
+				C4484F942117013800D44F0F /* en */,
+			);
+			name = TabItemController.xib;
+			sourceTree = "<group>";
+		};
+		C4484F97211703F000D44F0F /* SCPreferenceController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4484F96211703F000D44F0F /* Base */,
+				C4484F99211703F300D44F0F /* zh-Hans */,
+				C4484F9B211703F500D44F0F /* en */,
+			);
+			name = SCPreferenceController.xib;
+			sourceTree = "<group>";
+		};
+		C45EEC0C2116D408004BBAE1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C45EEC0B2116D408004BBAE1 /* en */,
+				C45EEC0D2116D41A004BBAE1 /* zh-Hans */,
+				C4484F9C211707B900D44F0F /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C45EEC142116F552004BBAE1 /* MainWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C45EEC192116F5A4004BBAE1 /* Base */,
+				C45EEC212116F6ED004BBAE1 /* en */,
+				C45EEC222116F6FB004BBAE1 /* zh-Hans */,
+			);
+			name = MainWindowController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

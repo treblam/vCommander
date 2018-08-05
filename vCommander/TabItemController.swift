@@ -258,14 +258,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // If it's not readable, give an alert and return
         if !item.isReadable {
             let errorAlert = NSAlert()
-            if item.localizedName != "" {
-                errorAlert.messageText = "不能打开文件\(item.isDirectory ? "夹" : "")“\(item.localizedName ?? "")”，因为您没有权限查看其内容。"
-            } else {
-                errorAlert.messageText = "不能打开该文件\(item.isDirectory ? "夹" : "")，因为您没有权限查看其内容。"
-            }
-            
-            errorAlert.addButton(withTitle: "确定")
-            errorAlert.runModal()
+            errorAlert.messageText = String(format: NSLocalizedString("CannotOpenFile", comment: ""), item.localizedName ?? "")
+            errorAlert.addButton(withTitle: NSLocalizedString("OK", comment: "OK"))
+            errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
             return
         }
         
@@ -278,10 +273,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             let defaultApp = workspace.urlForApplication(toOpen: item.fileURL)
             if defaultApp == nil {
                 let alert = NSAlert()
-                alert.messageText = "未设定用来打开文稿“\(item.localizedName)”的应用程序"
-                alert.informativeText = "请选取应用程序"
-                alert.addButton(withTitle: "选取应用程序")
-                alert.addButton(withTitle: "取消")
+                alert.messageText = String(format: NSLocalizedString("NoSpecifiedApp", comment: ""), item.localizedName)
+                alert.informativeText = NSLocalizedString("PleaseSelectApp", comment: "Please select an app")
+                alert.addButton(withTitle: NSLocalizedString("SelectApp", comment: "Select app"))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
                 alert.alertStyle = .warning
                 alert.window.initialFirstResponder = alert.buttons[0]
                 
@@ -474,9 +469,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func sortData() {
         let sortDescriptors = tableview.sortDescriptors
+        print("\(sortDescriptors)")
         let objectsArray = curFsItem.children as NSArray
+        print("\(objectsArray)")
         let sortedObjects = objectsArray.sortedArray(using: sortDescriptors)
-        
+        print("Done sorting")
         curFsItem.children = sortedObjects as! [FileSystemItem]
     }
     
@@ -1233,9 +1230,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let fileUrls = items.map { $0.fileURL }
         
         let alert = NSAlert()
-        alert.messageText = "删除"
+        alert.messageText = NSLocalizedString("Delete", comment: "Delete")
         
-        var informativeText = "确定删除选中的文件/文件夹吗？"
+        var informativeText = NSLocalizedString("ConfirmDelete", comment: "Confirm to delete")
         var showCount = files.count
         var suffix = ""
         if files.count > 5 {
@@ -1249,8 +1246,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         informativeText += suffix
         
         alert.informativeText = informativeText
-        alert.addButton(withTitle: "确定")
-        alert.addButton(withTitle: "取消")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: "Alert comfirm button"))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Alert cancel button"))
         alert.alertStyle = .warning
         alert.window.initialFirstResponder = alert.buttons[0]
         
@@ -1260,10 +1257,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             case NSApplication.ModalResponse.alertFirstButtonReturn:
                 self.workspace.recycle(fileUrls, completionHandler: {(newUrls, error) in
                     if error != nil {
-                        let errorAlert = NSAlert()
-                        // print("error")
-                        errorAlert.messageText = "删除失败"
-                        errorAlert.addButton(withTitle: "确定")
+                        let errorAlert = NSAlert.init(error: error!)
                         errorAlert.runModal()
                     } else {
                         print("删除成功")
@@ -1282,11 +1276,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             print("fileURL: " + fsItem.fileURL.path)
             if (fsItem.isDirectory) {
                 let alert = NSAlert()
-                alert.messageText = "不支持编辑该类型的文件"
-                alert.informativeText = "不支持编辑该类型的文件"
-                alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
-                    
-                })
+                alert.messageText = NSLocalizedString("UnsupportedFileType", comment: "Unsupported file type")
+                alert.informativeText = NSLocalizedString("CannotEdit", comment: "Can't edit this type of file")
+                alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
             } else {
                 print("it's not directory, can't step into")
                 workspace.openFile(fsItem.fileURL.path, withApplication: preferenceManager.textEditor!)
@@ -1426,6 +1418,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func handleEscape() {
+        print("handleEscape called.")
         if typeSelectTextField != nil && !typeSelectTextField!.isHidden {
             clearTypeSelect()
         } else {
@@ -1482,13 +1475,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func newDirectory(_ sender: NSMenuItem) {
         let alert = NSAlert()
-        alert.addButton(withTitle: "确定")
-        alert.addButton(withTitle: "取消")
-        alert.messageText = "新建文件夹"
-        alert.informativeText = "请输入文件夹名称"
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: "OK"))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
+        alert.messageText = NSLocalizedString("New Directory", comment: "New Directory")
+        alert.informativeText = NSLocalizedString("EnterDirName", comment: "Enter directory name")
         
         let textField = NSTextField(frame: NSMakeRect(0, 0, 200, 24))
-        textField.placeholderString = "文件夹名称"
+        textField.placeholderString = NSLocalizedString("DirName", comment: "Directory name")
         alert.accessoryView = textField
         alert.window.initialFirstResponder = textField
         
@@ -1509,10 +1502,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     if error.code == NSFileWriteFileExistsError {
                         print("File exists")
                         let alert = NSAlert()
-                        alert.messageText = "新建文件夹失败"
-                        alert.informativeText = "已存在同名文件夹"
-                        alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
-                        })
+                        alert.messageText = NSLocalizedString("CreateDirFailed", comment: "Create directory failed")
+                        alert.informativeText = NSLocalizedString("DirExists", comment: "Directory with same name exists")
+                        alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+                    } else {
+                        let alert = NSAlert.init(error: error)
+                        alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
                     }
                     // handle the error
                 } catch {
@@ -1526,13 +1521,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     @IBAction func newDocument(_ sender: NSMenuItem?) {
         let alert = NSAlert()
-        alert.addButton(withTitle: "确定")
-        alert.addButton(withTitle: "取消")
-        alert.messageText = "新建文件"
-        alert.informativeText = "请输入文件名"
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: "OK"))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
+        alert.messageText = NSLocalizedString("New File", comment: "New File")
+        alert.informativeText = NSLocalizedString("Enter File Name", comment: "Enter File Name")
         
         let textField = NSTextField(frame: NSMakeRect(0, 0, 200, 24))
-        textField.placeholderString = "文件名"
+        textField.placeholderString = NSLocalizedString("File Name", comment: "File Name")
         alert.accessoryView = textField
         alert.window.initialFirstResponder = textField
         
@@ -1544,8 +1539,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 if self.fileManager.fileExists(atPath: fileUrl.path) {
                     let alert = NSAlert()
-                    alert.messageText = "新建文件失败"
-                    alert.informativeText = "已存在同名文件"
+                    alert.messageText = NSLocalizedString("Create New File Failed", comment: "Create New File Failed")
+                    alert.informativeText = NSLocalizedString("FileWithSameNameExists", comment: "File with same name exists")
                     alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
                     })
                     return
@@ -1556,8 +1551,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     self.updateSelectedItems(withUrl: fileUrl)
                 } else {
                     let alert = NSAlert()
-                    alert.messageText = "新建文件失败"
-                    alert.informativeText = "无法创建该文件"
+                    alert.messageText = NSLocalizedString("Create New File Failed", comment: "Create new file failed")
+                    alert.informativeText = NSLocalizedString("UnableToCreateFile", comment: "Unable to create file")
                     alert.beginSheetModal(for: self.view.window!, completionHandler: {responseCode in
                     })
                 }
@@ -2151,31 +2146,31 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         switch identifier {
         case NSTouchBarItem.Identifier.renameFile:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "重命名", target: self, action: #selector(rename(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Rename", comment: "Rename"), target: self, action: #selector(rename(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.previewFiles:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "预览", target: self, action: #selector(showQuickLookPanel(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Quick Look", comment: "Quick Look"), target: self, action: #selector(showQuickLookPanel(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.editFile:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "编辑", target: self, action: #selector(editSelectedFile(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Edit", comment: "Edit"), target: self, action: #selector(editSelectedFile(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.copyFiles:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "复制", target: self, action: #selector(copySelectedFiles(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Copy", comment: "Copy"), target: self, action: #selector(copySelectedFiles(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.moveFiles:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "移动", target: self, action: #selector(moveSelectedFiles(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Move", comment: "Move"), target: self, action: #selector(moveSelectedFiles(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.createDirectory:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "新建文件夹", target: self, action: #selector(newDirectory(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("New Directory", comment: "New Directory"), target: self, action: #selector(newDirectory(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.deleteFiles:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
-            customViewItem.view = NSButton(title: "删除", target: self, action: #selector(deleteSelectedFiles(_:)))
+            customViewItem.view = NSButton(title: NSLocalizedString("Delete", comment: "Delete"), target: self, action: #selector(deleteSelectedFiles(_:)))
             return customViewItem
 //        case NSTouchBarItem.Identifier.groupBar:
 //            let groupBar = NSGroupTouchBarItem(identifier: .groupBar, items: [self.touchBar(touchBar, makeItemForIdentifier: .renameFile)!,

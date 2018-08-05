@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  vCommander
+
+  Created by Jerry's Macbook on 2018/8/5.
+  Copyright © 2018年 Jamie. All rights reserved.
+*/
+"OK" = "好";
+"Cancel" = "取消";
+"Rename" = "重命名";
+"Quick Look" = "预览";
+"Edit" = "编辑";
+"Copy" = "复制";
+"Move" = "移动";
+"New Directory" = "新建文件夹";
+"New File" = "新建文件";
+"Delete" = "删除";
+"Get Info" = "显示简介";
+"New Tab" = "新建标签";
+"Close Tab" = "关闭标签";
+"Previous Tab" = "上一个标签";
+"Next Tab" = "下一个标签";
+"Swap Tabs" = "交换标签";
+"Enter File Name" = "请输入文件名";
+"File Name" = "文件名";
+"Create New File Failed" = "创建文件失败";
+"FileWithSameNameExists" = "已存在同名文件";
+"UnableToCreateFile" = "无法创建文件";
+"EnterDirName" = "请输入文件名";
+"DirName" = "文件名";
+"CreateDirFailed" = "新建文件夹失败";
+"DirExists" = "已存在同名文件夹";
+"UnsupportedFileType" = "无法编辑";
+"CannotEdit" = "不支持编辑该类型的文件";
+"ConfirmDelete" = "确定删除选中的文件/文件夹吗？";
+"SelectApp" = "选取应用程序...";
+"PleaseSelectApp" = "请选取应用程序";
+"NoSpecifiedApp" = "未设定用来打开文稿“%@”的应用程序";
+"CannotOpenFile" = "不能打开文件“%@”，因为您没有权限查看其内容。";

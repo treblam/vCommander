@@ -1,0 +1,78 @@
+
+/* Class = "NSMenuItem"; title = "Paste"; ObjectID = "0cu-NZ-AYj"; */
+"0cu-NZ-AYj.title" = "Paste";
+
+/* Class = "NSMenuItem"; title = "Open"; ObjectID = "2qv-2N-z6Z"; */
+"2qv-2N-z6Z.title" = "Open";
+
+/* Class = "NSTableColumn"; headerCell.title = "Date Modified"; ObjectID = "4Kt-ys-86W"; */
+"4Kt-ys-86W.headerCell.title" = "Date Modified";
+
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "6um-qr-yEe"; */
+"6um-qr-yEe.headerCell.title" = "Name";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Emp-OC-Vlf"; */
+"Emp-OC-Vlf.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "New Folder"; ObjectID = "FLY-WO-dh5"; */
+"FLY-WO-dh5.title" = "New Folder";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "IJj-CL-F24"; */
+"IJj-CL-F24.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Copy"; ObjectID = "Jfk-71-5PI"; */
+"Jfk-71-5PI.title" = "Copy";
+
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "Qpl-86-DCa"; */
+"Qpl-86-DCa.title" = "Delete";
+
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "Tqz-dj-qtp"; */
+"Tqz-dj-qtp.title" = "Show in Finder";
+
+/* Class = "NSMenuItem"; title = "Copy Full Path"; ObjectID = "UJG-Qw-i53"; */
+"UJG-Qw-i53.title" = "Copy Full Path";
+
+/* Class = "NSMenuItem"; title = "Cut"; ObjectID = "Vu7-Zd-Rfz"; */
+"Vu7-Zd-Rfz.title" = "Cut";
+
+/* Class = "NSMenuItem"; title = "New Empty File"; ObjectID = "X45-Eb-rjS"; */
+"X45-Eb-rjS.title" = "New Empty File";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "b2z-QI-vG9"; */
+"b2z-QI-vG9.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Rename"; ObjectID = "cA4-Dr-nzu"; */
+"cA4-Dr-nzu.title" = "Rename";
+
+/* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "cKq-o2-HTb"; */
+"cKq-o2-HTb.title" = "Get Info";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "cUY-E3-T33"; */
+"cUY-E3-T33.title" = "Table View Cell";
+
+/* Class = "NSMenuItem"; title = "Open with"; ObjectID = "jfn-Rw-45f"; */
+"jfn-Rw-45f.title" = "Open with";
+
+/* Class = "NSTableColumn"; headerCell.title = "Size"; ObjectID = "kJW-0x-2ay"; */
+"kJW-0x-2ay.headerCell.title" = "Size";
+
+/* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "kMp-Qf-9QH"; */
+"kMp-Qf-9QH.title" = "Quick Look";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "n5h-vU-weL"; */
+"n5h-vU-weL.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "nar-Bw-Nef"; */
+"nar-Bw-Nef.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "o9E-TE-Um1"; */
+"o9E-TE-Um1.title" = "Edit";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "rc7-BS-vcl"; */
+"rc7-BS-vcl.title" = "Table View Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Kind"; ObjectID = "udt-nL-Lfy"; */
+"udt-nL-Lfy.headerCell.title" = "Kind";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "zF7-Xi-Ar7"; */
+"zF7-Xi-Ar7.title" = "Table View Cell";
