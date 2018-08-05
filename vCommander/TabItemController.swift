@@ -1148,13 +1148,18 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             let targetViewController = windowController.getTargetTabItem()
             let destination = targetViewController.curFsItem.fileURL
             
+            
             for item in items {
-                let toUrl = URL(string: item.fileURL.lastPathComponent, relativeTo: destination)
+                let fileName = item.fileURL.lastPathComponent.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
                 
-                do {
-                    try fileManager.copyItem(at: item.fileURL, to: toUrl!)
-                } catch let error as NSError {
-                    print("Ooops! Something went wrong: \(error)")
+                if let fileNameEscaped = fileName {
+                    let toUrl = URL(string: fileNameEscaped, relativeTo: destination)
+                    do {
+                        try fileManager.copyItem(at: item.fileURL, to: toUrl!)
+                    } catch let error as NSError {
+                        let errorAlert = NSAlert.init(error: error)
+                        errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+                    }
                 }
             }
         }
@@ -1250,7 +1255,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 self.workspace.recycle(fileUrls, completionHandler: {(newUrls, error) in
                     if error != nil {
                         let errorAlert = NSAlert.init(error: error!)
-                        errorAlert.runModal()
+                        errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
                     } else {
                         print("删除成功")
                     }
@@ -1498,8 +1503,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                         alert.informativeText = NSLocalizedString("DirExists", comment: "Directory with same name exists")
                         alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
                     } else {
-                        let alert = NSAlert.init(error: error)
-                        alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+                        let errorAlert = NSAlert.init(error: error)
+                        errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
                     }
                     // handle the error
                 } catch {
@@ -1674,8 +1679,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     toURL = URL(fileURLWithPath: fileName, relativeTo: curFsItem.fileURL as URL)
                 } else {
                     // Fallback on earlier versions
-                    let escapedFileName = fileName.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                    toURL = URL(string: escapedFileName!, relativeTo: curFsItem.fileURL as URL)
+                    let escapedFileName = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+                    toURL = URL(string: escapedFileName!, relativeTo: curFsItem.fileURL)
                 }
                 
                 do {
@@ -1683,7 +1688,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                     destinations.append(toURL)
                     updateSelectedItems(withUrl: toURL)
                 } catch let error as NSError {
-                    print("Ooops! Something went wrong: \(error)")
+                    let errorAlert = NSAlert.init(error: error)
+                    errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
                 }
             }
             // Mark the pasted files
