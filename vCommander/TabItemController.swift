@@ -19,6 +19,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     @IBOutlet weak var pathControlEffectView: NSVisualEffectView!
     @IBOutlet weak var pathControlView: NSPathControl!
     
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    
     var windowController: MainWindowController? {
         get {
             return self.view.window?.windowController as? MainWindowController
@@ -106,6 +108,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         return false
     }
+    
+    let defaultSortDescriptors = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -453,6 +457,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        print("isDefaultDescriptor: \(tableView.sortDescriptors.first == defaultSortDescriptors)")
+        let isDefaultDescriptor = tableView.sortDescriptors.first == defaultSortDescriptors
+        if isDefaultDescriptor {
+            appDelegate.sortDescriptors.removeValue(forKey: curFsItem.fileURL.path)
+        } else {
+            appDelegate.sortDescriptors.updateValue(tableView.sortDescriptors.first as Any, forKey: curFsItem.fileURL.path)
+        }
         refreshTableview()
     }
     
@@ -595,10 +606,12 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
         
         // Clean the data for last directory
-        if (tableview !== nil) {
-            print("clean data")
-            cleanTableViewData(isFromChild)
-        }
+        print("clean data")
+        cleanTableViewData(isFromChild)
+        
+        // Sort the tableview
+        tableview.sortDescriptors = [appDelegate.sortDescriptors[url.path] as? NSSortDescriptor ?? defaultSortDescriptors]
+        sortData()
         
         // Notify the panel the directory was changed.
         // sendNotification()
@@ -1444,7 +1457,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         initUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
         curFsItem = FileSystemItem(fileURL: initUrl!)
         self.title = curFsItem.localizedName
-//        self.isPrimary = isPrimary
+        
+        
     }
 
     required init?(coder: NSCoder) {

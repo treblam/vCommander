@@ -18,6 +18,8 @@ private let rightPanelKey = "rightPanel"
 
 private let modeKey = "mode"
 
+private let sortDescriptorsKey = "sortDescriptors"
+
 class PreferenceManager {
     fileprivate let userDefaults = UserDefaults.standard
     
@@ -29,13 +31,12 @@ class PreferenceManager {
         let defaults = [
             textEditorKey: "/Applications/textEdit.app",
             diffToolKey: "/usr/local/bin/bcompare",
-            modeKey: 0
+            modeKey: 0,
+            sortDescriptorsKey: Data()
         ] as [String : Any]
         
         userDefaults.register(defaults: defaults)
     }
-    
-//    var mode: 
     
     var textEditor: String? {
         set (newTextEditor) {
@@ -79,6 +80,15 @@ class PreferenceManager {
         }
         get {
             return userDefaults.dictionary(forKey: rightPanelKey)
+        }
+    }
+    
+    var sortDescriptors: Data? {
+        set (sortDescriptorsData) {
+            userDefaults.set(sortDescriptorsData, forKey: sortDescriptorsKey)
+        }
+        get {
+            return userDefaults.data(forKey: sortDescriptorsKey)
         }
     }
     

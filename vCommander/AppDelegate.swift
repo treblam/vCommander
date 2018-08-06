@@ -13,6 +13,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
     
     var _mainWindowController: MainWindowController?
     
+    let preferenceManager = PreferenceManager()
+    
+    var sortDescriptors: Dictionary<String, Any>!
+    
+    override init() {
+        if let sortDescriptorsData = preferenceManager.sortDescriptors {
+            sortDescriptors = NSKeyedUnarchiver.unarchiveObject(with: sortDescriptorsData) as! Dictionary<String, Any>
+        } else {
+            sortDescriptors = Dictionary<String, Any>()
+        }
+    }
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.mainWindowController()?.showWindow(self)
     }
@@ -32,24 +44,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         storeTabsData()
+        storeSortDescriptors()
     }
     
     func applicationWillResignActive(_ notification: Notification) {
         storeTabsData()
+        storeSortDescriptors()
     }
     
     func applicationWillHide(_ notification: Notification) {
         storeTabsData()
+        storeSortDescriptors()
+    }
+    
+    func storeSortDescriptors() {
+        preferenceManager.sortDescriptors = NSKeyedArchiver.archivedData(withRootObject: sortDescriptors)
     }
     
     func storeTabsData() {
         print("start to store tabs data")
-        if let mainController = _mainWindowController {
-            mainController.leftPanel.storeTabsData()
-            mainController.rightPanel.storeTabsData()
-        }
+        mainWindowController()?.leftPanel.storeTabsData()
+        mainWindowController()?.rightPanel.storeTabsData()
     }
-    
     
     public static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Void) {
         print("restoreWindow in AppDelegate called.")
