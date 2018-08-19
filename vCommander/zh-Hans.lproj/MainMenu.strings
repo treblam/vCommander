@@ -1,3 +1,5 @@
+/* Class = "NSMenu"; title = "Go"; ObjectID = "1Pb-uO-7Tp"; */
+"1Pb-uO-7Tp.title" = "前往";
 
 /* Class = "NSMenuItem"; title = "Customize Toolbar…"; ObjectID = "1UK-8n-QPP"; */
 "1UK-8n-QPP.title" = "自定义工具栏…";
@@ -7,6 +9,9 @@
 
 /* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "2Tu-N0-Z10"; */
 "2Tu-N0-Z10.title" = "预览";
+
+/* Class = "NSMenuItem"; title = "Equalize Tabs"; ObjectID = "2qS-sj-1JY"; */
+"2qS-sj-1JY.title" = "等化标签页";
 
 /* Class = "NSMenuItem"; title = "Quit vCommander"; ObjectID = "4sb-4s-VLi"; */
 "4sb-4s-VLi.title" = "退出 vCommander";
@@ -20,6 +25,9 @@
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "重做";
 
+/* Class = "NSMenuItem"; title = "Go to Directory"; ObjectID = "8EF-00-inG"; */
+"8EF-00-inG.title" = "前往文件夹";
+
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "8fg-Ze-Gif"; */
 "8fg-Ze-Gif.title" = "编辑";
 
@@ -28,6 +36,9 @@
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
 "BOF-NM-1cW.title" = "偏好设置…";
+
+/* Class = "NSMenuItem"; title = "Downloads"; ObjectID = "CjY-Xd-Ce8"; */
+"CjY-Xd-Ce8.title" = "下载";
 
 /* Class = "NSMenuItem"; title = "New Directory"; ObjectID = "Cym-NK-CYd"; */
 "Cym-NK-CYd.title" = "新建文件夹";
@@ -52,6 +63,9 @@
 
 /* Class = "NSMenuItem"; title = "Open…"; ObjectID = "IAo-SY-fd9"; */
 "IAo-SY-fd9.title" = "打开…";
+
+/* Class = "NSMenuItem"; title = "Applications"; ObjectID = "JJE-qv-cAO"; */
+"JJE-qv-cAO.title" = "应用程序";
 
 /* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "JLV-Ui-PZ9"; */
 "JLV-Ui-PZ9.title" = "显示简介";
@@ -86,6 +100,9 @@
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
 "Ruw-6m-B2m.title" = "全选";
 
+/* Class = "NSMenuItem"; title = "Documents"; ObjectID = "SDa-Mc-JAA"; */
+"SDa-Mc-JAA.title" = "文档";
+
 /* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
 "Td7-aD-5lo.title" = "窗口";
 
@@ -110,11 +127,20 @@
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "Wne-K5-aST"; */
 "Wne-K5-aST.title" = "编辑";
 
+/* Class = "NSMenuItem"; title = "Desktop"; ObjectID = "ZtV-qI-xv3"; */
+"ZtV-qI-xv3.title" = "桌面";
+
+/* Class = "NSMenuItem"; title = "Go"; ObjectID = "aL3-Rm-XX4"; */
+"aL3-Rm-XX4.title" = "前往";
+
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
 "aUF-d1-5bR.title" = "窗口";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "apF-S9-cqt"; */
 "apF-S9-cqt.title" = "重命名";
+
+/* Class = "NSMenuItem"; title = "Utilities"; ObjectID = "bN5-Ol-DNE"; */
+"bN5-Ol-DNE.title" = "实用工具";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "bib-Uj-vzu"; */
 "bib-Uj-vzu.title" = "文件";
@@ -163,6 +189,12 @@
 
 /* Class = "NSMenuItem"; title = "Quicklook"; ObjectID = "uxo-6H-XsK"; */
 "uxo-6H-XsK.title" = "预览";
+
+/* Class = "NSMenuItem"; title = "Home"; ObjectID = "ufq-4i-IKI"; */
+"ufq-4i-IKI.title" = "个人";
+
+/* Class = "NSMenuItem"; title = "Computer"; ObjectID = "vBB-vp-niQ"; */
+"vBB-vp-niQ.title" = "电脑";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "帮助";

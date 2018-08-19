@@ -36,9 +36,8 @@ DQ
                 </menuItem>
                 <menuItem title="Show in Finder" id="Tqz-dj-qtp">
                     <string key="keyEquivalent" base64-UTF8="YES">
-Gw
+DQ
 </string>
-                    <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="revealInFinder:" target="-2" id="XSr-CN-hdK"/>
                     </connections>
@@ -52,6 +51,9 @@ Gw
                 </menuItem>
                 <menuItem title="New Empty File" keyEquivalent="" id="X45-Eb-rjS">
                     <modifierMask key="keyEquivalentModifierMask" shift="YES"/>
+                    <connections>
+                        <action selector="newDocument:" target="-2" id="ZLB-Fk-DHE"/>
+                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="hIP-v7-cto"/>
                 <menuItem title="Rename" keyEquivalent="" id="cA4-Dr-nzu">
@@ -231,7 +233,7 @@ Gw
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="size" id="w5g-0W-rHT">
-                                                <rect key="frame" x="396.5" y="1" width="91" height="16"/>
+                                                <rect key="frame" x="397" y="1" width="91" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="08i-9l-KTI">

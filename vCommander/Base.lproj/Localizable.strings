@@ -37,3 +37,7 @@
 "PleaseSelectApp" = "Please select an application";
 "NoSpecifiedApp" = "There is no specified application to open \"%@\"";
 "CannotOpenFile" = "Can't open file \"%@\", because you don't have permission";
+"DirNotExist" = "Directory doesn't exist";
+"GoToDir" = "Go to directory";
+"EnterDirPath" = "Enter directory path:";
+"DirPath" = "Directory path";

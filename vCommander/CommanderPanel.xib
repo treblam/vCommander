@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CommanderPanel" customModule="vCommander" customModuleProvider="target">
             <connections>
+                <outlet property="hotlistMenu" destination="c4Q-If-AZE" id="a1q-Wq-cra"/>
                 <outlet property="tabBar" destination="sdO-nP-7kp" id="zed-jU-aFZ"/>
                 <outlet property="tabView" destination="Wg5-CC-E0k" id="afq-yS-MBC"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
@@ -28,12 +30,11 @@
                             <tabView wantsLayer="YES" focusRingType="exterior" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="Wg5-CC-E0k">
                                 <rect key="frame" x="0.0" y="0.0" width="503" height="503"/>
                                 <font key="font" metaFont="system"/>
-                                <tabViewItems/>
                                 <connections>
                                     <outlet property="delegate" destination="sdO-nP-7kp" id="Izb-XS-tyd"/>
                                 </connections>
                             </tabView>
-                            <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="tA1-iV-zmB">
+                            <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="tA1-iV-zmB">
                                 <rect key="frame" x="0.0" y="478" width="503" height="25"/>
                                 <subviews>
                                     <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sdO-nP-7kp" customClass="VCTabBarView" customModule="vCommander" customModuleProvider="target">
@@ -75,7 +76,30 @@
                 <constraint firstAttribute="trailing" secondItem="6S9-1q-sQC" secondAttribute="trailing" id="ecq-OR-qOf"/>
                 <constraint firstAttribute="bottom" secondItem="6S9-1q-sQC" secondAttribute="bottom" id="uLl-fW-8Vz"/>
             </constraints>
+            <connections>
+                <outlet property="menu" destination="c4Q-If-AZE" id="Htl-Vw-o9x"/>
+            </connections>
             <point key="canvasLocation" x="151.5" y="543.5"/>
         </customView>
+        <menu title="HotlistMenu" id="c4Q-If-AZE" userLabel="HotlistMenu">
+            <items>
+                <menuItem title="Add current folder" keyEquivalent="a" id="INa-04-efg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="addToHotlist:" target="-2" id="YVz-hZ-PbL"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Configuration" keyEquivalent="c" id="OUS-cg-PQJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="configHotlist:" target="-2" id="YMF-QY-Ih1"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="-2" id="LAh-vr-6ei"/>
+            </connections>
+            <point key="canvasLocation" x="572" y="452.5"/>
+        </menu>
     </objects>
 </document>

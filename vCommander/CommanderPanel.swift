@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class CommanderPanel: NSViewController, MMTabBarViewDelegate {
+class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
 
     @IBOutlet weak var tabView: NSTabView!
     
@@ -19,6 +19,13 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     var isPrimary: Bool!
     
     let preferenceManager = PreferenceManager()
+    
+    static let TABBAR_HEIGHT: CGFloat = 25
+    static let PATHCONTROL_HEIGHT: CGFloat = 19
+    static let TABLEVIEW_HEADER_HEIGHT: CGFloat = 23
+    
+    var scrollViewTopInset: CGFloat = 0
+    var tableViewTopInset: CGFloat = 0
     
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, isPrimary: Bool) {
         super.init(nibName: nibNameOrNil.map { NSNib.Name(rawValue: $0) }, bundle: nibBundleOrNil)
@@ -66,6 +73,10 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         if let window = view.window {
             let topConstraint = NSLayoutConstraint(item: visualEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
             topConstraint.isActive = true
+            
+            let contentLayoutRect = window.contentLayoutRect
+            scrollViewTopInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + CommanderPanel.TABBAR_HEIGHT + CommanderPanel.PATHCONTROL_HEIGHT
+            tableViewTopInset = scrollViewTopInset + CommanderPanel.TABLEVIEW_HEADER_HEIGHT
         }
     }
     
@@ -78,6 +89,10 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
 //        let notificationKey = "DirectoryChanged"
 //        NotificationCenter.default.addObserver(self, selector: #selector(CommanderPanel.storeTabsData), name: NSNotification.Name(rawValue: notificationKey), object: nil)
 //    }
+    
+    func menuWillOpen(_ menu: NSMenu) {
+        print("menuWillOpen called")
+    }
     
     func addNewTab(to aTabView: NSTabView) {
         let curViewController = tabView.selectedTabViewItem?.viewController as? TabItemController
@@ -109,8 +124,8 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         var isDirectory: ObjCBool = false
         let fileUrl = URL(fileURLWithPath: fileName)
         var dirUrl: URL
-        let isPackage = NSWorkspace().isFilePackage(atPath: fileName)
         if (FileManager.default.fileExists(atPath: fileName, isDirectory: &isDirectory)) {
+            let isPackage = NSWorkspace().isFilePackage(atPath: fileName)
             if !isDirectory.boolValue || isPackage {
                 dirUrl = fileUrl.deletingLastPathComponent()
             } else {
@@ -122,6 +137,21 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         }
         
         return result
+    }
+    
+    func goTo(url: URL) {
+        guard let curViewController = tabView.selectedTabViewItem?.viewController as? TabItemController else {
+            return
+        }
+        
+        curViewController.goTo(url: url)
+    }
+    
+    func getCurrentUrl() -> URL? {
+        guard let curViewController = tabView.selectedTabViewItem?.viewController as? TabItemController else {
+            return nil
+        }
+        return curViewController.curFsItem.fileURL
     }
     
     // Store all tab urls and selected index to UserDefaults
@@ -273,6 +303,14 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         }
     }
     
+    @IBAction func addToHotlist(_ sender: AnyObject?) {
+        
+    }
+    
+    @IBAction func configHotlist(_ sender: AnyObject?) {
+        
+    }
+    
     func previousTabWithCount(_ count: Int?) {
         let index = tabView.indexOfTabViewItem(tabView.selectedTabViewItem!)
         
@@ -293,14 +331,16 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
     func nextTabWithCount(_ count: Int?) {
         let index = tabView.indexOfTabViewItem(tabView.selectedTabViewItem!)
         
-        var targetIndex = 0
-        if count == nil {
+        var targetIndex: Int?
+        if count == nil || count == 0 {
             targetIndex = (index + 1) % tabView.numberOfTabViewItems
-        } else if count! > 0 {
-            targetIndex = (index + count!) % tabView.numberOfTabViewItems
+        } else if count! > 0 && count! <= tabView.numberOfTabViewItems {
+            targetIndex = count! - 1
         }
         
-        tabView.selectTabViewItem(at: targetIndex)
+        if let toBeSelectedIndex = targetIndex {
+            tabView.selectTabViewItem(at: toBeSelectedIndex)
+        }
     }
     
     func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
@@ -308,7 +348,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
             return theEvent
         }
         
-        print("keyCode: " + String(theEvent.keyCode))
+        print("keyCode: \(theEvent.keyCode)")
         let flags = theEvent.modifierFlags
         let hasShift = flags.contains(NSEvent.ModifierFlags.shift)
         let hasControl = flags.contains(NSEvent.ModifierFlags.control)
@@ -320,6 +360,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
         let KEYCODE_TAB: UInt16 = 48
         let KEYCODE_H: UInt16 = 4
         let KEYCODE_L: UInt16 = 37
+        let KEYCODE_D: UInt16 = 2
         
         switch theEvent.keyCode {
         case KEYCODE_TAB where hasControl && !hasShift,
@@ -332,24 +373,17 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate {
             previousTab(self.view)
             return nil
             
+        case KEYCODE_D where hasCommand && !hasOption && !hasControl && !hasShift:
+            let frameRelativeToWindow = visualEffectView.convert(visualEffectView.bounds, to: nil)
+            print("topInset: \(frameRelativeToWindow.minY)")
+            self.view.menu?.popUp(positioning: nil, at: NSPoint(x: 0, y: self.view.bounds.maxY - tableViewTopInset), in: self.view)
+            return nil
+            
         default:
             print("return the event")
             return theEvent
         }
     }
-    
-//    override func mouseDown(with event: NSEvent) {
-//        print("mouseDown called.")
-//        super.mouseDown(with: event)
-//        if !isActive() {
-//            (self.view.window?.windowController as? MainWindowController)?.switchFocus()
-//        }
-//    }
-
-//    Can I add new tab inside of nsview?
-//    override func newWindowForTab(_ sender: Any?) {
-//        
-//    }
     
     // MMTabBarView doesn't pop up mouseDown events, use this method to observe mouseDown events
     func tabView(_ aTabView: NSTabView, shouldDrag tabViewItem: NSTabViewItem, in tabBarView: MMTabBarView) -> Bool {

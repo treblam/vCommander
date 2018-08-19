@@ -23,7 +23,7 @@ class SCTableView: NSTableView {
     }
     
     override func keyDown(with theEvent: NSEvent) {
-        Swift.print("SCTableView, keyDown called, keycode: " + theEvent.keyCode.description)
+        print("SCTableView, keyDown called, keycode: \(theEvent.keyCode.description)")
         
 //        var keyString: String
         
@@ -42,7 +42,7 @@ class SCTableView: NSTableView {
         
         let char = convertToInt(s)
         
-        Swift.print("char:" + String(char))
+        print("char: \(char)")
         
         let hasCommand = flags.contains(NSEvent.ModifierFlags.command)
         
@@ -52,14 +52,14 @@ class SCTableView: NSTableView {
         
         let hasControl = flags.contains(NSEvent.ModifierFlags.control)
         
-        Swift.print("hasCommand: " + String(hasCommand))
-        Swift.print("hasShift: " + String(hasShift))
-        Swift.print("hasAlt: " + String(hasAlt))
-        Swift.print("hasControl: " + String(hasControl))
+        print("hasCommand: \(hasCommand)")
+        print("hasShift: \(hasShift)")
+        print("hasAlt: \(hasAlt)")
+        print("hasControl: \(hasControl)")
         
         let noneModifiers = !hasCommand && !hasShift && !hasAlt && !hasControl
         
-        Swift.print("noneModifiers: " + String(noneModifiers))
+        print("noneModifiers: \(noneModifiers)")
 
         
         let NSSpaceFunctionKey = 32
@@ -72,18 +72,18 @@ class SCTableView: NSTableView {
         switch char {
         case NSSpaceFunctionKey:    // space key
             if row != -1 {
-                Swift.print("row != -1")
+                print("row != -1")
                 if markedRows.contains(row) {
                     self.markedRows.remove(row)
 //                    rowView.marked = false
-                    Swift.print("row: " + row.description + " was removed from markedRows")
+                    print("row: \(row.description) was removed from markedRows")
                 } else {
                     self.markedRows.add(row)
 //                    rowView.marked = true
-                    Swift.print("row: " + row.description + " was added to markedRows")
+                    print("row: \(row.description) was added to markedRows")
                 }
                 
-                Swift.print("markedRows: " + markedRows.description)
+                print("markedRows: \(markedRows.description)")
                 
                 notifyDelegate()
                 

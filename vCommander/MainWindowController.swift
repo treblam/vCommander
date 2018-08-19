@@ -118,7 +118,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         return activePanel.openFile(for: fileName)
     }
     
-    @IBAction func swapTab(_ sender: AnyObject?) {
+    @IBAction func swapTabs(_ sender: AnyObject?) {
         let tabViewOfActivePanel = activePanel.tabView.selectedTabViewItem!
         let tabViewOfInactivePanel = inactivePanel.tabView.selectedTabViewItem!
         
@@ -127,6 +127,13 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
         
         replaceTabViewItem(activePanel.tabView, tabViewOfInactivePanel, indexOfActivePanel)
         replaceTabViewItem(inactivePanel.tabView, tabViewOfActivePanel, indexOfInactivePanel)
+    }
+    
+    @IBAction func equalizeTabs(_ sender: AnyObject?) {
+        guard let urlOfActivePanel = activePanel.getCurrentUrl() else {
+            return
+        }
+        inactivePanel.goTo(url: urlOfActivePanel)
     }
     
     func replaceTabViewItem(_ tabView: NSTabView, _ newTabViewItem: NSTabViewItem, _ index: Int) {

@@ -1,4 +1,7 @@
 
+/* Class = "NSMenu"; title = "Go"; ObjectID = "1Pb-uO-7Tp"; */
+"1Pb-uO-7Tp.title" = "Go";
+
 /* Class = "NSMenuItem"; title = "Customize Toolbar…"; ObjectID = "1UK-8n-QPP"; */
 "1UK-8n-QPP.title" = "Customize Toolbar…";
 
@@ -7,6 +10,9 @@
 
 /* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "2Tu-N0-Z10"; */
 "2Tu-N0-Z10.title" = "Quick Look";
+
+/* Class = "NSMenuItem"; title = "Equalize Tabs"; ObjectID = "2qS-sj-1JY"; */
+"2qS-sj-1JY.title" = "Equalize Tabs";
 
 /* Class = "NSMenuItem"; title = "Quit vCommander"; ObjectID = "4sb-4s-VLi"; */
 "4sb-4s-VLi.title" = "Quit vCommander";
@@ -20,14 +26,17 @@
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "Redo";
 
-/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "8fg-Ze-Gif"; */
-"8fg-Ze-Gif.title" = "Edit";
+/* Class = "NSMenuItem"; title = "Go to Directory"; ObjectID = "8EF-00-inG"; */
+"8EF-00-inG.title" = "Go to Directory";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Main Menu";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
 "BOF-NM-1cW.title" = "Preferences…";
+
+/* Class = "NSMenuItem"; title = "Downloads"; ObjectID = "CjY-Xd-Ce8"; */
+"CjY-Xd-Ce8.title" = "Downloads";
 
 /* Class = "NSMenuItem"; title = "New Directory"; ObjectID = "Cym-NK-CYd"; */
 "Cym-NK-CYd.title" = "New Directory";
@@ -53,8 +62,8 @@
 /* Class = "NSMenuItem"; title = "Open…"; ObjectID = "IAo-SY-fd9"; */
 "IAo-SY-fd9.title" = "Open…";
 
-/* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "JLV-Ui-PZ9"; */
-"JLV-Ui-PZ9.title" = "Get Info";
+/* Class = "NSMenuItem"; title = "Applications"; ObjectID = "JJE-qv-cAO"; */
+"JJE-qv-cAO.title" = "Applications";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Show All";
@@ -86,6 +95,9 @@
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
 "Ruw-6m-B2m.title" = "Select All";
 
+/* Class = "NSMenuItem"; title = "Documents"; ObjectID = "SDa-Mc-JAA"; */
+"SDa-Mc-JAA.title" = "Documents";
+
 /* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
 "Td7-aD-5lo.title" = "Window";
 
@@ -104,17 +116,23 @@
 /* Class = "NSMenuItem"; title = "New Document"; ObjectID = "Was-JA-tGl"; */
 "Was-JA-tGl.title" = "New Document";
 
-/* Class = "NSMenuItem"; title = "Paste and Match Style"; ObjectID = "WeT-3V-zwk"; */
-"WeT-3V-zwk.title" = "Paste and Match Style";
-
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "Wne-K5-aST"; */
 "Wne-K5-aST.title" = "Edit";
+
+/* Class = "NSMenuItem"; title = "Desktop"; ObjectID = "ZtV-qI-xv3"; */
+"ZtV-qI-xv3.title" = "Desktop";
+
+/* Class = "NSMenuItem"; title = "Go"; ObjectID = "aL3-Rm-XX4"; */
+"aL3-Rm-XX4.title" = "Go";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
 "aUF-d1-5bR.title" = "Window";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "apF-S9-cqt"; */
 "apF-S9-cqt.title" = "Rename";
+
+/* Class = "NSMenuItem"; title = "Utilities"; ObjectID = "bN5-Ol-DNE"; */
+"bN5-Ol-DNE.title" = "Utilities";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "bib-Uj-vzu"; */
 "bib-Uj-vzu.title" = "File";
@@ -140,9 +158,6 @@
 /* Class = "NSMenuItem"; title = "Previous Tab"; ObjectID = "kmd-LL-BPJ"; */
 "kmd-LL-BPJ.title" = "Previous Tab";
 
-/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
-"pa3-QI-u2k.title" = "Delete";
-
 /* Class = "NSMenuItem"; title = "Compare"; ObjectID = "pou-bl-pmU"; */
 "pou-bl-pmU.title" = "Compare";
 
@@ -152,17 +167,17 @@
 /* Class = "NSMenuItem"; title = "Show Toolbar"; ObjectID = "snW-S8-Cw5"; */
 "snW-S8-Cw5.title" = "Show Toolbar";
 
-/* Class = "NSMenuItem"; title = "Rename"; ObjectID = "t9i-L6-cm4"; */
-"t9i-L6-cm4.title" = "Rename";
-
 /* Class = "NSMenu"; title = "vCommander"; ObjectID = "uQy-DD-JDr"; */
 "uQy-DD-JDr.title" = "vCommander";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
 "uRl-iY-unG.title" = "Cut";
 
-/* Class = "NSMenuItem"; title = "Quicklook"; ObjectID = "uxo-6H-XsK"; */
-"uxo-6H-XsK.title" = "Quicklook";
+/* Class = "NSMenuItem"; title = "Home"; ObjectID = "ufq-4i-IKI"; */
+"ufq-4i-IKI.title" = "Home";
+
+/* Class = "NSMenuItem"; title = "Computer"; ObjectID = "vBB-vp-niQ"; */
+"vBB-vp-niQ.title" = "Computer";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "Help";

@@ -26,8 +26,8 @@
 "Create New File Failed" = "创建文件失败";
 "FileWithSameNameExists" = "已存在同名文件";
 "UnableToCreateFile" = "无法创建文件";
-"EnterDirName" = "请输入文件名";
-"DirName" = "文件名";
+"EnterDirName" = "请输入文件夹名称";
+"DirName" = "文件夹名称";
 "CreateDirFailed" = "新建文件夹失败";
 "DirExists" = "已存在同名文件夹";
 "UnsupportedFileType" = "无法编辑";
@@ -37,3 +37,7 @@
 "PleaseSelectApp" = "请选取应用程序";
 "NoSpecifiedApp" = "未设定用来打开文稿“%@”的应用程序";
 "CannotOpenFile" = "不能打开文件“%@”，因为您没有权限查看其内容。";
+"DirNotExist" = "找不到文件夹";
+"GoToDir" = "前往文件夹：";
+"EnterDirPath" = "输入文件夹路径:";
+"DirPath" = "文件夹路径";

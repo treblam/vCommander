@@ -121,14 +121,6 @@
                                     <action selector="deleteSelectedFiles:" target="-1" id="Bg1-bd-beS"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Reveal in Finder" id="mTn-9g-QBt">
-                                <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                <connections>
-                                    <action selector="revealInFinder:" target="-1" id="jvI-Nb-yJb"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Get info" keyEquivalent="i" id="hQx-ux-Nmc">
                                 <connections>
                                     <action selector="getInfo:" target="-1" id="OTm-35-Etn"/>
@@ -165,12 +157,7 @@ DQ
                             </menuItem>
                             <menuItem title="Swap Tabs" keyEquivalent="u" id="TsT-jv-Axh">
                                 <connections>
-                                    <action selector="swapTabs:" target="-1" id="fhx-1C-qYD"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Equalize Tabs" keyEquivalent="e" id="2qS-sj-1JY">
-                                <connections>
-                                    <action selector="equalizeTabs:" target="-1" id="wdr-vo-am1"/>
+                                    <action selector="swapTab:" target="-1" id="qQq-eI-Zgq"/>
                                 </connections>
                             </menuItem>
                         </items>

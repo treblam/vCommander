@@ -49,7 +49,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var curFsItem: FileSystemItem!
     
-    let fileManager = FileManager()
+    let fileManager = FileManager.default
     
     let dateFormatter = DateFormatter()
     
@@ -93,12 +93,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     var initUrl: URL?
     
-    var scrollViewTopInset: CGFloat = 0
-    
-    let TABLEVIEW_HEADER_HEIGHT: CGFloat = 23
-    let TABBAR_HEIGHT: CGFloat = 25
-    let PATHCONTROL_HEIGHT: CGFloat = 19
-    
     var inputString = ""
     
     var isActive: Bool {
@@ -124,9 +118,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         pathControlView.target = self
         pathControlView.doubleAction = #selector(TabItemController.onPathControlClicked)
         pathControlView.action = #selector(TabItemController.onPathControlClicked)
-        goToDirectory(withUrl: initUrl!)
         
-        print("viewDidLoad called \(String(describing: self.title))")
+        
+        goToDirectory(withUrl: initUrl!, andNoReload: false, selectedItem: selectedItems.first)
         
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.handleKeyDown(with: $0)
@@ -142,15 +136,14 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("viewWillLayout called.")
         scrollview.automaticallyAdjustsContentInsets = false
         if let window = view.window {
-            let contentLayoutRect = window.contentLayoutRect
-            scrollViewTopInset = NSHeight(window.frame) - NSMaxY(contentLayoutRect) + TABBAR_HEIGHT + PATHCONTROL_HEIGHT
-            scrollview.contentInsets = NSEdgeInsets(top: scrollViewTopInset, left: 0, bottom: 0, right: 0)
+            
+            scrollview.contentInsets = NSEdgeInsets(top: panel?.scrollViewTopInset ?? 0, left: 0, bottom: 0, right: 0)
             
             print("NSHeight(window.frame): \(NSHeight(window.frame))")
-            print("NSMaxY(contentLayoutRect): \(NSMaxY(contentLayoutRect))")
-            print("scrollViewTopInset: \(scrollViewTopInset)")
+//            print("NSMaxY(contentLayoutRect): \(NSMaxY(contentLayoutRect))")
+//            print("scrollViewTopInset: \(scrollViewTopInset)")
             
-            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: TABBAR_HEIGHT)
+            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: CommanderPanel.TABBAR_HEIGHT)
             topConstraint.isActive = true
             
             updatePathControlBackground()
@@ -185,7 +178,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 let childURL = pathItems[index + 1].url
                 if let url = clickedPathItem.url {
-                    goToDirectory(withUrl: url, andNoReload: false, fromChild: childURL)
+                    goToDirectory(withUrl: url, andNoReload: false, selectedItem: childURL)
                 }
             }
         }
@@ -515,8 +508,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         markedItems = URLs.map({
             ($0 as NSURL).fileReferenceURL()!
         })
-        
-        print("aaaaa")
     }
     
     func updateSelectedItems(withIndexes indexes: IndexSet) {
@@ -569,16 +560,40 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
     }
 
-    func cleanTableViewData(_ isFromChild: Bool) {
+    func cleanTableViewData(_ retainSelected: Bool) {
         tableview.cleanData()
         clearTypeSelect()
-        if !isFromChild {
+        if !retainSelected {
             clearSelectedItems()
         }
     }
     
-    func goToDirectory(withUrl url: URL, andNoReload noReload: Bool = false, fromChild childURL: URL? = nil) {
-        if !fileManager.fileExists(atPath: url.relativePath) {
+    func goTo(url fileUrl: URL) {
+        var isDirectory: ObjCBool = false
+        let fileName = fileUrl.path
+
+        var dirUrl: URL
+        var toBeSelected: URL?
+        if (fileManager.fileExists(atPath: fileName, isDirectory: &isDirectory)) {
+            let isPackage = NSWorkspace().isFilePackage(atPath: fileName)
+            if !isDirectory.boolValue || isPackage {
+                dirUrl = fileUrl.deletingLastPathComponent()
+                toBeSelected = fileUrl
+            } else {
+                dirUrl = fileUrl
+            }
+            goToDirectory(withUrl: dirUrl, andNoReload: false, selectedItem: toBeSelected)
+        } else {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("DirNotExist", comment: "")
+//            alert.informativeText = NSLocalizedString("CannotEdit", comment: "Can't edit this type of file")
+            alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+            return
+        }
+    }
+    
+    func goToDirectory(withUrl url: URL, andNoReload noReload: Bool = false, selectedItem: URL? = nil) {
+        if !fileManager.fileExists(atPath: url.path) {
             backToParentDirectory()
             return
         }
@@ -588,8 +603,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         if (!suc) {
             print("Change directory failed")
         }
-
-        print(fileManager.currentDirectoryPath)
         
         if initUrl != nil {
             initUrl = nil
@@ -599,15 +612,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         pathControlView.url = url
         
-        var isFromChild = false
-        if let child = childURL {
-            updateSelectedItems(withUrl: child)
-            isFromChild = true
+        var retainSelected = false
+        if selectedItem != nil {
+            updateSelectedItems(withUrl: selectedItem!)
+            retainSelected = true
         }
         
         // Clean the data for last directory
-        print("clean data")
-        cleanTableViewData(isFromChild)
+        print("Start to clean data")
+        cleanTableViewData(retainSelected)
         
         // Sort the tableview
         tableview.sortDescriptors = [appDelegate.sortDescriptors[url.path] as? NSSortDescriptor ?? defaultSortDescriptors]
@@ -709,7 +722,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         // Remember last directory, this dir should be selected when backed to parent dir
         // updateSelectedItems(withUrl: curFsItem.fileURL as URL)
         print("start goToParent withUrl: \(parentUrl)")
-        goToDirectory(withUrl: parentUrl, andNoReload: false, fromChild: curFsItem.fileURL as URL)
+        goToDirectory(withUrl: parentUrl, andNoReload: false, selectedItem: curFsItem.fileURL as URL)
     }
     
     override func keyDown(with theEvent: NSEvent) {
@@ -1080,7 +1093,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     
     func visibleRows() -> NSIndexSet {
         let rect = tableview.visibleRect
-        let contentHeight = (tableview.enclosingScrollView?.contentSize.height)! - scrollViewTopInset - TABLEVIEW_HEADER_HEIGHT
+        let contentHeight = (tableview.enclosingScrollView?.contentSize.height)! - (panel?.tableViewTopInset ?? 0)
         print("contentHeight: \(contentHeight)")
         print("rect.origin.x: \(rect.origin.x), rect.origin.y: \(rect.origin.y)")
         
@@ -1108,7 +1121,9 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func reselectIfNecessary() {
+        print("reselectIfNecessary called.")
         let indexesForUrls = getIndexesForItems(selectedItems)
+        print("indexesForUrls: \(indexesForUrls)")
         var toBeSelectedIndex: Int?
         if indexesForUrls.count > 0 {
             toBeSelectedIndex = indexesForUrls.firstIndex
@@ -1150,6 +1165,81 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         copyFiles(items)
     }
     
+    @IBAction func goHome(_ sender: AnyObject?) {
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        goTo(url: homeUrl)
+    }
+    
+    @IBAction func goToDesktop(_ sender: AnyObject?) {
+        guard let desktopUrl = fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first else {
+            return
+        }
+        goTo(url: desktopUrl)
+    }
+    
+    @IBAction func goToDocuments(_ sender: AnyObject?) {
+        guard let homeUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+        goTo(url: homeUrl)
+    }
+    
+    @IBAction func goToApplications(_ sender: AnyObject?) {
+        guard let appsUrl = fileManager.urls(for: .allApplicationsDirectory, in: .localDomainMask).first else {
+            return
+        }
+        goTo(url: appsUrl)
+    }
+    
+    @IBAction func goToDirByMenu(_ sender: AnyObject?) {
+        
+        let homeUrl = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        
+        let chooseDirDialog = NSOpenPanel()
+        chooseDirDialog.directoryURL = homeUrl
+        chooseDirDialog.canChooseDirectories = true
+        chooseDirDialog.canCreateDirectories = true
+        chooseDirDialog.canChooseFiles = true
+        
+        chooseDirDialog.beginSheetModal(for: self.view.window!) { (result) in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let dirPath = chooseDirDialog.url?.path else {
+                    return
+                }
+                
+                let dirUrl = URL(fileURLWithPath: dirPath)
+                self.goTo(url: dirUrl)
+            }
+        }
+    }
+    
+    @IBAction func goToComputer(_ sender: AnyObject?) {
+        let computerUrl = URL(fileURLWithPath: "/Volumes")
+        goTo(url: computerUrl)
+    }
+    
+//    @IBAction func goToNetwork(_ sender: AnyObject?) {
+//        let networkUrl = URL(fileURLWithPath: "/Volumes")
+//        goTo(url: networkUrl)
+//    }
+    
+    @IBAction func goToUtilities(_ sender: AnyObject?) {
+        guard let appsUrl = fileManager.urls(for: .allApplicationsDirectory, in: .localDomainMask).first else {
+            return
+        }
+        guard let utilitiesUrl = URL(string: "Utilities", relativeTo: appsUrl)?.standardizedFileURL else {
+            return
+        }
+        goTo(url: utilitiesUrl)
+    }
+    
+    @IBAction func goToDownloads(_ sender: AnyObject?) {
+        guard let downloadsUrl = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+            return
+        }
+        goTo(url: downloadsUrl)
+    }
+    
     func copyMarkedFiles() {
         let items = getMarkedItems(false)
         copyFiles(items)
@@ -1167,6 +1257,8 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
                 
                 if let fileNameEscaped = fileName {
                     let toUrl = URL(string: fileNameEscaped, relativeTo: destination)
+                    print("fileNameEscaped: \(fileNameEscaped)")
+                    print("destination: \(destination)")
                     do {
                         try fileManager.copyItem(at: item.fileURL, to: toUrl!)
                     } catch let error as NSError {
@@ -1457,8 +1549,6 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         initUrl = url ?? URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
         curFsItem = FileSystemItem(fileURL: initUrl!)
         self.title = curFsItem.localizedName
-        
-        
     }
 
     required init?(coder: NSCoder) {
@@ -1635,7 +1725,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             chooseAppDialog.canCreateDirectories = false
             chooseAppDialog.canChooseFiles = true
             chooseAppDialog.allowedFileTypes = ["app"]
-            chooseAppDialog.begin { (result) -> Void in
+            chooseAppDialog.beginSheetModal(for: self.view.window!) { (result) in
                 if result.rawValue == NSFileHandlingPanelOKButton {
                     let appPath = chooseAppDialog.url?.path
                     if appPath != nil && filePath != nil {
@@ -1689,13 +1779,16 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             var fileName: String!
             for url in objectsToPaste {
                 fileName = url.lastPathComponent
-                if #available(OSX 10.11, *) {
+                /*if #available(OSX 10.11, *) {
                     toURL = URL(fileURLWithPath: fileName, relativeTo: curFsItem.fileURL as URL)
                 } else {
                     // Fallback on earlier versions
                     let escapedFileName = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
                     toURL = URL(string: escapedFileName!, relativeTo: curFsItem.fileURL)
-                }
+                }*/
+                
+                let escapedFileName = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+                toURL = URL(string: escapedFileName!, relativeTo: curFsItem.fileURL)
                 
                 do {
                     try fileManager.copyItem(at: url, to: toURL)
@@ -1898,6 +1991,11 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         }
         
         return true
+    }
+    
+    // Get focus if the context menu is opened.
+    func menuWillOpen(_ menu: NSMenu) {
+        getFocus()
     }
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {

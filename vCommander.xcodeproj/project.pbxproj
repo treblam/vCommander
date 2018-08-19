@@ -37,6 +37,8 @@
 		C4484F95211703F000D44F0F /* SCPreferenceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4484F97211703F000D44F0F /* SCPreferenceController.xib */; };
 		C45EEC0A2116D408004BBAE1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C45EEC0C2116D408004BBAE1 /* Localizable.strings */; };
 		C45EEC122116F552004BBAE1 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C45EEC142116F552004BBAE1 /* MainWindowController.xib */; };
+		C4933F1A2129ACF0001B5C0F /* HotlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4933F182129ACF0001B5C0F /* HotlistController.swift */; };
+		C4933F1B2129ACF0001B5C0F /* HotlistController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4933F192129ACF0001B5C0F /* HotlistController.xib */; };
 		C4EBD5F6204A19ED00A9E845 /* HanziPinyin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; };
 		C4EBD5F8204A19F800A9E845 /* HanziPinyin.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -106,11 +108,13 @@
 		C4484F9C211707B900D44F0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C45EEC0B2116D408004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C45EEC0D2116D41A004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		C45EEC0F2116F1F6004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		C45EEC112116F1FC004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		C45EEC192116F5A4004BBAE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindowController.xib; sourceTree = "<group>"; };
 		C45EEC212116F6ED004BBAE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainWindowController.strings; sourceTree = "<group>"; };
 		C45EEC222116F6FB004BBAE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainWindowController.strings"; sourceTree = "<group>"; };
+		C4933F182129ACF0001B5C0F /* HotlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotlistController.swift; sourceTree = "<group>"; };
+		C4933F192129ACF0001B5C0F /* HotlistController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HotlistController.xib; sourceTree = "<group>"; };
+		C4E427B7211F193F007DE6F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		C4EBD5F5204A19ED00A9E845 /* HanziPinyin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HanziPinyin.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,6 +200,8 @@
 				7D0378681E87928D005A1F95 /* VCTableHeaderView.swift */,
 				7D03786A1E87A279005A1F95 /* VCPathControl.swift */,
 				C45EEC0C2116D408004BBAE1 /* Localizable.strings */,
+				C4933F182129ACF0001B5C0F /* HotlistController.swift */,
+				C4933F192129ACF0001B5C0F /* HotlistController.xib */,
 			);
 			path = vCommander;
 			sourceTree = "<group>";
@@ -317,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D9422461B024441008429D5 /* Images.xcassets in Resources */,
+				C4933F1B2129ACF0001B5C0F /* HotlistController.xib in Resources */,
 				C4484F95211703F000D44F0F /* SCPreferenceController.xib in Resources */,
 				C45EEC0A2116D408004BBAE1 /* Localizable.strings in Resources */,
 				C4484F8E2117013200D44F0F /* TabItemController.xib in Resources */,
@@ -341,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DC2AC4F1B48E614006BA33A /* DirectoryMonitor.swift in Sources */,
+				C4933F1A2129ACF0001B5C0F /* HotlistController.swift in Sources */,
 				7D552D531B1E09FC00031203 /* TabItemController.swift in Sources */,
 				7DD323731B2D5247006EF722 /* SCTableView.swift in Sources */,
 				7DDBFF0F1BF0E983006B906D /* SCPreferenceController.swift in Sources */,
@@ -385,8 +393,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				7D9422481B024442008429D5 /* Base */,
-				C45EEC0F2116F1F6004BBAE1 /* en */,
 				C45EEC112116F1FC004BBAE1 /* zh-Hans */,
+				C4E427B7211F193F007DE6F3 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
