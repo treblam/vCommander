@@ -19,7 +19,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="970" height="639"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1129"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1152"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="970" height="639"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -101,7 +101,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-jl-co6">
-                                        <rect key="frame" x="810" y="5" width="148" height="24"/>
+                                        <rect key="frame" x="810" y="4" width="148" height="24"/>
                                         <buttonCell key="cell" type="roundTextured" title="Delete (F8)" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AJq-1R-uJg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -163,6 +163,10 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="eKY-vS-P4b"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="qzO-yE-Scc"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Vtr-SP-ghO"/>
+                    <toolbarItem implicitItemIdentifier="C0FB9A43-5588-40DA-8D90-0E6ADAE5ABC5" label="Go Back" paletteLabel="Go Back" tag="-1" image="NSGoLeftTemplate" id="WpT-eH-Las"/>
+                    <toolbarItem implicitItemIdentifier="84347EA9-3BC1-45DC-87E6-C92C4052FA30" label="Go Forward" paletteLabel="Go Forward" tag="-1" image="NSGoRightTemplate" id="kKQ-mC-RZW"/>
+                    <toolbarItem implicitItemIdentifier="AD6DD176-B39A-4D91-9AA4-AF546E41AA4B" label="Show Info" paletteLabel="Show Info" tag="-1" image="NSInfo" id="aNK-8z-xfG"/>
+                    <toolbarItem implicitItemIdentifier="EED93FC5-90F0-4E52-A246-792156BCC222" label="Toolbar Item" paletteLabel="Toolbar Item" tag="-1" image="NSQuickLookTemplate" id="ioA-ea-wSq"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems/>
                 <connections>
@@ -175,4 +179,10 @@
             <point key="canvasLocation" x="384" y="334.5"/>
         </window>
     </objects>
+    <resources>
+        <image name="NSGoLeftTemplate" width="9" height="12"/>
+        <image name="NSGoRightTemplate" width="9" height="12"/>
+        <image name="NSInfo" width="32" height="32"/>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
+    </resources>
 </document>

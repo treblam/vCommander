@@ -150,7 +150,7 @@
                             <action selector="setSelectedTab:" target="-2" id="Y0J-aZ-jL1"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="0CCB0248-365D-40A7-BC1F-BEAAB6631FDC" explicitItemIdentifier="tools" label="Tools" paletteLabel="Tools" tag="1" image="NSApplicationIcon" selectable="YES" id="Ac8-cJ-iSd">
+                    <toolbarItem implicitItemIdentifier="0CCB0248-365D-40A7-BC1F-BEAAB6631FDC" explicitItemIdentifier="tools" label="Tools" paletteLabel="Tools" tag="1" image="NSAdvanced" selectable="YES" id="Ac8-cJ-iSd">
                         <connections>
                             <action selector="setSelectedTab:" target="-2" id="5u5-HF-H4P"/>
                         </connections>
@@ -167,7 +167,7 @@
         </window>
     </objects>
     <resources>
-        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
     </resources>
 </document>

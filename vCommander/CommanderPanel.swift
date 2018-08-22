@@ -16,6 +16,8 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
     
     @IBOutlet weak var visualEffectView: NSVisualEffectView!
     
+    let hotlistConfigController = HotlistConfigController(nibName: NSNib.Name(rawValue: "HotlistConfigController"), bundle: nil)
+    
     var isPrimary: Bool!
     
     let preferenceManager = PreferenceManager()
@@ -308,7 +310,13 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
     }
     
     @IBAction func configHotlist(_ sender: AnyObject?) {
-        
+        self.view.window?.beginSheet(hotlistConfigController.view.window!, completionHandler: { (returnCode) in
+            
+        })
+    }
+    
+    override func cancelOperation(_ sender: Any?) {
+        self.view.window?.endSheet(hotlistConfigController.view.window!)
     }
     
     func previousTabWithCount(_ count: Int?) {

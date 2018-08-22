@@ -917,8 +917,15 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func handleKeyDown(with theEvent: NSEvent) -> NSEvent? {
-        if !isActive {
+        
+        if !isActive || !isTypeSelectMode {
             return theEvent
+        }
+        
+        if let isKeyWindow = self.view.window?.isKeyWindow {
+            if !isKeyWindow {
+                return theEvent
+            }
         }
         
         print("TabItemController handleKeydown")
@@ -2256,10 +2263,13 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         switch identifier {
         case NSTouchBarItem.Identifier.renameFile:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+//            customViewItem.view = NSButton(image: NSImage.Name.touchbarre, target: self, action: #selector(rename(_:)))
             customViewItem.view = NSButton(title: NSLocalizedString("Rename", comment: "Rename"), target: self, action: #selector(rename(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.previewFiles:
+            
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+//            customViewItem.view = NSButton(image: NSImage(named: NSImage.Name.touchBarQuickLookTemplate)!, target: self, action: #selector(showQuickLookPanel(_:)))
             customViewItem.view = NSButton(title: NSLocalizedString("Quick Look", comment: "Quick Look"), target: self, action: #selector(showQuickLookPanel(_:)))
             return customViewItem
         case NSTouchBarItem.Identifier.editFile:
@@ -2281,6 +2291,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         case NSTouchBarItem.Identifier.deleteFiles:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             customViewItem.view = NSButton(title: NSLocalizedString("Delete", comment: "Delete"), target: self, action: #selector(deleteSelectedFiles(_:)))
+//            customViewItem.view = NSButton(image: NSImage(named: NSImage.Name.touchBarRemoveTemplate)!, target: self, action: #selector(deleteSelectedFiles(_:)))
             return customViewItem
 //        case NSTouchBarItem.Identifier.groupBar:
 //            let groupBar = NSGroupTouchBarItem(identifier: .groupBar, items: [self.touchBar(touchBar, makeItemForIdentifier: .renameFile)!,
