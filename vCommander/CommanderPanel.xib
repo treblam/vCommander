@@ -83,6 +83,7 @@
         </customView>
         <menu title="HotlistMenu" id="c4Q-If-AZE" userLabel="HotlistMenu">
             <items>
+                <menuItem isSeparatorItem="YES" id="8Zo-qH-Wds"/>
                 <menuItem title="Add current folder" keyEquivalent="a" id="INa-04-efg">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

@@ -384,12 +384,71 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
         case KEYCODE_D where hasCommand && !hasOption && !hasControl && !hasShift:
             let frameRelativeToWindow = visualEffectView.convert(visualEffectView.bounds, to: nil)
             print("topInset: \(frameRelativeToWindow.minY)")
+            updateMenuItems()
             self.view.menu?.popUp(positioning: nil, at: NSPoint(x: 0, y: self.view.bounds.maxY - tableViewTopInset), in: self.view)
             return nil
             
         default:
             print("return the event")
             return theEvent
+        }
+    }
+    
+    func clearMenuItems() {
+        if let menu = self.view.menu {
+            for item in menu.items {
+                if item.tag == 1 {
+                    menu.removeItem(item)
+                }
+            }
+        }
+    }
+    
+    func updateMenuItems() {
+        clearMenuItems()
+        if let menu = self.view.menu {
+            print("menu found")
+            for hotlistItem in hotlistConfigController.rootItem.children {
+                print("hahahah")
+                let menuItem = generateMenuItem(forHotlistItem: hotlistItem)
+                menu.insertItem(menuItem, at: menu.items.count - 3)
+//                menu.addItem(withTitle: "aaaaaa", action: nil, keyEquivalent: "")
+                print("menu size: \(menu.items.count)")
+            }
+        }
+    }
+    
+    func generateMenuItem(forHotlistItem hotlistItem: HotlistItem) -> NSMenuItem {
+        var menuItem: NSMenuItem!
+        
+        if hotlistItem.isSubmenu {
+            menuItem = NSMenuItem(title: hotlistItem.name, action: nil, keyEquivalent: hotlistItem.hotkey ?? "")
+            print("name: \(hotlistItem.name)")
+            print("name: \(hotlistItem.hotkey)")
+            let submenu = NSMenu(title: hotlistItem.name)
+            for childItem in hotlistItem.children {
+                submenu.addItem(generateMenuItem(forHotlistItem: childItem))
+            }
+            menuItem.submenu = submenu
+            menuItem.representedObject = hotlistItem
+            menuItem.keyEquivalentModifierMask = []
+        } else {
+            menuItem = NSMenuItem(title: hotlistItem.name, action: #selector(CommanderPanel.goToHotlistItem(_:)), keyEquivalent: hotlistItem.hotkey ?? "")
+            menuItem.representedObject = hotlistItem
+            menuItem.keyEquivalentModifierMask = []
+        }
+        
+        menuItem.tag = 1
+        return menuItem
+    }
+    
+    @IBAction func goToHotlistItem(_ sender: AnyObject?) {
+        if let menuItem = sender as? NSMenuItem {
+            if let hotlistItem = menuItem.representedObject as? HotlistItem {
+                if let url = hotlistItem.url {
+                    goTo(url: url)
+                }
+            }
         }
     }
     

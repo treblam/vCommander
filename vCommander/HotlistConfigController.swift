@@ -22,15 +22,23 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     let addSubmenuController = HotlistAddSubmenuController(nibName: NSNib.Name(rawValue: "HotlistAddSubmenuController"), bundle: nil)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do view setup here.
+    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         print("viewDidLoad, start to add items")
         rootItem.children.append(HotlistItem(name: "Desktop", hotkey: "d", isSubmenu: false, url: fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first))
         let folder = HotlistItem(name: "Folder", hotkey: "f", isSubmenu: true)
         folder.children.append(HotlistItem(name: "Documents", hotkey: "d", isSubmenu: false, url: fileManager.urls(for: .documentDirectory, in: .userDomainMask).first))
         rootItem.children.append(folder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do view setup here.
         
         outlineView.reloadData()
     }
@@ -91,11 +99,7 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
             print("makeView for path cell")
             view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "pathCell"), owner: self) as? NSTableCellView
             if let textField = view?.textField {
-                if hotlistItem.isSubmenu {
-                    textField.isEditable = false
-                } else {
-                    textField.stringValue = hotlistItem.path ?? ""
-                }
+                textField.stringValue = hotlistItem.path ?? ""
 //                textField.sizeToFit()
             }
         }
@@ -181,19 +185,31 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     func addItem(_ item: HotlistItem, toSubmenu submenu: HotlistItem, withIndex index: Int) {
         let parent = submenu == rootItem ? nil : submenu
+        var toBeInsertedIndex: Int = 0
+        
         if index >= submenu.children.count - 1 {
             submenu.children.append(item)
-            outlineView.insertItems(at: IndexSet(integer: submenu.children.count - 1), inParent: parent, withAnimation: NSTableView.AnimationOptions.effectFade)
+            toBeInsertedIndex = submenu.children.count - 1
         } else {
             submenu.children.insert(item, at: index + 1)
-            outlineView.insertItems(at: IndexSet(integer: index + 1), inParent: parent, withAnimation: NSTableView.AnimationOptions.effectFade)
+            toBeInsertedIndex = index + 1
         }
+        
+        outlineView.insertItems(at: IndexSet(integer: toBeInsertedIndex), inParent: parent, withAnimation: NSTableView.AnimationOptions.effectFade)
+        
+        let row = outlineView.row(forItem: item)
+        outlineView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
         
         if parent != nil {
             if !outlineView.isItemExpanded(parent!) {
                 outlineView.expandItem(parent!)
             }
         }
+    }
+    
+    func updateItem(_ item: HotlistItem, forParent parent: HotlistItem, withIndex index: Int) {
+        parent.children[index] = item
+        outlineView.reloadItem(item)
     }
     
     @IBAction func addDirectory(_ sender: AnyObject?) {
@@ -229,18 +245,15 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
         }
         
         addSubmenuController.isSubmenu = isSubmenu
+        addSubmenuController.isAdd = true
         
         if insertIndex != nil {
             self.view.window?.beginSheet(addSubmenuController.view.window!, completionHandler: { (returnCode) in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     if let editedItem = self.addSubmenuController.hotlistItem {
-                        if parentItem == nil {
-                            self.addItem(editedItem, toSubmenu: self.rootItem, withIndex: insertIndex!)
-                        } else {
-                            self.addItem(editedItem, toSubmenu: parentItem!, withIndex: insertIndex!)
-                        }
+                        self.addItem(editedItem, toSubmenu: (parentItem ?? self.rootItem), withIndex: insertIndex!)
+                        
                     }
-                    
                 }
             })
         }
@@ -256,17 +269,69 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
             if parentItem == nil {
                 if let removeIndex = rootItem.children.index(of: selected) {
                     rootItem.children.remove(at: removeIndex)
-                    outlineView.removeItems(at: NSIndexSet(index: removeIndex) as IndexSet, inParent: parentItem, withAnimation: NSTableView.AnimationOptions.effectFade)
+                    outlineView.removeItems(at: NSIndexSet(index: removeIndex) as IndexSet, inParent: nil, withAnimation: NSTableView.AnimationOptions.effectFade)
+                    selectAnotherItem(withinParent: rootItem, withIndex: removeIndex)
                 }
             } else {
                 if let removeIndex = parentItem?.children.index(of: selected) {
                     parentItem?.children.remove(at: removeIndex)
                     outlineView.removeItems(at: NSIndexSet(index: removeIndex) as IndexSet, inParent: parentItem, withAnimation: NSTableView.AnimationOptions.effectFade)
+                    selectAnotherItem(withinParent: parentItem!, withIndex: removeIndex)
                 }
             }
         }
-        
     }
     
+    func selectAnotherItem(withinParent parent: HotlistItem, withIndex index: Int) {
+        let row: Int?
+        if parent.children.count > 0 {
+            let count = parent.children.count
+            let rowInParent = index < count ? index : count - 1
+            let toBeSelectItem = parent.children[rowInParent]
+            row = outlineView.row(forItem: toBeSelectItem)
+        } else {
+            if parent == rootItem {
+                return
+            } else {
+                row = outlineView.row(forItem: parent)
+            }
+        }
+        
+        if let toBeSelectedRow = row {
+            outlineView.selectRowIndexes(IndexSet(integer: toBeSelectedRow), byExtendingSelection: false)
+        }
+    }
     
+    @IBAction func editItem(_ sender: Any?) {
+        var itemIndex: Int?
+        var parentItem: HotlistItem?
+        
+        if let selected = getSelectedItem() {
+            addSubmenuController.isSubmenu = selected.isSubmenu
+            addSubmenuController.isAdd = false
+            addSubmenuController.hotlistItem = selected
+            
+            if let parent = outlineView.parent(forItem: selected) as? HotlistItem {
+                parentItem = parent
+                itemIndex = parentItem!.children.index(of: selected)
+            } else {
+                itemIndex = rootItem.children.index(of: selected)
+            }
+        } else {
+            let errorAlert = NSAlert()
+            errorAlert.messageText = "Please select an item"
+            errorAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+            return
+        }
+        
+        if let currentItemIndex = itemIndex {
+            self.view.window?.beginSheet(addSubmenuController.view.window!, completionHandler: { (returnCode) in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    if let editedItem = self.addSubmenuController.hotlistItem {
+                        self.updateItem(editedItem, forParent: parentItem ?? self.rootItem, withIndex: currentItemIndex)
+                    }
+                }
+            })
+        }
+    }
 }
