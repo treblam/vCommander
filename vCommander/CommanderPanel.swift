@@ -16,7 +16,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
     
     @IBOutlet weak var visualEffectView: NSVisualEffectView!
     
-    let hotlistConfigController = HotlistConfigController(nibName: NSNib.Name(rawValue: "HotlistConfigController"), bundle: nil)
+    let hotlistConfigController = HotlistConfigController(nibName: "HotlistConfigController", bundle: nil)
     
     var isPrimary: Bool!
     
@@ -30,7 +30,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
     var tableViewTopInset: CGFloat = 0
     
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, isPrimary: Bool) {
-        super.init(nibName: nibNameOrNil.map { NSNib.Name(rawValue: $0) }, bundle: nibBundleOrNil)
+        super.init(nibName: nibNameOrNil.map { $0 }, bundle: nibBundleOrNil)
         self.isPrimary = isPrimary
     }
     
@@ -73,7 +73,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
     
     override func viewWillLayout() {
         if let window = view.window {
-            let topConstraint = NSLayoutConstraint(item: visualEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
+            let topConstraint = NSLayoutConstraint(item: visualEffectView!, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
             topConstraint.isActive = true
             
             let contentLayoutRect = window.contentLayoutRect
@@ -424,7 +424,7 @@ class CommanderPanel: NSViewController, MMTabBarViewDelegate, NSMenuDelegate {
         if hotlistItem.isSubmenu {
             menuItem = NSMenuItem(title: hotlistItem.name, action: nil, keyEquivalent: hotlistItem.hotkey ?? "")
             print("name: \(hotlistItem.name)")
-            print("name: \(hotlistItem.hotkey)")
+            print("name: \(String(describing: hotlistItem.hotkey))")
             let submenu = NSMenu(title: hotlistItem.name)
             for childItem in hotlistItem.children {
                 submenu.addItem(generateMenuItem(forHotlistItem: childItem))

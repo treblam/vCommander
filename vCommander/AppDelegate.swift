@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
     
     override init() {
         if let sortDescriptorsData = preferenceManager.sortDescriptors {
-            sortDescriptors = NSKeyedUnarchiver.unarchiveObject(with: sortDescriptorsData) as! Dictionary<String, Any>
+            sortDescriptors = (NSKeyedUnarchiver.unarchiveObject(with: sortDescriptorsData) as! Dictionary<String, Any>)
         } else {
             sortDescriptors = Dictionary<String, Any>()
         }
@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
             _mainWindowController?.window?.isRestorable = true
             _mainWindowController?.window?.restorationClass = type(of: self)
             _mainWindowController?.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "mainWindow")
-            _mainWindowController?.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "mainWindow"))
+            _mainWindowController?.window?.setFrameAutosaveName("mainWindow")
         }
         
         return _mainWindowController
@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowRestoration {
     }
     
     func storeSortDescriptors() {
-        preferenceManager.sortDescriptors = NSKeyedArchiver.archivedData(withRootObject: sortDescriptors)
+        preferenceManager.sortDescriptors = NSKeyedArchiver.archivedData(withRootObject: sortDescriptors!)
     }
     
     func storeTabsData() {

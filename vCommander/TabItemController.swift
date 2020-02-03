@@ -143,7 +143,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
 //            print("NSMaxY(contentLayoutRect): \(NSMaxY(contentLayoutRect))")
 //            print("scrollViewTopInset: \(scrollViewTopInset)")
             
-            let topConstraint = NSLayoutConstraint(item: pathControlEffectView, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: CommanderPanel.TABBAR_HEIGHT)
+            let topConstraint = NSLayoutConstraint(item: pathControlEffectView!, attribute: .top, relatedBy: .equal, toItem: window.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: CommanderPanel.TABBAR_HEIGHT)
             topConstraint.isActive = true
             
             updatePathControlBackground()
@@ -168,7 +168,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         if let clickedPathItem = pathControlView.clickedPathItem {
             let pathItems = pathControlView.pathItems
-            if let index = pathItems.index(where: {
+            if let index = pathItems.firstIndex(where: {
                 $0.url == clickedPathItem.url
             }) {
 //            if let index = pathItems.index(of: clickedPathItem) {
@@ -471,7 +471,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         let sortDescriptors = tableview.sortDescriptors
         let objectsArray = curFsItem.children as NSArray
         let sortedObjects = objectsArray.sortedArray(using: sortDescriptors)
-        curFsItem.children = sortedObjects as! [FileSystemItem]
+        curFsItem.children = (sortedObjects as! [FileSystemItem])
     }
     
     func getIndexesForItems(_ items: [URL]) -> NSMutableIndexSet {
@@ -779,7 +779,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
         case KEYCODE_BACKSPACE where noneModifiers,
             convertToInt("h") where noneModifiers && isVimMode && !isTypeSelectMode,
-            NSLeftArrowFunctionKey where noneModifiers:
+            NSEvent.SpecialKey.leftArrow.rawValue where noneModifiers:
             // delete or h or left arrow
             // h was used to emulate vim hotkeys
             // 127 is backspace key
@@ -807,7 +807,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
         case KEYCODE_ENTER where noneModifiers,
             convertToInt("l") where noneModifiers && isVimMode && !isTypeSelectMode,
-            NSRightArrowFunctionKey where noneModifiers:
+            NSEvent.SpecialKey.rightArrow.rawValue where noneModifiers:
             // enter or l or right arrow
             // l is used to emulate vim hotkeys
             openFileOrDirectory()
@@ -841,23 +841,23 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             findNext()
             return
             
-        case NSF5FunctionKey where noneModifiers:
+        case NSEvent.SpecialKey.f5.rawValue where noneModifiers:
             copySelectedFiles(nil)
             return
             
-        case NSF6FunctionKey where noneModifiers:
+        case NSEvent.SpecialKey.f6.rawValue where noneModifiers:
             moveSelectedFiles(nil)
             return
             
-        case NSF7FunctionKey where noneModifiers:
+        case NSEvent.SpecialKey.f7.rawValue where noneModifiers:
             // create new directory
             return;
             
-        case NSF7FunctionKey where hasShift && !hasCommand && !hasOption && !hasControl:
+        case NSEvent.SpecialKey.f7.rawValue where hasShift && !hasCommand && !hasOption && !hasControl:
             newDocument(nil)
             return
             
-        case NSF8FunctionKey where noneModifiers:
+        case NSEvent.SpecialKey.f8.rawValue where noneModifiers:
             deleteSelectedFiles(nil)
             return
             
@@ -1544,7 +1544,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, url: URL?, isPrimary: Bool, withSelected itemUrl: URL?) {
-        super.init(nibName: nibNameOrNil.map { NSNib.Name(rawValue: $0) }, bundle: nibBundleOrNil)
+        super.init(nibName: nibNameOrNil.map { $0 }, bundle: nibBundleOrNil)
         
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
@@ -1864,7 +1864,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         pasteboard.writeObjects([result as NSPasteboardWriting])
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         let textField = obj.object as? NSTextField
         let newName = textField?.stringValue
         let selected = getSelectedItem()
@@ -1952,7 +1952,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         print("end preview panel")
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         let selectedItem = getSelectedItem()
         
         if selectedItem == nil {
@@ -2049,7 +2049,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
         
         if let indices = typeSelectIndices {
             print("typeSelectIndices is not nil, count: \(indices.count)")
-            myArrIndex = indices.index(of: currentIndex ?? -1)
+            myArrIndex = indices.firstIndex(of: currentIndex ?? -1)
             print("myArrIndex: \(String(describing: myArrIndex))")
             if indices.count > 1 && myArrIndex != nil && proposedIndex != nil && currentIndex != nil {
                 // Already at the upper bounds, and user pressed up arrow
@@ -2063,7 +2063,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             }
             
             // if proposedIndex is in my array, just accept it
-            if indices.index(of: proposedIndex ?? -1) != nil {
+            if indices.firstIndex(of: proposedIndex ?? -1) != nil {
                 isAccept = true
             }
         } else if proposedIndex != nil {
@@ -2127,7 +2127,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
             
             let currentIndex = tableview.selectedRowIndexes.first
             
-            var typeSelectIndex = indices.index(of: currentIndex ?? -1)
+            var typeSelectIndex = indices.firstIndex(of: currentIndex ?? -1)
             
             if moveDown {
                 //这是Fundation的bug？ indices.contains(indices[indices.endIndex] 竟然是false，最后一个index是endIndex的前面一个，是不是很奇怪？
@@ -2171,10 +2171,10 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
         
         if dropOperation == NSTableView.DropOperation.above {
-            if info.draggingSource() as? NSTableView == tableView {
+            if info.draggingSource as? NSTableView == tableView {
                 // Reorder, implement later.
             } else {
-                let canReadData = self.containsAcceptableURLsFromPasteboard(info.draggingPasteboard())
+                let canReadData = self.containsAcceptableURLsFromPasteboard(info.draggingPasteboard)
                 if canReadData {
                     info.animatesToDestination = true
                     return NSDragOperation.copy
@@ -2186,7 +2186,7 @@ class TabItemController: NSViewController, NSTableViewDataSource, NSTableViewDel
     }
     
     func tableView(_ tableView: NSTableView, updateDraggingItemsForDrag draggingInfo: NSDraggingInfo) {
-        if (draggingInfo.draggingSource() as? NSTableView != tableView) {
+        if (draggingInfo.draggingSource as? NSTableView != tableView) {
             let tableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "localizedName"), owner: self) as! NSTableCellView
             var validCount = 0
             

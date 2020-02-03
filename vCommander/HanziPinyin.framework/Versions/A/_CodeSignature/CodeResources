@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		JaaQl7K7mO0OCMaO2BJYXZxRWGY=
+		G99MiVEu0Tofm6E/lvNnNdugPNs=
 		</data>
 		<key>Resources/unicode_to_hanyu_pinyin.txt</key>
 		<data>
@@ -19,55 +19,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			SgxIccyb/2hj4hA/T+wBADemru0=
+			OtG40ESUVjgB3uwlawoOp9rk9l4=
 			</data>
 			<key>hash2</key>
 			<data>
-			4jBcr9BoXBMiOU0SlffNnaNPTFdlGYklQj+ovX2bU/g=
+			3lpVAedpac3bb3GnT8wRlx01E7aol8kRjp1lCHMHFXA=
+			</data>
+		</dict>
+		<key>Modules/HanziPinyin.swiftmodule/x86_64-apple-macos.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+7DLgHxhlXKCJi2EVEzs9RRDbQY=
+			</data>
+			<key>hash2</key>
+			<data>
+			UUVnwrhVfaBZPZYoM84dvFHmTU7L6oGwyH/p0Zhk0VE=
+			</data>
+		</dict>
+		<key>Modules/HanziPinyin.swiftmodule/x86_64-apple-macos.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			J5NPYCTD0wpdv/QN7seIjhVehyY=
+			</data>
+			<key>hash2</key>
+			<data>
+			hrzN8n0LYfkaij6TqPbjsz4xpOfIwwTDA5NlcRhVvSU=
 			</data>
 		</dict>
 		<key>Modules/HanziPinyin.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			xEyV/etzQVYsrk0Y21OH9PPFjbw=
+			+7DLgHxhlXKCJi2EVEzs9RRDbQY=
 			</data>
 			<key>hash2</key>
 			<data>
-			OTUpmL+q+l/JyVSZRU/VDgSliDywhd6qpqVTyc/o56o=
+			UUVnwrhVfaBZPZYoM84dvFHmTU7L6oGwyH/p0Zhk0VE=
 			</data>
 		</dict>
 		<key>Modules/HanziPinyin.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Q8ERDrpIc/OaDu8xq6FBmMejH2s=
+			J5NPYCTD0wpdv/QN7seIjhVehyY=
 			</data>
 			<key>hash2</key>
 			<data>
-			W1T15Cphj/7Y6QZXf8bOC0avoBLCYYfDAjcPb3qWY2g=
+			hrzN8n0LYfkaij6TqPbjsz4xpOfIwwTDA5NlcRhVvSU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Z8Pum/cnHSBxbBvlPrxyO9GltV4=
+			uD8SwrRWXPjFH5GpwRNPqAyj//k=
 			</data>
 			<key>hash2</key>
 			<data>
-			MCR7i5Q8xaAgqsgKhsjGgbILc9JSB1tjkV9pjR2Zgf0=
+			pTRbmU+iDkprCpjWuxar3dwpTW3tFnpAsWfr0CLwAY4=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JaaQl7K7mO0OCMaO2BJYXZxRWGY=
+			G99MiVEu0Tofm6E/lvNnNdugPNs=
 			</data>
 			<key>hash2</key>
 			<data>
-			Vd8P7MaLz2FwvH+KrA0oL8BDd/hUfG0BVeQK2ehz6/c=
+			h9/TI4wH6TcK53geMmRlX/UTumfBZ1GfP9KvVrIOxi8=
 			</data>
 		</dict>
 		<key>Resources/unicode_to_hanyu_pinyin.txt</key>

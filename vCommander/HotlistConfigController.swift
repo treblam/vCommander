@@ -20,7 +20,7 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     let fileManager = FileManager.default
     
-    let addSubmenuController = HotlistAddSubmenuController(nibName: NSNib.Name(rawValue: "HotlistAddSubmenuController"), bundle: nil)
+    let addSubmenuController = HotlistAddSubmenuController(nibName: "HotlistAddSubmenuController", bundle: nil)
     
     override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -115,7 +115,7 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return outlineView.row(forItem: item)
     }
     
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         let textField = obj.object as? NSTextField
         let newName = textField?.stringValue
         let selected = getSelectedItem()
@@ -232,10 +232,10 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
             } else {
                 if let parent = outlineView.parent(forItem: selected) as? HotlistItem {
                     parentItem = parent
-                    insertIndex = parentItem?.children.index(of: selected)
+                    insertIndex = parentItem?.children.firstIndex(of: selected)
 //                    print("got parent, and my index is: \(insertIndex)")
                 } else {
-                    insertIndex = rootItem.children.index(of: selected)
+                    insertIndex = rootItem.children.firstIndex(of: selected)
 //                    print("no parent, my index is: \(insertIndex)")
                 }
             }
@@ -267,13 +267,13 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
             }
             
             if parentItem == nil {
-                if let removeIndex = rootItem.children.index(of: selected) {
+                if let removeIndex = rootItem.children.firstIndex(of: selected) {
                     rootItem.children.remove(at: removeIndex)
                     outlineView.removeItems(at: NSIndexSet(index: removeIndex) as IndexSet, inParent: nil, withAnimation: NSTableView.AnimationOptions.effectFade)
                     selectAnotherItem(withinParent: rootItem, withIndex: removeIndex)
                 }
             } else {
-                if let removeIndex = parentItem?.children.index(of: selected) {
+                if let removeIndex = parentItem?.children.firstIndex(of: selected) {
                     parentItem?.children.remove(at: removeIndex)
                     outlineView.removeItems(at: NSIndexSet(index: removeIndex) as IndexSet, inParent: parentItem, withAnimation: NSTableView.AnimationOptions.effectFade)
                     selectAnotherItem(withinParent: parentItem!, withIndex: removeIndex)
@@ -313,9 +313,9 @@ class HotlistConfigController: NSViewController, NSOutlineViewDelegate, NSOutlin
             
             if let parent = outlineView.parent(forItem: selected) as? HotlistItem {
                 parentItem = parent
-                itemIndex = parentItem!.children.index(of: selected)
+                itemIndex = parentItem!.children.firstIndex(of: selected)
             } else {
-                itemIndex = rootItem.children.index(of: selected)
+                itemIndex = rootItem.children.firstIndex(of: selected)
             }
         } else {
             let errorAlert = NSAlert()

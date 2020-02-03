@@ -26,7 +26,7 @@ class SCPreferenceController: NSWindowController {
     let preferenceManager = PreferenceManager()
     
     override var windowNibName: NSNib.Name? {
-        return NSNib.Name(rawValue: "SCPreferenceController")
+        return "SCPreferenceController"
     }
 
     override func windowDidLoad() {

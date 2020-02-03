@@ -20,7 +20,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, MMTabBarViewDe
     var subWindowController: MainWindowController?
     
     override var windowNibName: NSNib.Name? {
-        return NSNib.Name(rawValue: "MainWindowController")
+        return "MainWindowController"
     }
     
     let leftPanel = CommanderPanel(nibName: "CommanderPanel", bundle: nil, isPrimary: true)!
