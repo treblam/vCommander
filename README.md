@@ -2,7 +2,7 @@
 
 vCommander 是macOS平台下的一个文件管理工具，其双窗口结构借鉴自Total Commander，其许多快捷键借鉴自Vim编辑器，所以我将它命名为vCommander。
 
-![vCommander_snapshot](./vCommander_snapshot.png)
+![vCommander_snapshot](./vCommander_snapshot.jpg)
 
 vCommander的特点是双窗口、多标签页结构，对键盘操作特别友好，因此提供了许多的快捷键来进行文件管理，如果你是键盘流，你可能会喜欢这个工具。
 
@@ -158,6 +158,9 @@ vCommander提供两种快捷键模式，一种是普通模式，主要针对不�
 
 **gT**：切换到上一个标签页（支持重复次数）
 
+## License
+
+Licensed under GPL-3.0.
 
 
 
